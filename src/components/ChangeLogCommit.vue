@@ -113,7 +113,11 @@ export default defineComponent({
     });
 
     const removedObjects = computed(() => {
-      return props.commit.removedObjectIDs.slice(0, objectLimit.value).map(id => GameObject.find(id));
+      return props.commit.removedObjectIDs.slice(0, objectLimit.value).map(id => {
+        let gameObj = GameObject.find(id);
+        console.log(`gameObj(${id}) = `, JSON.stringify(gameObj));
+        return gameObj;
+      });
     });
 
     const addedTransitions = computed(() => {

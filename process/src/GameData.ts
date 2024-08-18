@@ -56,7 +56,10 @@ class GameData {
 
   checkoutVersion(version: ChangeLogVersion): void {
     this.releasedOnly = true;
+    console.log("Checking out version.tag() = " + version.tag());
     spawnSync("git", ["checkout", version.tag()], {cwd: this.dataDir});
+    // spawnSync("git", ["checkout", "e49d249df425864a51d162a76fb7c21ed43825d2"], {cwd: this.dataDir});
+    // spawnSync("git", ["checkout", "8833527cbbb2d5d3d65f174a7d412cfa7fe5cbbe"], {cwd: this.dataDir});
   }
 
   checkoutMaster(): void {

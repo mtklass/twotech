@@ -61,6 +61,7 @@ class Git {
       path = "transitions/11110_6701_CONT .txt";
     }
 
+    // console.log(`Running "git show ${sha}:${path}"`);
     return this.run("show", `${sha}:${path}`);
   }
 

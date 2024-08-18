@@ -1,7 +1,7 @@
 <template>
   <div class="changeLogVersion">
     <h2>{{ name }}</h2>
-    <div v-if="!version.data" class="loading">
+    <div v-if="!version || !version.data || loading" class="loading">
       Loading...
     </div>
     <div v-else-if="isEmptyUnreleased">
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, computed, onMounted } from 'vue';
+import { defineComponent, ref, computed, onMounted, watch } from 'vue';
 import Version from '../models/Version';
 import ChangeLogCommit from './ChangeLogCommit';
 
@@ -28,9 +28,15 @@ export default defineComponent({
   },
   setup(props) {
     const version = ref(null);
+    const loading = ref(true);
 
-    onMounted(() => {
-      version.value = Version.fetch(props.id);
+    onMounted(async () => {
+      console.log(`Fetching version ${props.id}`);
+      loading.value = true;
+      console.log("AAAAAAAAAAAA");
+      version.value = await Version.findAndLoad(props.id);
+      console.log("BBBBBBBBBBBB");
+      loading.value = false;
     });
 
     const date = computed(() => {
@@ -57,6 +63,7 @@ export default defineComponent({
     });
 
     return {
+      loading,
       version,
       date,
       name,

@@ -29,6 +29,7 @@ class ChangeLogCommit {
   addedTransitions: Transition[];
   removedTransitions: Transition[];
   objectChanges: ObjectChange[];
+  isCursedCommit: boolean;
 
   constructor(version: ChangeLogVersion, log: ChangeLogEntry) {
     this.version = version;
@@ -43,6 +44,7 @@ class ChangeLogCommit {
     this.addedTransitions = [];
     this.removedTransitions = [];
     this.objectChanges = [];
+    this.isCursedCommit = false;
     this.parseChanges();
   }
 

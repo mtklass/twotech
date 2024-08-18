@@ -61,10 +61,20 @@ class ChangeLogVersion {
   fetchCommits(): ChangeLogCommit[] {
     if (!this.previous) return [];
     if (!this.commits) {
+      console.log(`Log length: ${this.git.log(this.previous.tag(), this.tag()).length}`);
       this.commits = this.git.log(this.previous.tag(), this.tag()).map(entry => {
-        return new ChangeLogCommit(this, entry);
-      });
+        try {
+          console.log(`Processing log entry: ${entry.sha}`);
+          let changeLogCommit = new ChangeLogCommit(this, entry);
+          return changeLogCommit;
+        } catch(e) {
+          console.log("ERROR!!! Ignoring ChangeLogCommit");
+          return null;
+        }
+      })
+      .filter(v => v);
     }
+    console.log("\n\n\nFetched commits!\n\n\n")
     return this.commits;
   }
 
