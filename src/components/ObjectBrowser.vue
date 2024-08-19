@@ -130,7 +130,7 @@ export default {
     toggleHideUncraftable(event) {
       this.hideUncraftable = !this.hideUncraftable;
       BrowserStorage.setItem("ObjectBrowser.hideUncraftable", this.hideUncraftable);
-      eventBus.$emit('hide-uncraftable', this.hideUncraftable);
+      // eventBus.$emit('hide-uncraftable', this.hideUncraftable);
     },
   },
   metaInfo() {

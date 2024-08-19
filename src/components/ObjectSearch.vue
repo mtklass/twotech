@@ -46,14 +46,14 @@ export default {
   },
   mounted() {
     // Listen for the hide-uncraftable checkbox even from ObjectBrowser, adjust objects accordingly
-    eventBus.$on('hide-uncraftable', (val) => {
-      console.log('hide-uncraftable event triggered! val = ' + val);
-      this.objects = GameObject.byNameLength(val);
-    })
+    // eventBus.$on('hide-uncraftable', (val) => {
+    //   console.log('hide-uncraftable event triggered! val = ' + val);
+    //   this.objects = GameObject.byNameLength(val);
+    // })
   },
   beforeDestroy() {
     // removing eventBus listener
-    eventBus.$off('hide-uncraftable')
+    // eventBus.$off('hide-uncraftable')
   },
 }
 </script>
