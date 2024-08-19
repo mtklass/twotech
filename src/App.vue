@@ -50,7 +50,7 @@ import Biome from './models/Biome';
 // import Recipe from './components/Recipe';
 // import RecipeForLetters from './components/RecipeForLetters';
 // import BiomeInspector from './components/BiomeInspector';
-// import ChangeLog from './components/ChangeLog';
+import ChangeLog from './components/ChangeLog';
 import NotFound from './components/NotFound';
 
 const loading = ref(true);
