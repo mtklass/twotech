@@ -1,5 +1,5 @@
 <template>
-  <div class="techTree" v-if="object">
+  <div class="techTree" v-if="object && object.data">
     <h2><router-link :to="object.url()">{{ object.name }}</router-link></h2>
     <h3>Tech Tree</h3>
 
@@ -25,8 +25,8 @@ export default defineComponent({
     const router = useRouter();
     const object = ref(null);
 
-    const loadObject = () => {
-      object.value = GameObject.findAndLoad(route.params.id);
+    const loadObject = async () => {
+      object.value = await GameObject.findAndLoad(route.params.id);
       if (!object.value) {
         router.replace('/not-found');
       }

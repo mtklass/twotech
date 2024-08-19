@@ -83,11 +83,16 @@ export default class GameObject {
     return object;
   }
 
+  static findAndLoad(id) {
+    const object = this.find(id);
+    if (!object) return Promise.resolve(null);
+    return object.loadData().then(() => object);
+  }
+
   static findAndLoadByName(name) {
     const object = this.findByName(name);
-    if (!object) return;
-    object.loadData();
-    return object;
+    if (!object) return Promise.resolve(null);
+    return object.loadData().then(() => object);
   }
 
   static findFilter(key_path) {
@@ -178,16 +183,19 @@ export default class GameObject {
   toPercent(num, places) {
     return +(num*100).toFixed(places);
   }
-
+  
   loadData() {
-    if (this.data || this.loading) return;
+    if (this.data || this.loading) return Promise.resolve(this.data);
     this.loading = true;
-    this.fetchData(data => {
-      this.loading = false;
-      this.data = data;
-    });
+    return fetch(`${global.staticPath}/objects/${this.id}.json`)
+      .then(data => data.json())
+      .then(data => {
+        this.loading = false;
+        this.data = data;
+        return this.data;
+      });
   }
-
+  
   sizeText(size) {
     if (size == 3) return "Extra Large";
     if (size > 1) return "Large";

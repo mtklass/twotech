@@ -1,24 +1,26 @@
 <template>
   <div class="biomeInspector" v-if="biome">
-    <div class="biomes">
-      <div class="biomesTitle">Biomes</div>
-      <BiomeList :selectedBiome="biome" />
-    </div>
-    <div class="info">
-      <h2 class="title">{{ biome.name }} Biome</h2>
-      <h3 class="subtitle" v-if="!biome.data">Loading...</h3>
-      <div class="biomeImgContainer">
-        <BiomeImage :biome="biome" />
+    <div v-if="loading" class="loading">Loading biome...</div>
+    <div v-else>
+      <div class="biomes">
+        <div class="biomesTitle">Biomes</div>
+        <BiomeList :selectedBiome="biome" />
       </div>
-      <ul v-if="biome.data">
-        <li>
-          Temperature: {{ temperatureText }}
-          <span class="details">(ground heat: {{ biome.data.groundHeat }})</span>
-        </li>
-      </ul>
-      <div class="objects">
-        <div class="object" v-for="object in objects" :key="object.id">
-          <ObjectView :object="object" :spawnChance="biome.spawnChance(object)" />
+      <div class="info">
+        <h2 class="title">{{ biome.name }} Biome</h2>
+        <div class="biomeImgContainer">
+          <BiomeImage :biome="biome" />
+        </div>
+        <ul>
+          <li>
+            Temperature: {{ temperatureText }}
+            <span v-if="biome.data" class="details">(ground heat: {{ biome.data.groundHeat }})</span>
+          </li>
+        </ul>
+        <div class="objects">
+          <div class="object" v-for="object in objects" :key="object.id">
+            <ObjectView :object="object" :spawnChance="biome.spawnChance(object)" />
+          </div>
         </div>
       </div>
     </div>
@@ -46,9 +48,12 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const biome = ref(null);
+    const loading = ref(true);
 
-    const loadBiome = () => {
-      biome.value = Biome.findAndLoad(route.params.id);
+    const loadBiome = async () => {
+      loading.value = true;
+      biome.value = await Biome.findAndLoad(route.params.id);
+      loading.value = false;
       if (!biome.value) {
         router.replace("/not-found");
       }
@@ -82,6 +87,7 @@ export default defineComponent({
 
     return {
       biome,
+      loading,
       objects,
       temperatureText,
     };
@@ -94,6 +100,12 @@ export default defineComponent({
 
 <style lang="scss">
 .biomeInspector {
+  .loading {
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #aaa;
+  }
   .biomes {
     background-color: #222;
     border-radius: 5px;
