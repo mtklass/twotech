@@ -12,8 +12,14 @@ import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   props: {
-    filter: Object,
-    selected: Boolean
+    filter: {
+      type: Object,
+      required: true
+    },
+    selected: {
+      type: Boolean,
+      required: true
+    }
   },
   setup(props) {
     const url = computed(() => {

@@ -25,7 +25,7 @@ app.use(Tippy, {
 });
 
 const routes = [
-  // { path: '/', component: () => import('./components/ObjectBrowser.vue') },
+  { path: '/', component: () => import('./components/ObjectBrowser.vue') },
   { path: '/not-found', component: () => import('./components/NotFound.vue') },
   // { path: '/filter/:filter*', component: () => import('./components/ObjectBrowser.vue') },
   // { path: '/letters', component: () => import('./components/RecipeForLetters.vue') },

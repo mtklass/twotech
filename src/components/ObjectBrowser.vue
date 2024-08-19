@@ -1,8 +1,8 @@
 <template>
   <div class="objectBrowser">
     <div class="filterList">
-      <div class="filter" v-for="filter in filters" >
-        <ObjectFilter :filter="filter" :selected="filter == selectedFilter" />
+      <div class="filter" v-for="filter in filters" :key="filter.key">
+        <ObjectFilter :filter="filter" :selected="filter === selectedFilter" />
       </div>
     </div>
 
@@ -12,14 +12,14 @@
     </div>
 
     <div v-if="showClothingFilters" class="filterList">
-      <div class="clothingFilter" v-for="filter in clothingFilters" >
-        <ObjectFilter :filter="filter" :selected="filter == selectedFilter" />
+      <div class="clothingFilter" v-for="filter in clothingFilters" :key="filter.key">
+        <ObjectFilter :filter="filter" :selected="filter === selectedFilter" />
       </div>
     </div>
 
     <div v-if="showContainerFilters" class="filterList">
-      <div class="containerFilter" v-for="filter in containerFilters" >
-        <ObjectFilter :filter="filter" :selected="filter == selectedFilter" />
+      <div class="containerFilter" v-for="filter in containerFilters" :key="filter.key">
+        <ObjectFilter :filter="filter" :selected="filter === selectedFilter" />
       </div>
     </div>
 
@@ -27,10 +27,10 @@
       <div class="objectListHeader">
         <div class="objectListSorter">
           Sort by:
-          <span @click="sort('recent', false)" :class="{selected: sortBy == 'recent'}">Recent</span>,
-          <span @click="sort('difficulty', false)" :class="{selected: sortBy == 'difficulty'}">Difficulty</span>,
-          <span @click="sort('name', false)" :class="{selected: sortBy == 'name'}">Name</span>,
-          <span @click="sort('numSlots', false)" :class="{selected: sortBy == 'numSlots'}">Slots</span>
+          <span @click="sort('recent', false)" :class="{selected: sortBy === 'recent'}">Recent</span>,
+          <span @click="sort('difficulty', false)" :class="{selected: sortBy === 'difficulty'}">Difficulty</span>,
+          <span @click="sort('name', false)" :class="{selected: sortBy === 'name'}">Name</span>,
+          <span @click="sort('numSlots', false)" :class="{selected: sortBy === 'numSlots'}">Slots</span>
         </div>
         <div class="objectListSorter">
           Order:
@@ -43,7 +43,7 @@
         </div>
       </div>
       <div class="objectList">
-        <div class="object" v-for="object in shownObjects">
+        <div class="object" v-for="object in shownObjects" :key="object.id">
           <ObjectView :object="object" />
         </div>
       </div>
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { ref, computed, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import eventBus from '../eventBus';
 import GameObject from '../models/GameObject';
 import BrowserStorage from '../models/BrowserStorage';
@@ -60,11 +62,6 @@ import ObjectFilter from './ObjectFilter';
 import ObjectView from './ObjectView';
 import BiomeList from './BiomeList';
 
-import { ref, watch, computed } from 'vue';
-import { useRoute } from 'vue-router';
-const route = useRoute();
-
-
 export default {
   components: {
     ObjectFilter,
@@ -72,62 +69,77 @@ export default {
     BiomeList,
   },
   setup() {
-    const shownObjects = computed(() => GameObject.objects(this.showAmount, this.selectedFilter, this.sortBy, this.descending, this.hideUncraftable));
+    const route = useRoute();
+    const showAmount = ref(24);
+    const selectedFilter = ref(GameObject.findFilter(route.params.filter));
+    const sortBy = ref(BrowserStorage.getItem("ObjectBrowser.sortBy") || "recent");
+    const descending = ref(BrowserStorage.getItem("ObjectBrowser.descending") === "true");
+    const hideUncraftable = ref(BrowserStorage.getItem("ObjectBrowser.hideUncraftable") !== null
+      ? BrowserStorage.getItem("ObjectBrowser.hideUncraftable") === "true"
+      : true);
+
     const filters = computed(() => GameObject.filters);
-    const clothingFilters = computed(() => GameObject.findFilter("clothing").subfilter);
-    const containerFilters = computed(() => GameObject.findFilter("containers").subfilter);
-    const showBiomes = computed(() => this.selectedFilter && this.selectedFilter.key === "natural");
-    const showClothingFilters = computed(() => this.selectedFilter && this.selectedFilter.path.startsWith("/filter/clothing"));
-    const showContainerFilters = computed(() => this.selectedFilter && this.selectedFilter.path.startsWith("/filter/containers"));
-    watch(route, (to, from) => {
+    const clothingFilters = computed(() => GameObject.findFilter("clothing")?.subfilters || []);
+    const containerFilters = computed(() => GameObject.findFilter("containers")?.subfilters || []);
+    const shownObjects = computed(() => GameObject.objects(showAmount.value, selectedFilter.value, sortBy.value, descending.value, hideUncraftable.value));
+    const showBiomes = computed(() => selectedFilter.value && selectedFilter.value.key === "natural");
+    const showClothingFilters = computed(() => selectedFilter.value && selectedFilter.value.path.startsWith("/filter/clothing"));
+    const showContainerFilters = computed(() => selectedFilter.value && selectedFilter.value.path.startsWith("/filter/containers"));
+
+    const handleScroll = () => {
+      if (window.scrollY + window.innerHeight > document.body.clientHeight - 100) {
+        if (!loadingMore.value) {
+          loadingMore.value = true;
+          showAmount.value += 24;
+        }
+      } else {
+        loadingMore.value = false;
+      }
+    };
+
+    const sort = (sortByValue, descendingValue) => {
+      sortBy.value = sortByValue;
+      descending.value = descendingValue;
+      BrowserStorage.setItem("ObjectBrowser.sortBy", sortByValue);
+      BrowserStorage.setItem("ObjectBrowser.descending", descendingValue.toString());
+    };
+
+    const toggleHideUncraftable = () => {
+      hideUncraftable.value = !hideUncraftable.value;
+      BrowserStorage.setItem("ObjectBrowser.hideUncraftable", hideUncraftable.value);
+      // eventBus.$emit('hide-uncraftable', hideUncraftable.value); // Uncomment if eventBus is used for this event.
+    };
+
+    watch(route, (to) => {
       showAmount.value = 24;
       selectedFilter.value = GameObject.findFilter(to.params.filter);
     });
-  },
-  data () {
-    return {
-      showAmount: 24,
-      selectedFilter: GameObject.findFilter(route.params.filter),
-      sortBy: BrowserStorage.getItem("ObjectBrowser.sortBy") || "recent",
-      descending: BrowserStorage.getItem("ObjectBrowser.descending") === "true",
-      hideUncraftable: BrowserStorage.getItem("ObjectBrowser.hideUncraftable") !== null
-                      ? BrowserStorage.getItem("ObjectBrowser.hideUncraftable") === "true"
-                      : true,
-    }
-  },
-  created () {
-    window.onscroll = () => this.handleScroll();
-  },
-  methods: {
-    handleScroll() {
-      if (window.scrollY + window.innerHeight > document.body.clientHeight - 100) {
-        if (!this.loadingMore) {
-          this.loadingMore = true;
-          this.showAmount += 24;
-        }
-      } else {
-        this.loadingMore = false;
-      }
-    },
-    sort(sortBy, descending) {
-      this.sortBy = sortBy;
-      this.descending = descending;
 
-      BrowserStorage.setItem("ObjectBrowser.sortBy", sortBy);
-      BrowserStorage.setItem("ObjectBrowser.descending", descending.toString());
-    },
-    toggleHideUncraftable(event) {
-      this.hideUncraftable = !this.hideUncraftable;
-      BrowserStorage.setItem("ObjectBrowser.hideUncraftable", this.hideUncraftable);
-      // eventBus.$emit('hide-uncraftable', this.hideUncraftable);
-    },
+    onMounted(() => {
+      window.onscroll = handleScroll;
+    });
+
+    return {
+      shownObjects,
+      filters,
+      clothingFilters,
+      containerFilters,
+      showBiomes,
+      showClothingFilters,
+      showContainerFilters,
+      sortBy,
+      descending,
+      hideUncraftable,
+      showAmount,
+      selectedFilter,
+      sort,
+      toggleHideUncraftable,
+    };
   },
   metaInfo() {
-    if (this.selectedFilter)
-      return {title: this.selectedFilter.name};
-    return {};
-  }
-}
+    return { title: this.selectedFilter ? this.selectedFilter.name : "Object Browser" };
+  },
+};
 </script>
 
 <style lang="scss">
