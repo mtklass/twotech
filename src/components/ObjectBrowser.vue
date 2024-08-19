@@ -60,16 +60,34 @@ import ObjectFilter from './ObjectFilter';
 import ObjectView from './ObjectView';
 import BiomeList from './BiomeList';
 
+import { ref, watch, computed } from 'vue';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+
+
 export default {
   components: {
     ObjectFilter,
     ObjectView,
     BiomeList,
   },
+  setup() {
+    const shownObjects = computed(() => GameObject.objects(this.showAmount, this.selectedFilter, this.sortBy, this.descending, this.hideUncraftable));
+    const filters = computed(() => GameObject.filters);
+    const clothingFilters = computed(() => GameObject.findFilter("clothing").subfilter);
+    const containerFilters = computed(() => GameObject.findFilter("containers").subfilter);
+    const showBiomes = computed(() => this.selectedFilter && this.selectedFilter.key === "natural");
+    const showClothingFilters = computed(() => this.selectedFilter && this.selectedFilter.path.startsWith("/filter/clothing"));
+    const showContainerFilters = computed(() => this.selectedFilter && this.selectedFilter.path.startsWith("/filter/containers"));
+    watch(route, (to, from) => {
+      showAmount.value = 24;
+      selectedFilter.value = GameObject.findFilter(to.params.filter);
+    });
+  },
   data () {
     return {
       showAmount: 24,
-      selectedFilter: GameObject.findFilter(this.$route.params.filter),
+      selectedFilter: GameObject.findFilter(route.params.filter),
       sortBy: BrowserStorage.getItem("ObjectBrowser.sortBy") || "recent",
       descending: BrowserStorage.getItem("ObjectBrowser.descending") === "true",
       hideUncraftable: BrowserStorage.getItem("ObjectBrowser.hideUncraftable") !== null
@@ -79,35 +97,6 @@ export default {
   },
   created () {
     window.onscroll = () => this.handleScroll();
-  },
-  watch: {
-    "$route"(to, from) {
-      this.showAmount = 24;
-      this.selectedFilter = GameObject.findFilter(to.params.filter);
-    }
-  },
-  computed: {
-    shownObjects() {
-      return GameObject.objects(this.showAmount, this.selectedFilter, this.sortBy, this.descending, this.hideUncraftable);
-    },
-    filters() {
-      return GameObject.filters;
-    },
-    clothingFilters() {
-      return GameObject.findFilter("clothing").subfilters;
-    },
-    containerFilters() {
-      return GameObject.findFilter("containers").subfilters;
-    },
-    showBiomes() {
-      return this.selectedFilter && this.selectedFilter.key === "natural";
-    },
-    showClothingFilters() {
-      return this.selectedFilter && this.selectedFilter.path.startsWith("/filter/clothing");
-    },
-    showContainerFilters() {
-      return this.selectedFilter && this.selectedFilter.path.startsWith("/filter/containers");
-    }
   },
   methods: {
     handleScroll() {

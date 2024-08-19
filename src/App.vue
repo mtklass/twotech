@@ -43,14 +43,14 @@ import { useRouter } from 'vue-router';
 import GameObject from './models/GameObject';
 import Biome from './models/Biome';
 
-import ObjectSearch from './components/ObjectSearch';
-import ObjectBrowser from './components/ObjectBrowser';
-import ObjectInspector from './components/ObjectInspector';
-import TechTree from './components/TechTree';
-import Recipe from './components/Recipe';
-import RecipeForLetters from './components/RecipeForLetters';
-import BiomeInspector from './components/BiomeInspector';
-import ChangeLog from './components/ChangeLog';
+// import ObjectSearch from './components/ObjectSearch';
+// import ObjectBrowser from './components/ObjectBrowser';
+// import ObjectInspector from './components/ObjectInspector';
+// import TechTree from './components/TechTree';
+// import Recipe from './components/Recipe';
+// import RecipeForLetters from './components/RecipeForLetters';
+// import BiomeInspector from './components/BiomeInspector';
+// import ChangeLog from './components/ChangeLog';
 import NotFound from './components/NotFound';
 
 const loading = ref(true);

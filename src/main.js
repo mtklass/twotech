@@ -25,16 +25,16 @@ app.use(Tippy, {
 });
 
 const routes = [
-  { path: '/', component: () => import('./components/ObjectBrowser.vue') },
+  // { path: '/', component: () => import('./components/ObjectBrowser.vue') },
   { path: '/not-found', component: () => import('./components/NotFound.vue') },
-  { path: '/filter/:filter*', component: () => import('./components/ObjectBrowser.vue') },
-  { path: '/letters', component: () => import('./components/RecipeForLetters.vue') },
-  { path: '/versions', component: () => import('./components/ChangeLog.vue') },
-  { path: '/versions/:id', component: () => import('./components/ChangeLog.vue') },
-  { path: '/biomes/:id', component: () => import('./components/BiomeInspector.vue') },
-  { path: '/:id/tech-tree', component: () => import('./components/TechTree.vue') },
-  { path: '/:id/recipe', component: () => import('./components/Recipe.vue') },
-  { path: '/:id', component: () => import('./components/ObjectInspector.vue') },
+  // { path: '/filter/:filter*', component: () => import('./components/ObjectBrowser.vue') },
+  // { path: '/letters', component: () => import('./components/RecipeForLetters.vue') },
+  // { path: '/versions', component: () => import('./components/ChangeLog.vue') },
+  // { path: '/versions/:id', component: () => import('./components/ChangeLog.vue') },
+  // { path: '/biomes/:id', component: () => import('./components/BiomeInspector.vue') },
+  // { path: '/:id/tech-tree', component: () => import('./components/TechTree.vue') },
+  // { path: '/:id/recipe', component: () => import('./components/Recipe.vue') },
+  // { path: '/:id', component: () => import('./components/ObjectInspector.vue') },
   { path: '/:catchAll(.*)', redirect: '/not-found' }, // Catch-all route for 404
 ];
 

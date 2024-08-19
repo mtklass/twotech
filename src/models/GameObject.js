@@ -96,9 +96,13 @@ export default class GameObject {
     }
     let parts = key_path.split('/');
     let filter = this.filters[parts.shift()];
-    for (let part of parts) (
-      filter = filter.subfilters[part]
-    )
+    for (let part of parts) {
+      if (filter && filter.subfilters) {
+        filter = filter.subfilters[part];
+      } else {
+        return null; // Return null if any part of the path is invalid
+      }
+    }
     return filter;
   }
 
