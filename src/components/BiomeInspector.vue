@@ -31,7 +31,6 @@
 <script>
 import { defineComponent, ref, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import GameObject from '../models/GameObject';
 import Biome from '../models/Biome';
 
 import ObjectView from './ObjectView';

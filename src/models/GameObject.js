@@ -78,13 +78,6 @@ export default class GameObject {
 
   static findAndLoad(id) {
     const object = this.find(id);
-    if (!object) return;
-    object.loadData();
-    return object;
-  }
-
-  static findAndLoad(id) {
-    const object = this.find(id);
     if (!object) return Promise.resolve(null);
     return object.loadData().then(() => object);
   }
@@ -183,7 +176,7 @@ export default class GameObject {
   toPercent(num, places) {
     return +(num*100).toFixed(places);
   }
-  
+
   loadData() {
     if (this.data || this.loading) return Promise.resolve(this.data);
     this.loading = true;
@@ -195,7 +188,7 @@ export default class GameObject {
         return this.data;
       });
   }
-  
+
   sizeText(size) {
     if (size == 3) return "Extra Large";
     if (size > 1) return "Large";
