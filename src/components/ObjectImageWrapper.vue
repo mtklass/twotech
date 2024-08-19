@@ -3,7 +3,7 @@
       :class="className"
       :title="title" v-tippy
       :to="object.url()"
-      @contextmenu.native="handleRightClick">
+      @contextmenu="handleRightClick">
     <slot />
   </router-link>
   <div v-else
@@ -14,15 +14,17 @@
 </template>
 
 <script>
-export default {
-  props: [
-    'className',
-    'clickable',
-    'title',
-    'object',
-    'click',
-    'rightClick',
-  ],
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  props: {
+    className: String,
+    clickable: Boolean,
+    title: String,
+    object: Object,
+    click: Function,
+    rightClick: Function,
+  },
   methods: {
     handleRightClick(event) {
       if (this.rightClick) {
@@ -31,5 +33,5 @@ export default {
       }
     }
   }
-}
+});
 </script>
