@@ -8,9 +8,9 @@
       @change="selectObject"
       placeholder="Search"
     >
-      <template #option="{ option }">
-        <ObjectImage :object="option" />
-        {{ option.name }}
+      <template v-slot:option="option">
+        <ObjectImage :object="option"/>
+        {{option.name}}
       </template>
     </VueSelect>
   </div>
