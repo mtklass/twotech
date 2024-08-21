@@ -77,7 +77,7 @@ export default {
     const hideUncraftable = ref(BrowserStorage.getItem("ObjectBrowser.hideUncraftable") !== null
       ? BrowserStorage.getItem("ObjectBrowser.hideUncraftable") === "true"
       : true);
-
+    const loadingMore = ref(false);
     const filters = computed(() => GameObject.filters);
     const clothingFilters = computed(() => GameObject.findFilter("clothing")?.subfilters || []);
     const containerFilters = computed(() => GameObject.findFilter("containers")?.subfilters || []);
