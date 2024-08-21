@@ -52,7 +52,7 @@
       <ObjectImage :class="{recipeTransitionObject: true, highlight: highlight}"
                   hover="true"
                   :object="result"
-                  :uses="this.transition.uses"
+                  :uses="transition.uses"
                   :weight="transition.weight"
                   clickable="true"
                   :rightClick="rightClickObject" />
@@ -60,31 +60,35 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue';
 import GameObject from '../models/GameObject';
-
 import ObjectImage from './ObjectImage';
 
-export default {
-  props: ['transition', 'rightClickObject', 'expanded', 'highlight'],
-  components: {
-    ObjectImage
-  },
-  computed: {
-    showPlus() {
-      return this.transition.actorID || this.transition.decay || this.transition.hand;
-    },
-    actor() {
-      return GameObject.find(this.transition.actorID);
-    },
-    target() {
-      return GameObject.find(this.transition.targetID);
-    },
-    result() {
-      return GameObject.find(this.transition.id);
-    }
-  }
-}
+// Props
+const props = defineProps({
+  transition: Object,
+  rightClickObject: Function,
+  expanded: Boolean,
+  highlight: Boolean,
+});
+
+// Computed properties
+const showPlus = computed(() => {
+  return props.transition.actorID || props.transition.decay || props.transition.hand;
+});
+
+const actor = computed(() => {
+  return GameObject.find(props.transition.actorID);
+});
+
+const target = computed(() => {
+  return GameObject.find(props.transition.targetID);
+});
+
+const result = computed(() => {
+  return GameObject.find(props.transition.id);
+});
 </script>
 
 <style lang="scss" scoped>
