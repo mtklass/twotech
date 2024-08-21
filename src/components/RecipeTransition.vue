@@ -4,7 +4,7 @@
     <div class="leftSide" v-if="transition.subSteps">
       <div class="expandButton"
           :class="{active: expanded}"
-          title="Expand Recipe" v-tippy
+          title="Expand Recipe" v-tippy="{theme: 'twotech', animation: 'scale'}"
           @click.prevent="$emit('expand', transition)">
         <img src="../assets/recipe.png" width="41" height="42" />
       </div>
@@ -64,6 +64,12 @@
 import { computed } from 'vue';
 import GameObject from '../models/GameObject';
 import ObjectImage from './ObjectImage';
+
+import '../css/tippy.css'
+import 'tippy.js/animations/perspective.css'
+import 'tippy.js/animations/scale.css'
+import 'tippy.js/animations/shift-away.css'
+import 'tippy.js/animations/shift-toward.css'
 
 // Props
 const props = defineProps({

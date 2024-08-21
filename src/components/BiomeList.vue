@@ -4,10 +4,11 @@
       v-for="biome in biomes"
       :to="biome.url()"
       :title="biome.name"
-      v-tippy
+      v-tippy="{theme: 'twotech', animation: 'scale'}"
       class="biome"
       :key="biome.id"
       :class="{ selected: biome === selectedBiome }"
+      ref="biomeLink"
     >
       <BiomeImage :biome="biome" />
     </router-link>
@@ -18,6 +19,12 @@
 import { defineComponent, computed } from 'vue';
 import Biome from '../models/Biome';
 import BiomeImage from './BiomeImage';
+
+import '../css/tippy.css'
+import 'tippy.js/animations/perspective.css'
+import 'tippy.js/animations/scale.css'
+import 'tippy.js/animations/shift-away.css'
+import 'tippy.js/animations/shift-toward.css'
 
 export default defineComponent({
   components: {

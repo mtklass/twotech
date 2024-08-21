@@ -3,7 +3,7 @@
     <div class="objectView">
       <h3>{{ object.name }}</h3>
       <div class="badges">
-        <div class="badge" v-tippy :title="badgeText(badge)" v-for="badge in object.badges()" :key="badge.key">
+        <div class="badge" v-tippy="{theme: 'twotech', animation: 'scale'}" :title="badgeText(badge)" v-for="badge in object.badges()" :key="badge.key">
           <img :src="badgeImage(badge)" />
           <span v-if="badge.value" class="badgeValue">{{ badge.value }}</span>
         </div>
@@ -19,6 +19,12 @@
 <script>
 import { defineComponent } from 'vue';
 import ObjectImage from './ObjectImage';
+
+import '../css/tippy.css'
+import 'tippy.js/animations/perspective.css'
+import 'tippy.js/animations/scale.css'
+import 'tippy.js/animations/shift-away.css'
+import 'tippy.js/animations/shift-toward.css'
 
 export default defineComponent({
   props: {

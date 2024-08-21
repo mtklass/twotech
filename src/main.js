@@ -1,9 +1,10 @@
 import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { createHead } from '@vueuse/head';
-import Tippy from 'vue-tippy';
-import App from './App.vue';
 import './css/tippy.css';
+// import 'tippy.js/themes/light.css'
+import VueTippy from 'vue-tippy';
+import App from './App.vue';
 
 if (window.location.hostname.startsWith('edge')) {
   global.edge = true;
@@ -16,7 +17,8 @@ if (window.location.hostname.startsWith('edge')) {
 const app = createApp(App);
 
 // Configure Tippy plugin
-app.use(Tippy, {
+app.use(VueTippy, {
+  theme: 'twotech',
   animateFill: false,
   animation: 'scale',
   duration: 100,
@@ -28,12 +30,12 @@ const routes = [
   { path: '/', component: () => import('./components/ObjectBrowser.vue') },
   { path: '/not-found', component: () => import('./components/NotFound.vue') },
   // { path: '/filter/:filter*', component: () => import('./components/ObjectBrowser.vue') },
-  // { path: '/letters', component: () => import('./components/RecipeForLetters.vue') },
+  { path: '/letters', component: () => import('./components/RecipeForLetters.vue') },
   { path: '/versions', component: () => import('./components/ChangeLog.vue') },
   { path: '/versions/:id', component: () => import('./components/ChangeLog.vue') },
   { path: '/biomes/:id', component: () => import('./components/BiomeInspector.vue') },
   { path: '/:id/tech-tree', component: () => import('./components/TechTree.vue') },
-  // { path: '/:id/recipe', component: () => import('./components/Recipe.vue') },
+  { path: '/:id/recipe', component: () => import('./components/Recipe.vue') },
   { path: '/:id', component: () => import('./components/ObjectInspector.vue') },
   { path: '/:catchAll(.*)', redirect: '/not-found' }, // Catch-all route for 404
 ];

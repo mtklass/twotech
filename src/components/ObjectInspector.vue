@@ -13,7 +13,7 @@
           :key="sound"
           @click="playSound(sound)"
           title="Play Sound"
-          v-tippy
+          v-tippy="{theme: 'twotech', animation: 'scale'}"
         >
           <audio :id="'sound' + sound" @ended="finishSound(sound)">
             <source :src="soundPath(sound, 'mp3')" type="audio/mp3" />
@@ -33,12 +33,12 @@
         <li v-if="object.hasInsulation()">Insulation: {{ object.insulationPercent() }}%</li>
         <li v-if="moveDistanceText">
           Move Distance: {{ moveDistanceText }}
-          <span class="helpTip" v-tippy :title="moveDistanceTip" v-if="moveDistanceTip">?</span>
+          <span class="helpTip" v-tippy="{theme: 'twotech', animation: 'scale'}" :title="moveDistanceTip" v-if="moveDistanceTip">?</span>
         </li>
         <li v-if="moveType">Move Behavior: {{ moveType }}</li>
         <li v-if="numUses">
           Number of {{ useWord }}s: {{ numUses }}
-          <span class="helpTip" v-tippy :title="numMovesTip" v-if="numMovesTip">?</span>
+          <span class="helpTip" v-tippy="{theme: 'twotech', animation: 'scale'}" :title="numMovesTip" v-if="numMovesTip">?</span>
         </li>
         <li v-if="totalFood">Total Food: {{ totalFood }}</li>
         <li v-if="object.data.useChance">
@@ -55,7 +55,7 @@
         <li v-if="object.data.deadlyDistance">Deadly</li>
         <li v-if="difficultyText">
           Difficulty: {{ difficultyText }}
-          <span class="helpTip" v-tippy :title="difficultyTip">?</span>
+          <span class="helpTip" v-tippy="{theme: 'twotech', animation: 'scale'}" :title="difficultyTip">?</span>
         </li>
         <li v-if="!object.data.craftable">UNCRAFTABLE</li>
         <li>
@@ -77,13 +77,13 @@
       <div class="transitionsPanel" v-if="object.data.transitionsToward.length > 0 || object.data.mapChance">
         <h3>How to get</h3>
         <div class="actions" v-if="object.data && (object.data.recipe || object.data.techTree)">
-          <router-link :to="object.url('tech-tree')" v-if="object.data.techTree" title="Tech Tree" v-tippy>
+          <router-link :to="object.url('tech-tree')" v-if="object.data.techTree" title="Tech Tree" v-tippy="{theme: 'twotech', animation: 'scale'}">
             <img src="../assets/techtree.png" width="38" height="36" alt="Tech Tree" />
           </router-link>
-          <router-link :to="object.url('recipe')" v-if="object.data.recipe" title="Crafting Recipe" v-tippy>
+          <router-link :to="object.url('recipe')" v-if="object.data.recipe" title="Crafting Recipe" v-tippy="{theme: 'twotech', animation: 'scale'}">
             <img src="../assets/recipe.png" width="41" height="42" alt="Crafting Recipe" />
           </router-link>
-          <router-link to="/letters" v-if="isLetterOrSign" title="Letters Recipe" v-tippy>
+          <router-link to="/letters" v-if="isLetterOrSign" title="Letters Recipe" v-tippy="{theme: 'twotech', animation: 'scale'}">
             <img src="../assets/sign.png" width="40" height="41" alt="Letters Recipe" />
           </router-link>
         </div>
@@ -94,7 +94,7 @@
               v-for="biome in biomes"
               :to="biome.url()"
               :title="biomeTitle(biome)"
-              v-tippy
+              v-tippy="{theme: 'twotech', animation: 'scale'}"
               class="biome"
               :key="biome.id"
             >
@@ -138,6 +138,12 @@ import Biome from '../models/Biome';
 import ObjectImage from './ObjectImage';
 import BiomeImage from './BiomeImage';
 import TransitionsList from './TransitionsList';
+
+import '../css/tippy.css'
+import 'tippy.js/animations/perspective.css'
+import 'tippy.js/animations/scale.css'
+import 'tippy.js/animations/shift-away.css'
+import 'tippy.js/animations/shift-toward.css'
 
 export default defineComponent({
   components: {
