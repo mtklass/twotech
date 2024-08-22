@@ -824,24 +824,24 @@
          }
       },
       prepareEngine() {
-         this.worker = new Worker(new URL("../search.worker.js", import.meta.url))
-         this.worker.onmessageerror = this.worker.onerror = function () {
-            console.error("web worker unexpected error!");
-         }
-         this.worker.onmessage = ({data: {signal, data, meta}}) => {
-            meta = meta || {};
-            if (signal === 'log') {
-               console.log("WebWorkerLog: " + data)
-            } else if (signal === 'search_result') {
-               const result = data.map(index => this.mutableOptions[index]);
-               this.worker_promises[meta.promise_index](result)
-            } else {
-               console.error("unknown signal from web worker: " + signal);
-            }
-         }
-         this.$watch('mutableOptions', () => {
-            this.worker.postMessage({signal: 'set_search_list', data: this.mutableOptions.map(opt => opt[this.label])})
-         }, {immediate: true})
+        this.worker = new Worker(new URL("../search.worker.js", import.meta.url))
+        this.worker.onmessageerror = this.worker.onerror = function () {
+          console.error("web worker unexpected error!");
+        }
+        this.worker.onmessage = ({data: {signal, data, meta}}) => {
+          meta = meta || {};
+          if (signal === 'log') {
+            console.log("WebWorkerLog: " + data)
+          } else if (signal === 'search_result') {
+            const result = data.map(index => this.mutableOptions[index]);
+            this.worker_promises[meta.promise_index](result)
+          } else {
+            console.error("unknown signal from web worker: " + signal);
+          }
+        }
+        this.$watch('mutableOptions', () => {
+          this.worker.postMessage({signal: 'set_search_list', data: this.mutableOptions.map(opt => opt[this.label])})
+        }, {immediate: true})
       },
       /**
        * Select a given option.
