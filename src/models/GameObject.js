@@ -88,13 +88,13 @@ export default class GameObject {
     return object.loadData().then(() => object);
   }
 
-  static findFilter(key_path) {
-    if (!key_path) {
-      return null;
+  static findFilter(key_path_parts) {
+    if (typeof key_path_parts=== 'string') {
+      key_path_parts = [key_path_parts];
     }
-    let parts = key_path.split('/');
-    let filter = this.filters[parts.shift()];
-    for (let part of parts) {
+
+    let filter = this.filters[key_path_parts.shift()];
+    for (let part of key_path_parts) {
       if (filter && filter.subfilters) {
         filter = filter.subfilters[part];
       } else {

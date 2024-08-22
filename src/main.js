@@ -29,7 +29,7 @@ app.use(VueTippy, {
 const routes = [
   { path: '/', component: () => import('./components/ObjectBrowser.vue') },
   { path: '/not-found', component: () => import('./components/NotFound.vue') },
-  // { path: '/filter/:filter*', component: () => import('./components/ObjectBrowser.vue') },
+  { path: '/filter/:filter*', component: () => import('./components/ObjectBrowser.vue') },
   { path: '/letters', component: () => import('./components/RecipeForLetters.vue') },
   { path: '/versions', component: () => import('./components/ChangeLog.vue') },
   { path: '/versions/:id', component: () => import('./components/ChangeLog.vue') },

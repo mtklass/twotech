@@ -71,7 +71,13 @@ export default {
   setup() {
     const route = useRoute();
     const showAmount = ref(24);
-    const selectedFilter = ref(GameObject.findFilter(route.params.filter));
+    let filter;
+    if (typeof route.params.filter === "string") {
+      filter = route.params.filter;
+    } else if (route.params.filter && route.params.filter.length > 0 && typeof route.params.filter[0] === "string") {
+      filter = route.params.filter[0];
+    }
+    const selectedFilter = ref(route.params.filter ? GameObject.findFilter(route.params.filter) : null);
     const sortBy = ref(BrowserStorage.getItem("ObjectBrowser.sortBy") || "recent");
     const descending = ref(BrowserStorage.getItem("ObjectBrowser.descending") === "true");
     const hideUncraftable = ref(BrowserStorage.getItem("ObjectBrowser.hideUncraftable") !== null
@@ -112,7 +118,15 @@ export default {
 
     watch(route, (to) => {
       showAmount.value = 24;
-      selectedFilter.value = GameObject.findFilter(to.params.filter);
+      let filter;
+      console.log("to.params.filter = " + JSON.stringify(to.params.filter));
+      if (typeof route.params.filter === "string") {
+        filter = route.params.filter;
+      } else if (route.params.filter && route.params.filter.length > 0 && typeof route.params.filter[0] === "string") {
+        filter = route.params.filter[0];
+      }
+      console.log("filter = " + JSON.stringify(filter));
+      selectedFilter.value = to.params.filter ? GameObject.findFilter(to.params.filter) : null;
     });
 
     onMounted(() => {
