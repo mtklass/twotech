@@ -27,7 +27,7 @@ class MainProcessor {
     return process.env.ONETECH_PROCESS_GIT_URL || "https://github.com/twohoursonelife/OneLifeData7.git";
   }
 
-  process(version: ChangeLogVersion): ChangeLogVersion {
+  process(version: ChangeLogVersion | null): ChangeLogVersion {
     // double-equals used to cover undefined case too.
     const gameData = new GameData(this.processDir, this.dataDir(), this.staticDir(version == null));
     console.time("Processing took");
