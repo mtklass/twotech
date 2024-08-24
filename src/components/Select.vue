@@ -439,14 +439,12 @@
 </template>
 
 <script type="text/babel">
-  import pointerScroll from '../mixins/pointerScroll'
-  import typeAheadPointer from '../mixins/typeAheadPointer'
   import ajax from '../mixins/ajax'
 
   import _ from 'lodash'
 
   export default {
-    mixins: [pointerScroll, typeAheadPointer, ajax],
+    mixins: [ajax],
 
     props: {
       /**
@@ -705,10 +703,19 @@
         displayed_options: [],
         processing: false,
         maybeInaccurate: false, // if results are from guessing
+        typeAheadPointer: -1,
       }
     },
 
     watch: {
+      displayedOptions() {
+        console.log("displayedOptions");
+        this.typeAheadPointer = 0;
+      },
+      typeAheadPointer() {
+        this.maybeAdjustScroll(); // Added from pointerScroll.js
+      },
+
       /**
        * When the value prop changes, update
 			 * the internal mutableValue.
@@ -770,6 +777,7 @@
      * attach any event listeners.
      */
     created() {
+      console.log("MTK SELECT TEST");
 			this.mutableValue = this.value
       this.mutableOptions = this.options.slice(0)
 			this.mutableLoading = this.loading
@@ -786,7 +794,6 @@
       this.$watch('search', _.debounce(this.doSearch, 250))
       this.$on('option:created', this.maybePushTag)
     },
-
     methods: {
       async doSearch() {
          this.processing = true;
@@ -1034,7 +1041,126 @@
         if (this.pushTags) {
           this.mutableOptions.push(option)
         }
-      }
+      },
+      
+      /**
+       * Move the typeAheadPointer visually up the list by
+       * subtracting the current index by one.
+       * @return {void}
+       */
+      typeAheadUp() {
+        if (this.typeAheadPointer > 0) {
+          this.typeAheadPointer--;
+          if (this.maybeAdjustScroll) {
+            this.maybeAdjustScroll();
+          }
+        }
+      },
+
+      /**
+       * Move the typeAheadPointer visually down the list by
+       * adding the current index by one.
+       * @return {void}
+       */
+      typeAheadDown() {
+        if (this.typeAheadPointer < this.displayedOptions.length - 1) {
+          this.typeAheadPointer++;
+          if (this.maybeAdjustScroll) {
+            this.maybeAdjustScroll();
+          }
+        }
+      },
+
+      /**
+       * Select the option at the current typeAheadPointer position.
+       * Optionally clear the search input on selection.
+       * @return {void}
+       */
+      typeAheadSelect() {
+        if (this.displayedOptions[this.typeAheadPointer]) {
+          this.select(this.displayedOptions[this.typeAheadPointer]);
+        } else if (this.taggable && this.search.length) {
+          this.select(this.search);
+        }
+
+        if (this.clearSearchOnSelect) {
+          this.search = "";
+        }
+      },
+
+      /**
+       * Adjust the scroll position of the dropdown list
+       * if the current pointer is outside of the
+       * overflow bounds.
+       * @returns {*}
+       */
+      maybeAdjustScroll() {
+        let pixelsToPointerTop = this.pixelsToPointerTop();
+        let pixelsToPointerBottom = this.pixelsToPointerBottom();
+
+        if (pixelsToPointerTop <= this.viewport().top) {
+          return this.scrollTo(pixelsToPointerTop);
+        } else if (pixelsToPointerBottom >= this.viewport().bottom) {
+          return this.scrollTo(this.viewport().top + this.pointerHeight());
+        }
+      },
+
+      /**
+       * The distance in pixels from the top of the dropdown
+       * list to the top of the current pointer element.
+       * @returns {number}
+       */
+      pixelsToPointerTop() {
+        let pixelsToPointerTop = 0;
+        if (this.$refs.dropdownMenu) {
+          for (let i = 0; i < this.typeAheadPointer; i++) {
+            pixelsToPointerTop += this.$refs.dropdownMenu.children[i].offsetHeight;
+          }
+        }
+        return pixelsToPointerTop;
+      },
+
+      /**
+       * The distance in pixels from the top of the dropdown
+       * list to the bottom of the current pointer element.
+       * @returns {*}
+       */
+      pixelsToPointerBottom() {
+        return this.pixelsToPointerTop() + this.pointerHeight();
+      },
+
+      /**
+       * The offsetHeight of the current pointer element.
+       * @returns {number}
+       */
+      pointerHeight() {
+        let element = this.$refs.dropdownMenu ? this.$refs.dropdownMenu.children[this.typeAheadPointer] : false;
+        return element ? element.offsetHeight : 0;
+      },
+
+      /**
+       * The currently viewable portion of the dropdownMenu.
+       * @returns {{top: (string|*|number), bottom: *}}
+       */
+      viewport() {
+        return {
+          top: this.$refs.dropdownMenu ? this.$refs.dropdownMenu.scrollTop : 0,
+          bottom: this.$refs.dropdownMenu
+            ? this.$refs.dropdownMenu.offsetHeight + this.$refs.dropdownMenu.scrollTop
+            : 0,
+        };
+      },
+
+      /**
+       * Scroll the dropdownMenu to a given position.
+       * @param position
+       * @returns {*}
+       */
+      scrollTo(position) {
+        if (this.$refs.dropdownMenu) {
+          this.$refs.dropdownMenu.scrollTop = position;
+        }
+      },
     },
 
     computed: {
