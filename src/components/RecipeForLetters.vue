@@ -134,9 +134,11 @@ function fixMessage() {
   textarea.selectionEnd = selectionEnd;
 }
 
-function updateObjects() {
+async function updateObjects() {
   const textarea = document.getElementById("messageArea");
-  objects.value = textarea.value.split("").map(letterToObject).filter(o => o);
+  objects.value = await Promise.all(
+    textarea.value.split("").map(letterToObject)
+  );
   timer.value = null;
 }
 
@@ -154,9 +156,9 @@ function addTransition(transition, transitions, stepIndex) {
   }
 }
 
-function letterToObject(letter) {
-  if (letter === "-") return GameObject.findAndLoadByName("Hyphen");
-  return GameObject.findAndLoadByName(`Letter ${letter}`);
+async function letterToObject(letter) {
+  if (letter === "-") return await GameObject.findAndLoadByName("Hyphen");
+  return await GameObject.findAndLoadByName(`Letter ${letter}`);
 }
 
 function filterObject(object) {

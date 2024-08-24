@@ -68,6 +68,7 @@ export default class GameObject {
 
   static find(id) {
     if (!id) return;
+    // Only grab the number in the beginning of the id.
     return this.objectsMap[id.split("-")[0]] || this.legacyObjectsMap[id.split("-")[0]];
   }
 
@@ -76,16 +77,16 @@ export default class GameObject {
     return Object.values(this.objectsMap).find(o => o.name == name);
   }
 
-  static findAndLoad(id) {
+  static async findAndLoad(id) {
     const object = this.find(id);
-    if (!object) return Promise.resolve(null);
-    return object.loadData().then(() => object);
+    if (!object) return await Promise.resolve(null);
+    return await object.loadData().then(() => object);
   }
 
-  static findAndLoadByName(name) {
+  static async findAndLoadByName(name) {
     const object = this.findByName(name);
-    if (!object) return Promise.resolve(null);
-    return object.loadData().then(() => object);
+    if (!object) return await Promise.resolve(null);
+    return await object.loadData().then(() => object);
   }
 
   static findFilter(key_path_parts) {
@@ -177,10 +178,10 @@ export default class GameObject {
     return +(num*100).toFixed(places);
   }
 
-  loadData() {
-    if (this.data || this.loading) return Promise.resolve(this.data);
+  async loadData() {
+    if (this.data || this.loading) return await Promise.resolve(this.data);
     this.loading = true;
-    return fetch(`${global.staticPath}/objects/${this.id}.json`)
+    return await fetch(`${global.staticPath}/objects/${this.id}.json`)
       .then(data => data.json())
       .then(data => {
         this.loading = false;
