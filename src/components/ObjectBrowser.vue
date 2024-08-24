@@ -2,7 +2,7 @@
   <div class="objectBrowser">
     <div class="filterList">
       <div class="filter" v-for="filter in filters" :key="filter.key">
-        <ObjectFilter :filter="filter" :selected="filter === selectedFilter" />
+        <ObjectFilter :filter="filter" :selected="filter?.path === selectedFilter?.path" />
       </div>
     </div>
 
@@ -13,13 +13,13 @@
 
     <div v-if="showClothingFilters" class="filterList">
       <div class="clothingFilter" v-for="filter in clothingFilters" :key="filter.key">
-        <ObjectFilter :filter="filter" :selected="filter === selectedFilter" />
+        <ObjectFilter :filter="filter" :selected="filter?.path === selectedFilter?.path" />
       </div>
     </div>
 
     <div v-if="showContainerFilters" class="filterList">
       <div class="containerFilter" v-for="filter in containerFilters" :key="filter.key">
-        <ObjectFilter :filter="filter" :selected="filter === selectedFilter" />
+        <ObjectFilter :filter="filter" :selected="filter?.path === selectedFilter?.path" />
       </div>
     </div>
 
@@ -118,14 +118,6 @@ export default {
 
     watch(route, (to) => {
       showAmount.value = 24;
-      let filter;
-      console.log("to.params.filter = " + JSON.stringify(to.params.filter));
-      if (typeof route.params.filter === "string") {
-        filter = route.params.filter;
-      } else if (route.params.filter && route.params.filter.length > 0 && typeof route.params.filter[0] === "string") {
-        filter = route.params.filter[0];
-      }
-      console.log("filter = " + JSON.stringify(filter));
       selectedFilter.value = to.params.filter ? GameObject.findFilter(to.params.filter) : null;
     });
 
@@ -151,7 +143,7 @@ export default {
     };
   },
   metaInfo() {
-    return { title: this.selectedFilter ? this.selectedFilter.name : "Object Browser" };
+    return { title: this.selectedFilter.value ? this.selectedFilter.value.name : "Object Browser" };
   },
 };
 </script>
