@@ -12,7 +12,7 @@
                   :hand="transition.hand" hover="true"
                   :object="actor"
                   :uses="transition.actorUses"
-                  :clickable="transition.actorID && actor !== selectedObject" />
+                  :clickable="transition.actorID && actor?.id !== selectedObject?.id" />
 
       <div v-else class="placeholder"></div>
 
@@ -26,7 +26,7 @@
                   :object="target"
                   :uses="transition.targetUses"
                   :wildcard="wildcard"
-                  :clickable="transition.targetID && target !== selectedObject" />
+                  :clickable="transition.targetID && target?.id !== selectedObject?.id" />
 
       <ObjectImage class="transitionObject"
                   v-else-if="transition.targetPlayer"
@@ -50,7 +50,7 @@
                   :uses="transition.newActorUses"
                   :move="transition.move"
                   :object="newActor"
-                  :clickable="newActor && newActor !== selectedObject" />
+                  :clickable="newActor && newActor?.id !== selectedObject?.id" />
 
       <div class="gap" v-if="showNewActor"></div>
 
@@ -64,7 +64,7 @@
                   :wildcard="wildcard"
                   :object="newTarget"
                   :extraObject="newExtraTarget"
-                  :clickable="newTarget && newTarget !== selectedObject" />
+                  :clickable="newTarget && newTarget?.id !== selectedObject?.id" />
 
       <ObjectImage class="transitionObject"
                   v-else
