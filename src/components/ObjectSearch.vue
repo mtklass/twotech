@@ -1,12 +1,13 @@
 <template>
   <div class="objectSearch">
     <VueSelect
+      ref="VueSelectElem"
       label="lowerCaseName"
       :use-guessing-engine="true"
       :options="objects"
       v-model="selectedObject"
       @change="selectObject"
-      placeholder="Search"
+      :placeholder="placeholderVal"
     >
       <template v-slot:option="option">
         <ObjectImage :object="option"/>
@@ -33,24 +34,36 @@ export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
+    const VueSelectElem = ref(null);
+    const placeholderVal = ref("Search");
 
     const hideUncraftable = ref(
       BrowserStorage.getItem('ObjectBrowser.hideUncraftable') !== null
         ? BrowserStorage.getItem('ObjectBrowser.hideUncraftable') === 'true'
         : true
     );
-
+    console.log("setup route.params.id = ", JSON.stringify(route?.params?.id));
     const selectedObject = ref(GameObject.find(route.params.id));
     const objects = computed(() => GameObject.byNameLength(hideUncraftable.value));
 
     watch(
-      () => route.params.id,
-      (newId) => {
-        selectedObject.value = GameObject.find(newId);
-      }
+      (route, (to, from) => {
+        console.log("watch route = ", JSON.stringify(route?.params));
+        let newSelectedObject = GameObject.find(route?.params?.id.split('-')[0]);
+        console.log("newSelectedObject.name = ", newSelectedObject.name);
+        selectedObject.value = GameObject.find(route?.params?.id.split('-')[0]);
+        placeholderVal.value = newSelectedObject.name;
+        VueSelectElem.value.mutableValue = newSelectedObject.name;
+        VueSelectElem.value.search = "";
+      }),
+      // (newId) => {
+      //   conosle.log("newId = ", newId);
+      //   selectedObject.value = GameObject.find(newId);
+      // }
     );
 
     const selectObject = (object) => {
+      console.log("selectObject: object.name = ", object.name);
       if (object === selectedObject.value) return;
       router.push(object ? object.url() : '/');
     };
@@ -59,6 +72,8 @@ export default {
       selectedObject,
       objects,
       selectObject,
+      VueSelectElem,
+      placeholderVal
     };
   },
 };
