@@ -109,7 +109,7 @@ class Sprite {
   }
 
   additiveBlend(): boolean {
-    const additiveIndexes = this.object.data.spritesAdditiveBlend;
+    const additiveIndexes = this.spritesAdditiveBlend;
     return additiveIndexes && additiveIndexes.indexOf(this.index) > -1;
   }
 }
