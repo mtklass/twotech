@@ -42,28 +42,20 @@ export default {
         ? BrowserStorage.getItem('ObjectBrowser.hideUncraftable') === 'true'
         : true
     );
-    console.log("setup route.params.id = ", JSON.stringify(route?.params?.id));
     const selectedObject = ref(GameObject.find(route.params.id));
     const objects = computed(() => GameObject.byNameLength(hideUncraftable.value));
 
     watch(
       (route, (to, from) => {
-        console.log("watch route = ", JSON.stringify(route?.params));
         let newSelectedObject = GameObject.find(route?.params?.id.split('-')[0]);
-        console.log("newSelectedObject.name = ", newSelectedObject.name);
         selectedObject.value = GameObject.find(route?.params?.id.split('-')[0]);
         placeholderVal.value = newSelectedObject.name;
         VueSelectElem.value.mutableValue = newSelectedObject.name;
         VueSelectElem.value.search = "";
       }),
-      // (newId) => {
-      //   conosle.log("newId = ", newId);
-      //   selectedObject.value = GameObject.find(newId);
-      // }
     );
 
     const selectObject = (object) => {
-      console.log("selectObject: object.name = ", object.name);
       if (object === selectedObject.value) return;
       router.push(object ? object.url() : '/');
     };
