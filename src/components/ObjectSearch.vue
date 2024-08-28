@@ -47,11 +47,17 @@ export default {
 
     watch(
       (route, (to, from) => {
-        let newSelectedObject = GameObject.find(route?.params?.id.split('-')[0]);
-        selectedObject.value = GameObject.find(route?.params?.id.split('-')[0]);
-        placeholderVal.value = newSelectedObject.name;
-        VueSelectElem.value.mutableValue = newSelectedObject.name;
         VueSelectElem.value.search = "";
+        if (Object.keys(route.params).length <= 0) {
+          VueSelectElem.value.search = "";
+          VueSelectElem.value.mutableValue = "";
+          placeholderVal.value = "Search";
+        } else {
+          let newSelectedObject = GameObject.find(route?.params?.id.split('-')[0]);
+          selectedObject.value = GameObject.find(route?.params?.id.split('-')[0]);
+          VueSelectElem.value.search = newSelectedObject.name;
+          VueSelectElem.value.mutableValue = newSelectedObject.name;
+        }
       }),
     );
 
