@@ -10,7 +10,7 @@
     "build": "webpack --progress",
     "process": "cd process && npm run process",
     "process-all": "cd process && npm run process -- download",
-    "process-objects": "cd process && npm run process-objects"
+    "process-specific-sprites": "cd process && npm run process -- specific-sprites"
   },
   "dependencies": {
     "@vueuse/head": "^2.0.0",
