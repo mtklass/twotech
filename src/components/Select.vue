@@ -419,7 +419,7 @@
           </slot>
         </li>
         <template v-if="!processing">
-          <li v-for="(option, index) in displayed_options" :key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
+          <li v-for="(option, index) in displayedOptions" :key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
             <a @mousedown.prevent="select(option)">
               <slot name="option" v-bind="option">
                 {{ getOptionLabel(option) }}
@@ -430,7 +430,7 @@
         <li v-if="processing" class="no-options">
           <slot name="no-options">Searching...</slot>
         </li>
-        <li v-else-if="displayed_options.length === 0" class="no-options">
+        <li v-else-if="displayedOptions.length === 0" class="no-options">
           <slot name="no-options">Sorry, no matching options.</slot>
         </li>
       </ul>
@@ -700,7 +700,7 @@
         mutableOptions: [],
         worker: null,
         worker_promises: [], // keep track of multiple pending search requests.
-        displayed_options: [],
+        displayedOptions: [],
         processing: false,
         maybeInaccurate: false, // if results are from guessing
         typeAheadPointer: -1,
@@ -709,7 +709,6 @@
 
     watch: {
       displayedOptions() {
-        console.log("displayedOptions");
         this.typeAheadPointer = 0;
       },
       typeAheadPointer() {
@@ -777,7 +776,6 @@
      * attach any event listeners.
      */
     created() {
-      console.log("MTK SELECT TEST");
 			this.mutableValue = this.value
       this.mutableOptions = this.options.slice(0)
 			this.mutableLoading = this.loading
@@ -826,7 +824,7 @@
            } else {
              this.maybeInaccurate = false;
            }
-           this.displayed_options = _.take(options, 30);
+           this.displayedOptions = _.take(options, 30);
          } finally {
            this.processing = false;
          }
