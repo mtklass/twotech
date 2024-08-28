@@ -65,6 +65,7 @@ interface GameObjectData {
   sounds?: string[];
   speedMult?: number;
   sprites?: Sprite[];
+  spritesAdditiveBlend?: number[];
   timeStretch?: number;
   useAppearIndex?: number[];
   useChance?: number;
@@ -115,7 +116,6 @@ class GameObject {
      || data.includes("invisHolding")
      || data.includes("invisCont")
      || data.includes("spritesDrawnBehind")
-     || data.includes("spritesAdditiveBlend")
      || data.includes("ignoredCont")
     ) {
       return true;
@@ -310,6 +310,8 @@ class GameObject {
       this.data.sounds = values;
     } else if (attribute === "speedMult") {
       this.data.speedMult = parseFloat(values[0]);
+    } else if (attribute === "spritesAdditiveBlend") {
+      this.data.spritesAdditiveBlend = values.map(v => parseInt(v));
     } else if (attribute === "timeStretch") {
       this.data.timeStretch = parseInt(values[0]);
     } else if (attribute === "useAppearIndex") {
