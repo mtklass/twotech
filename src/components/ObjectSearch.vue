@@ -47,23 +47,29 @@ export default {
 
     watch(
       (route, (to, from) => {
-        VueSelectElem.value.search = "";
+        if (VueSelectElem.value) VueSelectElem.value.search = "";
         if (Object.keys(route.params).length <= 0) {
-          VueSelectElem.value.search = "";
-          VueSelectElem.value.mutableValue = "";
+          if (VueSelectElem.value) VueSelectElem.value.search = "";
+          if (VueSelectElem.value) VueSelectElem.value.mutableValue = "";
           placeholderVal.value = "Search";
         } else {
           let newSelectedObject = GameObject.find(route?.params?.id.split('-')[0]);
           selectedObject.value = GameObject.find(route?.params?.id.split('-')[0]);
-          VueSelectElem.value.search = newSelectedObject.name;
-          VueSelectElem.value.mutableValue = newSelectedObject.name;
+          if (VueSelectElem.value) VueSelectElem.value.search = newSelectedObject.name;
+          if (VueSelectElem.value) VueSelectElem.value.mutableValue = newSelectedObject.name;
         }
       }),
     );
 
     const selectObject = (object) => {
-      if (object === selectedObject.value) return;
-      router.push(object ? object.url() : '/');
+      let newSelectedObject = null;
+      if (typeof(object) === 'string') {
+        newSelectedObject = GameObject.findByName(object);
+      } else {
+        newSelectedObject = object;
+      }
+      if (newSelectedObject === selectedObject.value) return;
+      router.push(newSelectedObject ? newSelectedObject.url() : '/');
     };
 
     return {

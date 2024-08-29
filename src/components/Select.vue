@@ -899,7 +899,6 @@
        * @return {void}
        */
        clearSelection() {
-         this.deselect(this.mutableValue);
          this.mutableValue = this.multiple ? [] : null
        },
 
