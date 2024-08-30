@@ -1252,11 +1252,6 @@
        * @return {Boolean}
        */
       showClearButton() {
-        console.log("this.multiple = ", this.multiple ? "true" : "false");
-        console.log("this.open = ", this.open ? "true" : "false");
-        console.log("this.mutableValue = ", this.mutableValue);
-        console.log("!this.multiple && !this.open && this.mutableValue != null = ", (!this.multiple && !this.open && this.mutableValue != null) ? "true" : "false");
-        console.log("");
         return !this.multiple && !this.open && this.mutableValue != null
       }
     },
