@@ -28,9 +28,12 @@
         <a :href="unreleasedContentUrl()">See Unreleased Content</a>
       </div>
 
-      <ObjectSearch />
+      <ObjectSearch :hide-uncraftable="hideUncraftable"/>
 
-      <router-view />
+      <router-view
+        :hide-uncraftable="hideUncraftable"
+        :toggle-hide-uncraftable="toggleHideUncraftable"
+      />
     </div>
   </div>
 </template>
@@ -40,6 +43,7 @@ import { ref, computed, onBeforeMount } from 'vue';
 import { useHead } from '@vueuse/head';
 import { useRouter } from 'vue-router';
 
+import BrowserStorage from './models/BrowserStorage';
 import GameObject from './models/GameObject';
 import Biome from './models/Biome';
 
@@ -73,6 +77,15 @@ const lastDate = computed(() => {
   const year = GameObject.date.getFullYear();
   return `${months[month]} ${day}, ${year}`;
 });
+
+const hideUncraftable = ref(BrowserStorage.getItem("ObjectBrowser.hideUncraftable") !== null
+  ? BrowserStorage.getItem("ObjectBrowser.hideUncraftable") === "true"
+  : true);
+
+const toggleHideUncraftable = () => {
+  hideUncraftable.value = !hideUncraftable.value;
+  BrowserStorage.setItem("ObjectBrowser.hideUncraftable", hideUncraftable.value);
+};
 
 const latestVersion = computed(() => GameObject.versions[0]);
 

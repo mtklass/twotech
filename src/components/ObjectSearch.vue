@@ -31,19 +31,17 @@ export default {
     VueSelect,
     ObjectImage,
   },
-  setup() {
+  props: {
+    hideUncraftable: Boolean,
+  },
+  setup(props) {
     const route = useRoute();
     const router = useRouter();
     const VueSelectElem = ref(null);
     const placeholderVal = ref("Search");
 
-    const hideUncraftable = ref(
-      BrowserStorage.getItem('ObjectBrowser.hideUncraftable') !== null
-        ? BrowserStorage.getItem('ObjectBrowser.hideUncraftable') === 'true'
-        : true
-    );
     const selectedObject = ref(GameObject.find(route.params.id));
-    const objects = computed(() => GameObject.byNameLength(hideUncraftable.value));
+    const objects = computed(() => GameObject.byNameLength(props.hideUncraftable));
 
     watch(
       (route, (to, from) => {
@@ -74,10 +72,10 @@ export default {
 
     return {
       selectedObject,
-      objects,
       selectObject,
       VueSelectElem,
-      placeholderVal
+      placeholderVal,
+      objects,
     };
   },
 };

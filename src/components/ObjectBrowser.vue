@@ -68,7 +68,11 @@ export default {
     ObjectView,
     BiomeList,
   },
-  setup() {
+  props: {
+    hideUncraftable: Boolean,
+    toggleHideUncraftable: Function,
+  },
+  setup(props) {
     const route = useRoute();
     const showAmount = ref(24);
     let filter;
@@ -80,14 +84,11 @@ export default {
     const selectedFilter = ref(route.params.filter ? GameObject.findFilter(route.params.filter) : null);
     const sortBy = ref(BrowserStorage.getItem("ObjectBrowser.sortBy") || "recent");
     const descending = ref(BrowserStorage.getItem("ObjectBrowser.descending") === "true");
-    const hideUncraftable = ref(BrowserStorage.getItem("ObjectBrowser.hideUncraftable") !== null
-      ? BrowserStorage.getItem("ObjectBrowser.hideUncraftable") === "true"
-      : true);
     const loadingMore = ref(false);
     const filters = computed(() => GameObject.filters);
     const clothingFilters = computed(() => GameObject.findFilter("clothing")?.subfilters || []);
     const containerFilters = computed(() => GameObject.findFilter("containers")?.subfilters || []);
-    const shownObjects = computed(() => GameObject.objects(showAmount.value, selectedFilter.value, sortBy.value, descending.value, hideUncraftable.value));
+    const shownObjects = computed(() => GameObject.objects(showAmount.value, selectedFilter.value, sortBy.value, descending.value, props.hideUncraftable));
     const showBiomes = computed(() => selectedFilter.value && selectedFilter.value.key === "natural");
     const showClothingFilters = computed(() => selectedFilter.value && selectedFilter.value.path.startsWith("/filter/clothing"));
     const showContainerFilters = computed(() => selectedFilter.value && selectedFilter.value.path.startsWith("/filter/containers"));
@@ -110,12 +111,6 @@ export default {
       BrowserStorage.setItem("ObjectBrowser.descending", descendingValue.toString());
     };
 
-    const toggleHideUncraftable = () => {
-      hideUncraftable.value = !hideUncraftable.value;
-      BrowserStorage.setItem("ObjectBrowser.hideUncraftable", hideUncraftable.value);
-      // eventBus.$emit('hide-uncraftable', hideUncraftable.value); // Uncomment if eventBus is used for this event.
-    };
-
     watch(route, (to) => {
       showAmount.value = 24;
       selectedFilter.value = to.params.filter ? GameObject.findFilter(to.params.filter) : null;
@@ -135,11 +130,9 @@ export default {
       showContainerFilters,
       sortBy,
       descending,
-      hideUncraftable,
       showAmount,
       selectedFilter,
       sort,
-      toggleHideUncraftable,
     };
   },
   metaInfo() {
