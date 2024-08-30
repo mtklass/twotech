@@ -50,7 +50,7 @@ export default {
         if (VueSelectElem.value) VueSelectElem.value.search = "";
         if (Object.keys(route.params).length <= 0) {
           if (VueSelectElem.value) VueSelectElem.value.search = "";
-          if (VueSelectElem.value) VueSelectElem.value.mutableValue = "";
+          if (VueSelectElem.value) VueSelectElem.value.mutableValue = null;
           placeholderVal.value = "Search";
         } else {
           let newSelectedObject = GameObject.find(route?.params?.id.split('-')[0]);
