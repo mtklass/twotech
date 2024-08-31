@@ -181,6 +181,36 @@ const Natural: ObjectFilter = {
   }
 }
 
+const Floors: ObjectFilter = {
+  key: "floors",
+  name: "Floors",
+  path: "",
+  subfilters: {},
+  filter_single(object) {
+    return object.data.floor === 1;
+  }
+}
+
+const Walls: ObjectFilter = {
+  key: "walls",
+  name: "Walls",
+  path: "",
+  subfilters: {},
+  filter_single(object) {
+    return (object.data.wallLayer === 1 || object.data.floorHugging === 1);
+  }
+}
+
+const ThingsThatMove: ObjectFilter = {
+  key: "thingsThatMove",
+  name: "Things That Move",
+  path: "",
+  subfilters: {},
+  filter_single(object) {
+    return object.canMove();
+  }
+}
+
 function setup_filters_recursively(filter: ObjectFilter, gameObjects: GameObject[], path: string): ObjectFilter {
   filter.path = path + `/${filter.key}`;
   if (filter.filter_single) {
@@ -205,12 +235,15 @@ class ObjectFilters {
   filters: Record<string, ObjectFilter>;
   constructor() {
     this.filters = {
-      "clothing": Clothing,
-      "food": Food,
-      "tools": Tools,
-      "containers": Containers,
-      "heat": HeatSources,
-      "natural": Natural,
+      [Clothing.key]: Clothing,
+      [Food.key]: Food,
+      [Tools.key]: Tools,
+      [Containers.key]: Containers,
+      [HeatSources.key]: HeatSources,
+      [Natural.key]: Natural,
+      [Floors.key]: Floors,
+      [Walls.key]: Walls,
+      [ThingsThatMove.key]: ThingsThatMove,
     };
   }
 
