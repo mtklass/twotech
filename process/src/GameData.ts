@@ -232,25 +232,76 @@ class GameData {
     fs.writeFileSync(prettyPath, JSON.stringify(data, null, 2));
   }
 
+  clothingTypeString(clothingParameter: string): string {
+    if (clothingParameter == "h") {
+      return "Head";
+    } else if (clothingParameter == "t") {
+      return "Top";
+    } else if (clothingParameter == "b") {
+      return "Bottom";
+    } else if (clothingParameter == "s") {
+      return "Shoe";
+    } else if (clothingParameter == "p") {
+      return "Pack";
+    } else if (clothingParameter == "p0") {
+      return "Shield";
+    } else {
+      return "None";
+    }
+  };
+
   objectsJsonData(): ExportedObjectsData {
     var objects = _.sortBy(this.objects, (o: GameObject) => o.sortWeight()).filter((o: GameObject) => o.isVisible());
     // Traverse objects array only once, pushing to each array the part it needs.
     let objectsData = objects.reduce(
-      (acc: { ids: string[]; names: string[]; difficulties: string[]; numSlots: number[]; craftable: boolean[]; }, o: GameObject) => {
+      (acc: {
+        ids: string[],
+        names: string[],
+        difficulties: string[],
+        numSlots: number[],
+        slotSize: number[],
+        clothingType: string[],
+        craftable: boolean[],
+        biomes: string[][],
+        immediateFood: number[],
+        bonusFood: number[],
+        totalFood: number[],
+      }, o: GameObject) => {
         acc.ids.push(o.id);
         acc.names.push(o.name);
         acc.difficulties.push(o.difficulty());
         acc.numSlots.push(o.numSlots());
+        acc.slotSize.push(o.slotSize());
+        acc.clothingType.push(this.clothingTypeString(o.data.clothing));
         acc.craftable.push(o.craftable());
+        acc.biomes.push(o.biomes.map(b=>b.name()));
+        acc.immediateFood.push(o.data.foodValue?.[0]);
+        acc.bonusFood.push(o.data.foodValue?.[1]);
+        acc.totalFood.push(o.data.foodValue?.[0] + o.data.foodValue?.[1]);
         return acc;
       },
-      { ids: [], names: [], difficulties: [], numSlots: [], craftable: [] }
+      {
+        ids: [],
+        names: [],
+        difficulties: [],
+        numSlots: [],
+        slotSize: [],
+        clothingType: [],
+        craftable: [],
+        biomes: [],
+        immediateFood: [],
+        bonusFood: [],
+        totalFood: [],
+      }
     );
     return {
       ids: objectsData.ids,
       names: objectsData.names,
       difficulties: objectsData.difficulties,
       numSlots: objectsData.numSlots,
+      biomes: objectsData.biomes,
+      slotSize: objectsData.slotSize,
+      clothingType: objectsData.clothingType,
       craftable: objectsData.craftable,
       filters: this.filters.jsonData(),
       badges: this.badges.jsonData(objects),
@@ -259,6 +310,9 @@ class GameData {
       biomeIds: this.biomes.map(b => b.id),
       biomeNames: this.biomes.map(b => b.name()),
       foodEatBonus: parseInt(process.env.ONETECH_FOOD_BONUS || '0'),
+      immediateFood: objectsData.immediateFood,
+      bonusFood: objectsData.bonusFood,
+      totalFood: objectsData.totalFood,
     };
   }
 
@@ -338,7 +392,10 @@ interface ExportedObjectsData {
   names: string[],
   difficulties: string[],
   numSlots: number[],
+  slotSize: number[],
+  clothingType: string[],
   craftable: boolean[],
+  biomes: string[][],
   filters: ExportedObjectFilterData,
   badges: ExportedObjectBadgesData,
   date: Date,
@@ -346,6 +403,9 @@ interface ExportedObjectsData {
   biomeIds: string[],
   biomeNames: string[],
   foodEatBonus: number,
+  immediateFood: number[],
+  bonusFood: number[],
+  totalFood: number[],
 }
 
 export { GameData }

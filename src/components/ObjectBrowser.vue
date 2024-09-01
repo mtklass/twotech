@@ -23,6 +23,10 @@
       </div>
     </div>
 
+    <div class="filterSearch">
+      <FilterSearch />
+    </div>
+
     <div class="objectListWrapper">
       <div class="objectListHeader">
         <div class="objectListSorter">
@@ -58,12 +62,14 @@ import eventBus from '../eventBus';
 import GameObject from '../models/GameObject';
 import BrowserStorage from '../models/BrowserStorage';
 
+import FilterSearch from './FilterSearch';
 import ObjectFilter from './ObjectFilter';
 import ObjectView from './ObjectView';
 import BiomeList from './BiomeList';
 
 export default {
   components: {
+    FilterSearch,
     ObjectFilter,
     ObjectView,
     BiomeList,
