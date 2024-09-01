@@ -3,7 +3,19 @@ export default class GameObject {
     this.fetchObjects(data => {
       this.objectsMap = {};
       for (let i in data.ids) {
-        this.objectsMap[data.ids[i]] = new GameObject(data.ids[i], data.names[i], data.difficulties[i], data.numSlots[i], data.craftable[i]);
+        this.objectsMap[data.ids[i]] = new GameObject({
+          id: data.ids[i],
+          name: data.names[i],
+          difficulty: data.difficulties[i],
+          numSlots: data.numSlots[i],
+          slotSize: data.slotSize[i],
+          clothingType: data.clothingType[i],
+          craftable: data.craftable[i],
+          biomes: data.biomes[i],
+          immediateFood: data.immediateFood[i],
+          bonusFood: data.bonusFood[i],
+          totalFood: data.totalFood[i],
+        });
       }
       this.ids = data.ids;
       this.filters = data.filters;
@@ -20,6 +32,14 @@ export default class GameObject {
     fetch(`${global.staticPath}/objects.json`).
       then(data => data.json()).
       then(callback);
+  }
+
+  static allExtraObjectsData() {
+    return Object.values(this.objectsMap);
+  }
+
+  static allObjects() {
+    return Object.values(this.objectsMap).map(o=>o.loadData());
   }
 
   static sort(objects, sortBy) {
@@ -105,6 +125,10 @@ export default class GameObject {
     return filter;
   }
 
+  static filter(objects) {
+    
+  }
+
   static addLegacyObject(attributes) {
     if (this.legacyObjectsMap[attributes.id])
       return;
@@ -117,7 +141,19 @@ export default class GameObject {
     this.legacyObjectsMap[object.id] = object;
   }
 
-  constructor(id, name, difficulty, numSlots, craftable) {
+  constructor({
+    id,
+    name,
+    difficulty,
+    numSlots,
+    slotSize,
+    clothingType,
+    craftable,
+    biomes,
+    immediateFood,
+    bonusFood,
+    totalFood,
+  }) {
     this.id = id;
     this.name = name;
     if(this.name)
@@ -125,6 +161,12 @@ export default class GameObject {
     this.craftable = craftable;
     this.difficulty = difficulty;
     this.numSlots = numSlots;
+    this.slotSize = slotSize;
+    this.clothingType = clothingType;
+    this.biomes = biomes;
+    this.immediateFood = immediateFood;
+    this.bonusfood = bonusFood;
+    this.totalFood = totalFood;
     this.data = null;
   }
 

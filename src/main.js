@@ -4,6 +4,13 @@ import { createHead } from '@vueuse/head';
 import './css/tippy.css';
 // import 'tippy.js/themes/light.css'
 import VueTippy from 'vue-tippy';
+// Vuetify
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
+// Components
 import App from './App.vue';
 
 if (window.location.hostname.startsWith('edge')) {
@@ -15,6 +22,13 @@ if (window.location.hostname.startsWith('edge')) {
 
 // Create the Vue app instance
 const app = createApp(App);
+
+const vuetify = createVuetify({
+  components,
+  directives,
+});
+
+app.use(vuetify);
 
 // Configure Tippy plugin
 app.use(VueTippy, {

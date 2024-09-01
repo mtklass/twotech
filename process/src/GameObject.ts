@@ -351,6 +351,10 @@ class GameObject {
     return this.data.numSlots;
   }
 
+  slotSize(): number {
+    return this.data.slotSize;
+  }
+
   isTool(): boolean {
     for (var transition of this.transitionsAway) {
       if (transition.actor == this && transition.target && transition.tool) return true;
