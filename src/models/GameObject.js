@@ -125,7 +125,7 @@ export default class GameObject {
     return filter;
   }
 
-  static filter(objects) {
+  static filter(objects, filters) {
     
   }
 

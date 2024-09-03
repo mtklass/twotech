@@ -51,6 +51,7 @@ const routes = [
   { path: '/:id/tech-tree', component: () => import('./components/TechTree.vue') },
   { path: '/:id/recipe', component: () => import('./components/Recipe.vue') },
   { path: '/:id', component: () => import('./components/ObjectInspector.vue') },
+  { path: '/advanced-search', component: () => import('./components/FilterSearch.vue')},
   { path: '/:catchAll(.*)', redirect: '/not-found' }, // Catch-all route for 404
 ];
 
