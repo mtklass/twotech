@@ -125,10 +125,43 @@ export default class GameObject {
     return filter;
   }
 
-  static filter(objects, filters) {
-    
+  static async filter(filters) {
+    let objects = [];
+    const BATCH_SIZE = 25; // Adjust this number based on your testing
+  
+    const objectValues = Object.values(this.objectsMap);
+  
+    for (let i = 0; i < objectValues.length; i += BATCH_SIZE) {
+      // Create a batch of promises
+      const batch = objectValues.slice(i, i + BATCH_SIZE).map(async (o) => {
+        const object = await o.loadData();
+  
+        // Now decide based on filters whether to include this object or not
+        let includeObject = false;
+        for (let filter of filters) {
+          if (filter.name === "numSlots") {
+            if (object.numSlots >= filter.min && object.numSlots <= filter.max) {
+              includeObject = true;
+            }
+          } else if (filter.name === "slotSize") {
+            if (object.slotSize >= filter.min && object.slotSize <= filter.max) {
+              includeObject = true;
+            }
+          }
+        }
+  
+        if (includeObject) {
+          objects.push(o); // Add the object to the result if it matches the filters
+        }
+      });
+  
+      // Wait for the current batch to finish before continuing
+      await Promise.all(batch);
+    }
+  
+    return objects; // Return the filtered objects
   }
-
+  
   static addLegacyObject(attributes) {
     if (this.legacyObjectsMap[attributes.id])
       return;
