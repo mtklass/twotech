@@ -1,4 +1,13 @@
 <template>
+  <v-progress-linear
+    v-model="objectLoading"
+    height="25"
+    color="blue"
+  >
+    <template v-slot:default="{ value }">
+      <strong>Loading game object data... {{ Math.ceil(value) }}%</strong>
+    </template>
+  </v-progress-linear>
   <v-sheet class="mx-auto" theme="dark">
     <v-form @submit.prevent="submit">
       <v-container class="ga-0">
@@ -38,11 +47,12 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import GameObject from '../models/GameObject';
 
 export default {
   setup() {
+    let objectLoading = ref(0);
     let extraObjectData = GameObject.allExtraObjectsData();
 
     const numSlotsEnabled = ref(false);
@@ -111,7 +121,31 @@ export default {
       console.timeEnd("Filtering");
       filtered_items.value = results;
     };
+
+    onMounted(async () => {
+      // Initialize the progress bar
+      objectLoading.value = 0.0;
+
+      let objects = GameObject.allObjects();
+      const totalObjects = objects.length;
+      const BATCH_SIZE = 50; // Adjust this size based on testing and performance needs
+
+      let i = 0;
+      for (let batchStart = 0; batchStart < totalObjects; batchStart += BATCH_SIZE) {
+        // Create a batch of promises
+        const batch = objects.slice(batchStart, batchStart + BATCH_SIZE).map(object => object.loadData());
+
+        // Wait for the current batch to finish
+        await Promise.all(batch);
+
+        // Update the progress bar after each batch
+        i += BATCH_SIZE;
+        objectLoading.value = Math.min((i / totalObjects) * 100, 100);
+      }
+    });
+
     return {
+      objectLoading,
       setup_submit,
       filtered_items,
       numSlotsEnabled,

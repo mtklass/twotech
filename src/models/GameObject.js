@@ -39,7 +39,7 @@ export default class GameObject {
   }
 
   static allObjects() {
-    return Object.values(this.objectsMap).map(o=>o.loadData());
+    return Object.values(this.objectsMap);
   }
 
   static sort(objects, sortBy) {
