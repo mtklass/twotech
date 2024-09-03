@@ -35,8 +35,10 @@
             <v-text-field label="Max" :disabled="!slotSizeEnabled" v-model="slotSizeMax" density="compact"/>
           </v-col>
         </v-row>
-        <v-row>
-          <v-btn class="mt-2" type="submit" block>Search</v-btn>
+        <v-row justify="center">
+          <v-col cols="3">
+            <v-btn :disabled=loadingObjects class="search-submit mt-2" type="submit" color=#999 active-color=#bbb button-disabled-opacity="0.26" block>Filter</v-btn>
+          </v-col>
         </v-row>
         <v-row>
           <v-data-table width="100%" theme="dark" :items-per-page-options="[10,20,30,40,50]" :items="filtered_items"></v-data-table>
@@ -55,40 +57,30 @@ export default {
     let objectLoading = ref(0);
     let extraObjectData = GameObject.allExtraObjectsData();
 
+    const loadingObjects = ref(true);
+
     const numSlotsEnabled = ref(false);
-    const toggleSlotCountEnable = () => {numSlotsEnabled.value = !numSlotsEnabled.value};
     const numSlotsMin = ref(0);
     const numSlotsMax = ref(27);
 
     const slotSizeEnabled = ref(false);
-    const toggleSlotSizeEnable = () => {slotSizeEnabled.value = !slotSizeEnabled.value};
     const slotSizeMin = ref(0);
     const slotSizeMax = ref(3);
 
-    let _filtered_items = [];
-    for (let i = 0; i < extraObjectData.length; i++) {
-      // console.log("extraObjectData[i] = ", JSON.stringify(extraObjectData[i]));
-      let objectData = GameObject.find(extraObjectData[i].id)
-      _filtered_items.push({
-        "Name": objectData.name,
-        "Difficulty": extraObjectData[i].difficulty,
-        "Slots": extraObjectData[i].numSlots,
-        "Slot Size": objectData.slotSize,
-        "Clothing Type": extraObjectData[i].clothingType,
-        "Craftable": extraObjectData[i].craftable,
-        "Spawns In": extraObjectData[i].biomes,
-      })
+    const filtered_items = ref([]);
+    const displayed_data = (object) => {
+      const biome_names = ["Grasslands", "Swamps", "Yellow Prairies", "Badlands", "Tundra", "Desert", "Jungle", "Deep Water", "Flower Fields", "Shallow Water"];
+      return {
+          "Name": object.name,
+          "Difficulty": 0.21,
+          "Slots": object.numSlots,
+          "Slot Size": object.slotSize,
+          "Clothing Type": object.clothing || 'n',
+          "Craftable": object.craftable,
+          "Spawns In": object.biomes?.map(b=>biome_names[b.id]),
+        }
     }
-    const filtered_items = ref(_filtered_items);
     const setup_submit = async (event) => {
-      console.log("slotCountEnabled = " + numSlotsEnabled.value);
-      console.log("slotCountMin = " + numSlotsMin.value);
-      console.log("slotCountMax = " + numSlotsMax.value);
-      console.log("slotSizeEnabled = " + slotSizeEnabled.value);
-      console.log("slotSizeMin = " + slotSizeMin.value);
-      console.log("slotSizeMax = " + slotSizeMax.value);
-
-
       // console.log("event = ", JSON.stringify(event.target.elements));
       // We need to construct some filters to send to GameObject.js's filter() function
       let filters = [];
@@ -108,21 +100,16 @@ export default {
       }
       console.time("Filtering");
       const results = (await GameObject.filter(filters)).map(o => {
-        return {
-          "Name": o.name,
-          "Difficulty": 0.21,
-          "Slots": o.numSlots,
-          "Slot Size": o.slotSize,
-          "Clothing Type": o.clothing || 'n',
-          "Craftable": o.craftable,
-          "Spawns In": o.biomes,
-        }
+        return displayed_data(o);
       });
       console.timeEnd("Filtering");
       filtered_items.value = results;
     };
 
     onMounted(async () => {
+      // Make sure we start with no filtered items
+      filtered_items.value = [];
+
       // Initialize the progress bar
       objectLoading.value = 0.0;
 
@@ -136,24 +123,25 @@ export default {
         const batch = objects.slice(batchStart, batchStart + BATCH_SIZE).map(object => object.loadData());
 
         // Wait for the current batch to finish
-        await Promise.all(batch);
+        filtered_items.value = filtered_items.value.concat((await Promise.all(batch)).map(o => displayed_data(o)));
 
         // Update the progress bar after each batch
         i += BATCH_SIZE;
         objectLoading.value = Math.min((i / totalObjects) * 100, 100);
       }
+      // Now that we've finished loading the values, we let the rest of the page
+      loadingObjects.value = false;
     });
 
     return {
+      loadingObjects,
       objectLoading,
       setup_submit,
       filtered_items,
       numSlotsEnabled,
-      toggleSlotCountEnable,
       numSlotsMin,
       numSlotsMax,
       slotSizeEnabled,
-      toggleSlotSizeEnable,
       slotSizeMin,
       slotSizeMax,
       extraObjectData,
@@ -167,6 +155,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.search-submit {
+  color: #fff;
+  background-color: #999;
 
+  &:hover {
+    background-color: #bbb;
+  }
+
+  &[disabled] {
+    opacity: 0.26;
+    cursor: not-allowed;
+  }
+}
 </style>
