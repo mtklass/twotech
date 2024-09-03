@@ -28,7 +28,7 @@
         <a :href="unreleasedContentUrl()">See Unreleased Content</a>
       </div>
 
-      <ObjectSearch :hide-uncraftable="hideUncraftable"/>
+      <ObjectSearch v-if="!hideObjectSearch" :hide-uncraftable="hideUncraftable"/>
 
       <router-view
         :hide-uncraftable="hideUncraftable"
@@ -88,18 +88,16 @@ const toggleHideUncraftable = () => {
 };
 
 const latestVersion = computed(() => GameObject.versions[0]);
-
 const showWhatsNew = computed(() => {
   if (process.env.ONETECH_MOD_NAME) return false;
   if (router.currentRoute.value.path === '/versions') return false;
   return true;
 });
-
 const gameName = computed(() => process.env.ONETECH_MOD_NAME || 'Two Hours One Life');
-
 const gameUrl = computed(() => process.env.ONETECH_MOD_URL);
-
 const onEdge = computed(() => global.edge);
+// Hide the search bar in the advanced search -- it's likely to cause confusion.
+const hideObjectSearch = computed(() => router.currentRoute.value.path === "/advanced-search");
 
 onBeforeMount(() => {
   redirectOldHash();
