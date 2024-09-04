@@ -1,13 +1,4 @@
 <template>
-  <v-progress-linear
-    v-model="objectLoading"
-    height="25"
-    color="blue"
-  >
-    <template v-slot:default="{ value }">
-      <strong>Loading game object data... {{ Math.ceil(value) }}%</strong>
-    </template>
-  </v-progress-linear>
   <v-sheet class="mx-auto" theme="dark">
     <v-form @submit.prevent="submit">
       <v-container class="ga-0">
@@ -37,7 +28,7 @@
         </v-row>
         <v-row justify="center">
           <v-col cols="3">
-            <v-btn :disabled=loadingObjects class="search-submit mt-2" type="submit" color=#999 active-color=#bbb button-disabled-opacity="0.26" block>Filter</v-btn>
+            <v-btn class="search-submit mt-2" type="submit" color=#999 active-color=#bbb button-disabled-opacity="0.26" block>Filter</v-btn>
           </v-col>
         </v-row>
         <v-row>
@@ -84,12 +75,7 @@ export default {
     ObjectImage,
   },
   setup() {
-    let objectLoading = ref(0);
-
-    let fullObjectsData = ref([]);
     const extraObjectData = GameObject.allExtraObjectsData().map(obj_data => { return {...obj_data, url: GameObject.find(obj_data.id).url()} });
-
-    const loadingObjects = ref(true);
 
     const numSlotsEnabled = ref(false);
     const numSlotsMin = ref(0);
@@ -99,13 +85,11 @@ export default {
     const slotSizeMin = ref(0);
     const slotSizeMax = ref(3);
 
-    const filtered_items = ref([]);
-
     const displayed_data = (object) => {
       const biome_names = ["Grasslands", "Swamps", "Yellow Prairies", "Badlands", "Tundra", "Desert", "Jungle", "Deep Water", "Flower Fields", "Shallow Water"];
       return {
           "Object": object.name,
-          "Difficulty": 0.21,
+          "Difficulty": object.difficulty,
           "Slots": object.numSlots,
           "Slot Size": object.slotSize,
           "Clothing Type": object.clothing || 'n',
@@ -113,6 +97,9 @@ export default {
           "Spawns In": object.biomes?.map(b=>biome_names[b.id]),
         }
     }
+
+    const filtered_items = ref(GameObject.allObjects().map(o => displayed_data(o)));
+
     const setup_submit = async (event) => {
       // console.log("event = ", JSON.stringify(event.target.elements));
       // We need to construct some filters to send to GameObject.js's filter() function
@@ -139,45 +126,7 @@ export default {
       filtered_items.value = results;
     };
 
-    onMounted(async () => {
-      // Make sure we start with no filtered items
-      filtered_items.value = [];
-
-      // Initialize the progress bar
-      objectLoading.value = 0.0;
-
-      let objects = GameObject.allObjects();
-      const totalObjects = objects.length;
-      const BATCH_SIZE = 50; // Adjust this size based on testing and performance needs
-      fullObjectsData.value = [];
-
-      let i = 0;
-      for (let batchStart = 0; batchStart < totalObjects; batchStart += BATCH_SIZE) {
-        // Create a batch of promises
-        const batch = objects.slice(batchStart, batchStart + BATCH_SIZE).map(object => object.loadData());
-
-        // Get new object data for the batch
-        let new_objects_data = (await Promise.all(batch)).map(obj_data => { return {...obj_data, url: GameObject.find(obj_data.id).url()} });
-
-        // Add data to the list of full object data
-        fullObjectsData.value = fullObjectsData.value.concat(new_objects_data);
-
-        // Add to the filtered items data. This is the smaller subset being displayed
-        filtered_items.value = filtered_items.value.concat(new_objects_data.map(o => displayed_data(o)));
-
-        // Update the progress bar after each batch
-        i += BATCH_SIZE;
-        objectLoading.value = Math.min((i / totalObjects) * 100, 100);
-      }
-
-      // Now that we've finished loading the values, we let the rest of the page
-      loadingObjects.value = false;
-    });
-
     return {
-      fullObjectsData,
-      loadingObjects,
-      objectLoading,
       setup_submit,
       filtered_items,
       numSlotsEnabled,

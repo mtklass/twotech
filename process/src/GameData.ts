@@ -250,26 +250,14 @@ class GameData {
     }
   };
 
-  objectsJsonData(): ExportedObjectsData {
+  objectsJsonData(): ExportedFullObjectData {
     var objects = _.sortBy(this.objects, (o: GameObject) => o.sortWeight()).filter((o: GameObject) => o.isVisible());
     // Traverse objects array only once, pushing to each array the part it needs.
-    let objectsData = objects.reduce(
-      (acc: {
-        ids: string[],
-        names: string[],
-        difficulties: string[],
-        numSlots: number[],
-        slotSize: number[],
-        clothingType: string[],
-        craftable: boolean[],
-        biomes: string[][],
-        immediateFood: number[],
-        bonusFood: number[],
-        totalFood: number[],
-      }, o: GameObject) => {
+    let objectsData: ExportedFullObjectData = objects.reduce(
+      (acc: ExportedFullObjectData, o: GameObject) => {
         acc.ids.push(o.id);
         acc.names.push(o.name);
-        acc.difficulties.push(o.difficulty());
+        acc.difficulty.push(o.difficulty());
         acc.numSlots.push(o.numSlots());
         acc.slotSize.push(o.slotSize());
         acc.clothingType.push(this.clothingTypeString(o.data.clothing));
@@ -278,12 +266,21 @@ class GameData {
         acc.immediateFood.push(o.data.foodValue?.[0]);
         acc.bonusFood.push(o.data.foodValue?.[1]);
         acc.totalFood.push(o.data.foodValue?.[0] + o.data.foodValue?.[1]);
+        acc.numUses.push(o.data.numUses);
+        acc.useChance.push(o.data.useChance);
+        acc.insulation.push(o.insulation());
+        acc.deadlyDistance.push(o.data.deadlyDistance);
+        acc.useDistance.push(o.data.useDistance);
+        acc.size.push(o.data.containSize);
+        acc.minPickupAge.push(o.data.minPickupAge);
+        acc.speedMult.push(o.data.speedMult);
+        acc.moveType.push(o.transitionsAway.find(t=>t.move>0)?.move);
         return acc;
       },
       {
         ids: [],
         names: [],
-        difficulties: [],
+        difficulty: [],
         numSlots: [],
         slotSize: [],
         clothingType: [],
@@ -292,17 +289,18 @@ class GameData {
         immediateFood: [],
         bonusFood: [],
         totalFood: [],
+        numUses: [],
+        useChance: [],
+        insulation: [],
+        deadlyDistance: [],
+        useDistance: [],
+        size: [],
+        minPickupAge: [],
+        speedMult: [],
+        moveType: [],
       }
     );
     return {
-      ids: objectsData.ids,
-      names: objectsData.names,
-      difficulties: objectsData.difficulties,
-      numSlots: objectsData.numSlots,
-      biomes: objectsData.biomes,
-      slotSize: objectsData.slotSize,
-      clothingType: objectsData.clothingType,
-      craftable: objectsData.craftable,
       filters: this.filters.jsonData(),
       badges: this.badges.jsonData(objects),
       date: new Date(),
@@ -310,9 +308,27 @@ class GameData {
       biomeIds: this.biomes.map(b => b.id),
       biomeNames: this.biomes.map(b => b.name()),
       foodEatBonus: parseInt(process.env.ONETECH_FOOD_BONUS || '0'),
+      // Object-specific data
+      ids: objectsData.ids,
+      names: objectsData.names,
+      difficulty: objectsData.difficulty,
+      numSlots: objectsData.numSlots,
+      biomes: objectsData.biomes,
+      slotSize: objectsData.slotSize,
+      clothingType: objectsData.clothingType,
+      craftable: objectsData.craftable,
       immediateFood: objectsData.immediateFood,
       bonusFood: objectsData.bonusFood,
       totalFood: objectsData.totalFood,
+      numUses: objectsData.numUses,
+      useChance: objectsData.useChance,
+      insulation: objectsData.insulation,
+      deadlyDistance: objectsData.deadlyDistance,
+      useDistance: objectsData.useDistance,
+      size: objectsData.size,
+      minPickupAge: objectsData.minPickupAge,
+      speedMult: objectsData.speedMult,
+      moveType: objectsData.moveType,
     };
   }
 
@@ -387,10 +403,10 @@ class GameData {
   }
 }
 
-interface ExportedObjectsData {
+interface ExportedFullObjectData {
   ids: string[],
   names: string[],
-  difficulties: string[],
+  difficulty: string[],
   numSlots: number[],
   slotSize: number[],
   clothingType: string[],
@@ -406,6 +422,15 @@ interface ExportedObjectsData {
   immediateFood: number[],
   bonusFood: number[],
   totalFood: number[],
+  numUses: number[],
+  useChance: number[],
+  insulation: number[],
+  deadlyDistance: number[],
+  useDistance: number[],
+  size: number[],
+  minPickupAge: number[],
+  speedMult: number[],
+  moveType: number[],
 }
 
 export { GameData }
