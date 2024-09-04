@@ -41,7 +41,22 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-data-table width="100%" theme="dark" :items-per-page-options="[10,20,30,40,50]" :items="filtered_items"></v-data-table>
+          <v-data-table
+            theme="dark"
+            :items-per-page-options="[10,20,30,40,50]"
+            :items="filtered_items">
+            <template v-slot:item="{ item }">
+              <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.difficulty }}</td>
+                <td>{{ item.slots }}</td>
+                <td>{{ item.slotSize }}</td>
+                <td>{{ item.clothingType }}</td>
+                <td>{{ item.craftable }}</td>
+                <td>{{ item.spawnsIn }}</td>
+              </tr>
+            </template>
+          </v-data-table>
         </v-row>
       </v-container>
     </v-form>
@@ -68,16 +83,28 @@ export default {
     const slotSizeMax = ref(3);
 
     const filtered_items = ref([]);
+    const headers = {
+      "name": { text: "Name", value: "name" },
+      "difficulty": { text: "Difficulty", value: "difficulty" },
+      "slots": { text: "Slots", value: "slots" },
+      "slotSize": { text: "Slot Size", value: "slotSize" },
+      "clothingType": { text: "Clothing Type", value: "clothingType" },
+      "craftable": { text: "Craftable", value: "craftable" },
+      "spawnsIn": { text: "Spawns In", value: "spawnsIn" },
+    };
+  
+    let headerArray = Object.values(headers).map(h=>h.text);
+
     const displayed_data = (object) => {
       const biome_names = ["Grasslands", "Swamps", "Yellow Prairies", "Badlands", "Tundra", "Desert", "Jungle", "Deep Water", "Flower Fields", "Shallow Water"];
       return {
-          "Name": object.name,
-          "Difficulty": 0.21,
-          "Slots": object.numSlots,
-          "Slot Size": object.slotSize,
-          "Clothing Type": object.clothing || 'n',
-          "Craftable": object.craftable,
-          "Spawns In": object.biomes?.map(b=>biome_names[b.id]),
+          [headers["name"].value]: object.name,
+          [headers["difficulty"].value]: 0.21,
+          [headers["slots"].value]: object.numSlots,
+          [headers["slotSize"].value]: object.slotSize,
+          [headers["clothingType"].value]: object.clothing || 'n',
+          [headers["craftable"].value]: object.craftable,
+          [headers["spawnsIn"].value]: object.biomes?.map(b=>biome_names[b.id]),
         }
     }
     const setup_submit = async (event) => {
@@ -134,6 +161,8 @@ export default {
     });
 
     return {
+      headers,
+      headerArray,
       loadingObjects,
       objectLoading,
       setup_submit,
