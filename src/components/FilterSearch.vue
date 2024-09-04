@@ -47,7 +47,13 @@
             :items="filtered_items">
             <template v-slot:item="{ item }">
               <tr>
-                <td>{{ item.name }}</td>
+                <!-- <td>{{ full_objects_data.find(o => o.name === item.name).name }}</td> -->
+                <td class="text-center">
+                  <div class="image-container">
+                    <ObjectImage :object="full_objects_data.find(o => o.name === item.name)" />
+                  </div>
+                  <div>{{ item.name }}</div>
+                </td>
                 <td>{{ item.difficulty }}</td>
                 <td>{{ item.slots }}</td>
                 <td>{{ item.slotSize }}</td>
@@ -66,10 +72,16 @@
 <script>
 import { ref, onMounted } from "vue";
 import GameObject from '../models/GameObject';
+import ObjectImage from "./ObjectImage";
 
 export default {
+  components: {
+    ObjectImage,
+  },
   setup() {
     let objectLoading = ref(0);
+
+    let full_objects_data = ref([]);
     let extraObjectData = GameObject.allExtraObjectsData();
 
     const loadingObjects = ref(true);
@@ -143,24 +155,33 @@ export default {
       let objects = GameObject.allObjects();
       const totalObjects = objects.length;
       const BATCH_SIZE = 50; // Adjust this size based on testing and performance needs
+      full_objects_data.value = [];
 
       let i = 0;
       for (let batchStart = 0; batchStart < totalObjects; batchStart += BATCH_SIZE) {
         // Create a batch of promises
         const batch = objects.slice(batchStart, batchStart + BATCH_SIZE).map(object => object.loadData());
 
-        // Wait for the current batch to finish
-        filtered_items.value = filtered_items.value.concat((await Promise.all(batch)).map(o => displayed_data(o)));
+        // Get new object data for the batch
+        let new_objects_data = await Promise.all(batch);
+
+        // Add data to the list of full object data
+        full_objects_data.value = full_objects_data.value.concat(new_objects_data);
+
+        // Add to the filtered items data. This is the smaller subset being displayed
+        filtered_items.value = filtered_items.value.concat(new_objects_data.map(o => displayed_data(o)));
 
         // Update the progress bar after each batch
         i += BATCH_SIZE;
         objectLoading.value = Math.min((i / totalObjects) * 100, 100);
       }
+
       // Now that we've finished loading the values, we let the rest of the page
       loadingObjects.value = false;
     });
 
     return {
+      full_objects_data,
       headers,
       headerArray,
       loadingObjects,
@@ -197,5 +218,15 @@ export default {
     opacity: 0.26;
     cursor: not-allowed;
   }
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.text-center {
+  text-align: center;
 }
 </style>
