@@ -59,7 +59,7 @@
                 <td>{{ item.slotSize }}</td>
                 <td>{{ item.clothingType }}</td>
                 <td>{{ item.craftable }}</td>
-                <td>{{ item.spawnsIn }}</td>
+                <td>{{ item.spawnsIn?.join(', ') }}</td>
               </tr>
             </template>
           </v-data-table>
