@@ -8,7 +8,7 @@ export default class GameObject {
         this.objectsMap[data.ids[i]] = new GameObject({
           id: data.ids[i],
           name: data.names[i],
-          difficulty: data.difficulties[i],
+          difficulty: data.difficulty[i],
           numSlots: data.numSlots[i],
           slotSize: data.slotSize[i],
           clothingType: data.clothingType[i],
@@ -17,6 +17,15 @@ export default class GameObject {
           immediateFood: data.immediateFood[i],
           bonusFood: data.bonusFood[i],
           totalFood: data.totalFood[i],
+          numUses: data.numUses[i],
+          useChance: data.useChance[i],
+          insulation: data.insulation[i],
+          deadlyDistance: data.deadlyDistance[i],
+          useDistance: data.useDistance[i],
+          size: data.size[i],
+          minPickupAge: data.minPickupAge[i],
+          speedMult: data.speedMult[i],
+          moveType: data.moveType[i],
         });
       }
       this.ids = data.ids;
@@ -155,7 +164,7 @@ export default class GameObject {
         }
   
         if (includeObject) {
-          objects.push(o); // Add the object to the result if it matches the filters
+          objects.push(object); // Add the object to the result if it matches the filters
         }
       });
   

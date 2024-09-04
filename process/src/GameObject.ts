@@ -472,6 +472,7 @@ class GameObject {
       transitionsToward: transitionsToward.map(t => t.jsonData()),
       transitionsAway: transitionsAway.map(t => t.jsonData()),
       transitionsTimed: transitionsTimed.map(t => t.jsonData()),
+      difficulty: this.difficulty(),
     };
 
     if (this.version) {
@@ -571,11 +572,11 @@ class GameObject {
 }
 
 interface ExportedGameObjectData {
-  id?: string,
-  name?: string,
-  transitionsToward?: ExportedTransitionData[],
-  transitionsAway?: ExportedTransitionData[],
-  transitionsTimed?: ExportedTransitionData[],
+  id?: string;
+  name?: string;
+  transitionsToward?: ExportedTransitionData[];
+  transitionsAway?: ExportedTransitionData[];
+  transitionsTimed?: ExportedTransitionData[];
   version?: string;
   foodValue?: number[];
   heatValue?: number;
@@ -600,6 +601,7 @@ interface ExportedGameObjectData {
   moveDistance?: number;
   techTree?: TechTreeNode[];
   recipe?: ExportedRecipeJson;
+  difficulty: string;
 }
 
 interface TechTreeNode {
