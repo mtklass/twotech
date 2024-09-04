@@ -49,22 +49,22 @@
               <tr>
                 <td class="text-center">
                   <v-list>
-                    <v-list-item class="nostyle" :to="full_objects_data.find(o => o.name === item.object).url">
+                    <v-list-item class="nostyle" :to="extraObjectData.find(o => o.name === item['Object']).url">
                       <div class="image-container">
                         <ObjectImage
-                          :object="full_objects_data.find(o => o.name === item.object)"
+                          :object="extraObjectData.find(o => o.name === item['Object'])"
                         />
                       </div>
-                      <div>{{ item.object }}</div>
+                      <div>{{ item['Object'] }}</div>
                     </v-list-item>
                   </v-list>
                 </td>
-                <td>{{ item.difficulty }}</td>
-                <td>{{ item.slots }}</td>
-                <td>{{ item.slotSize }}</td>
-                <td>{{ item.clothingType }}</td>
-                <td>{{ item.craftable }}</td>
-                <td>{{ item.spawnsIn?.join(', ') }}</td>
+                <td>{{ item['Difficulty'] }}</td>
+                <td>{{ item['Slots'] }}</td>
+                <td>{{ item['Slot Size'] }}</td>
+                <td>{{ item['Clothing Type'] }}</td>
+                <td>{{ item['Craftable'] }}</td>
+                <td>{{ item['Spawns In']?.join(', ') }}</td>
               </tr>
             </template>
           </v-data-table>
@@ -86,8 +86,8 @@ export default {
   setup() {
     let objectLoading = ref(0);
 
-    let full_objects_data = ref([]);
-    let extraObjectData = GameObject.allExtraObjectsData();
+    let fullObjectsData = ref([]);
+    const extraObjectData = GameObject.allExtraObjectsData().map(obj_data => { return {...obj_data, url: GameObject.find(obj_data.id).url()} });
 
     const loadingObjects = ref(true);
 
@@ -104,13 +104,13 @@ export default {
     const displayed_data = (object) => {
       const biome_names = ["Grasslands", "Swamps", "Yellow Prairies", "Badlands", "Tundra", "Desert", "Jungle", "Deep Water", "Flower Fields", "Shallow Water"];
       return {
-          "object": object.name,
-          "difficulty": 0.21,
-          "slots": object.numSlots,
-          "slotSize": object.slotSize,
-          "clothingType": object.clothing || 'n',
-          "craftable": object.craftable,
-          "spawnsIn": object.biomes?.map(b=>biome_names[b.id]),
+          "Object": object.name,
+          "Difficulty": 0.21,
+          "Slots": object.numSlots,
+          "Slot Size": object.slotSize,
+          "Clothing Type": object.clothing || 'n',
+          "Craftable": object.craftable,
+          "Spawns In": object.biomes?.map(b=>biome_names[b.id]),
         }
     }
     const setup_submit = async (event) => {
@@ -149,7 +149,7 @@ export default {
       let objects = GameObject.allObjects();
       const totalObjects = objects.length;
       const BATCH_SIZE = 50; // Adjust this size based on testing and performance needs
-      full_objects_data.value = [];
+      fullObjectsData.value = [];
 
       let i = 0;
       for (let batchStart = 0; batchStart < totalObjects; batchStart += BATCH_SIZE) {
@@ -160,7 +160,7 @@ export default {
         let new_objects_data = (await Promise.all(batch)).map(obj_data => { return {...obj_data, url: GameObject.find(obj_data.id).url()} });
 
         // Add data to the list of full object data
-        full_objects_data.value = full_objects_data.value.concat(new_objects_data);
+        fullObjectsData.value = fullObjectsData.value.concat(new_objects_data);
 
         // Add to the filtered items data. This is the smaller subset being displayed
         filtered_items.value = filtered_items.value.concat(new_objects_data.map(o => displayed_data(o)));
@@ -175,7 +175,7 @@ export default {
     });
 
     return {
-      full_objects_data,
+      fullObjectsData,
       loadingObjects,
       objectLoading,
       setup_submit,

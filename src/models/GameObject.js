@@ -1,6 +1,8 @@
 export default class GameObject {
   static load(callback) {
     this.fetchObjects(data => {
+      // objectsMap is an Object whose keys are object id numbers, and values are GameObjects, as defined in this file.
+      // The data must be available in objects.json outputted from the processing scripts (see ExportedObjectsData in GameData.ts)
       this.objectsMap = {};
       for (let i in data.ids) {
         this.objectsMap[data.ids[i]] = new GameObject({
@@ -133,8 +135,8 @@ export default class GameObject {
   
     for (let i = 0; i < objectValues.length; i += BATCH_SIZE) {
       // Create a batch of promises
-      const batch = objectValues.slice(i, i + BATCH_SIZE).map(async (o) => {
-        const object = await o.loadData();
+      const batch = objectValues.slice(i, i + BATCH_SIZE).map(async (object) => {
+        // const object = await o.loadData();
   
         // Now decide based on filters whether to include this object or not
         let includeObject = true;
