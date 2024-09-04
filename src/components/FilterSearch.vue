@@ -47,12 +47,17 @@
             :items="filtered_items">
             <template v-slot:item="{ item }">
               <tr>
-                <!-- <td>{{ full_objects_data.find(o => o.name === item.name).name }}</td> -->
                 <td class="text-center">
-                  <div class="image-container">
-                    <ObjectImage :object="full_objects_data.find(o => o.name === item.name)" />
-                  </div>
-                  <div>{{ item.name }}</div>
+                  <v-list>
+                    <v-list-item class="nostyle" :to="full_objects_data.find(o => o.name === item.object).url">
+                      <div class="image-container">
+                        <ObjectImage
+                          :object="full_objects_data.find(o => o.name === item.object)"
+                        />
+                      </div>
+                      <div>{{ item.object }}</div>
+                    </v-list-item>
+                  </v-list>
                 </td>
                 <td>{{ item.difficulty }}</td>
                 <td>{{ item.slots }}</td>
@@ -95,28 +100,17 @@ export default {
     const slotSizeMax = ref(3);
 
     const filtered_items = ref([]);
-    const headers = {
-      "name": { text: "Name", value: "name" },
-      "difficulty": { text: "Difficulty", value: "difficulty" },
-      "slots": { text: "Slots", value: "slots" },
-      "slotSize": { text: "Slot Size", value: "slotSize" },
-      "clothingType": { text: "Clothing Type", value: "clothingType" },
-      "craftable": { text: "Craftable", value: "craftable" },
-      "spawnsIn": { text: "Spawns In", value: "spawnsIn" },
-    };
-  
-    let headerArray = Object.values(headers).map(h=>h.text);
 
     const displayed_data = (object) => {
       const biome_names = ["Grasslands", "Swamps", "Yellow Prairies", "Badlands", "Tundra", "Desert", "Jungle", "Deep Water", "Flower Fields", "Shallow Water"];
       return {
-          [headers["name"].value]: object.name,
-          [headers["difficulty"].value]: 0.21,
-          [headers["slots"].value]: object.numSlots,
-          [headers["slotSize"].value]: object.slotSize,
-          [headers["clothingType"].value]: object.clothing || 'n',
-          [headers["craftable"].value]: object.craftable,
-          [headers["spawnsIn"].value]: object.biomes?.map(b=>biome_names[b.id]),
+          "object": object.name,
+          "difficulty": 0.21,
+          "slots": object.numSlots,
+          "slotSize": object.slotSize,
+          "clothingType": object.clothing || 'n',
+          "craftable": object.craftable,
+          "spawnsIn": object.biomes?.map(b=>biome_names[b.id]),
         }
     }
     const setup_submit = async (event) => {
@@ -163,7 +157,7 @@ export default {
         const batch = objects.slice(batchStart, batchStart + BATCH_SIZE).map(object => object.loadData());
 
         // Get new object data for the batch
-        let new_objects_data = await Promise.all(batch);
+        let new_objects_data = (await Promise.all(batch)).map(obj_data => { return {...obj_data, url: GameObject.find(obj_data.id).url()} });
 
         // Add data to the list of full object data
         full_objects_data.value = full_objects_data.value.concat(new_objects_data);
@@ -182,8 +176,6 @@ export default {
 
     return {
       full_objects_data,
-      headers,
-      headerArray,
       loadingObjects,
       objectLoading,
       setup_submit,
