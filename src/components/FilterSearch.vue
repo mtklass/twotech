@@ -80,6 +80,8 @@
 import { ref, watch } from "vue";
 import GameObject from '../models/GameObject';
 import ObjectImage from "./ObjectImage";
+import BrowserStorage from '../models/BrowserStorage';
+
 
 export default {
   components: {
@@ -115,11 +117,10 @@ export default {
         }
     }
 
-    const filtered_items = ref(GameObject.allObjects().map(o => displayed_data(o)));
+    const filtered_items = ref(GameObject.allObjects().filter(o => localHideUncraftable.value ? o.craftable : true).map(o => displayed_data(o)));
 
     const updateHideUncraftable = () => {
-      setupSubmit();
-      emit('update:hideUncraftable', localHideUncraftable.value); // Emit the updated value
+      props.toggleHideUncraftable();
     };
 
     const submitIfAuto = (event) => {
@@ -162,6 +163,7 @@ export default {
 
     watch(() => props.hideUncraftable, (newVal) => {
       localHideUncraftable.value = newVal; // Watch the parent value and update locally
+      setupSubmit();
     });
 
     return {

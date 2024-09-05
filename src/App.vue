@@ -37,6 +37,7 @@
       <router-view
         v-model:hideUncraftable="hideUncraftable"
         :toggle-hide-uncraftable="toggleHideUncraftable"
+        @update-hide-uncraftabe="toggleHideUncraftable"
       />
     </div>
   </div>
