@@ -26,12 +26,18 @@
             <v-text-field label="Max" :disabled="!slotSizeEnabled" v-model="slotSizeMax" density="compact" @keyup="submitIfAuto()"/>
           </v-col>
         </v-row>
+        <!-- Insta-filter and Filter controls -->
         <v-row justify="center">
-          <v-col cols="2">
+          <v-col cols="4" class="d-flex justify-end">
             <v-switch color="primary" label="Insta-filter" v-model="instaFilter"></v-switch>
           </v-col>
           <v-col cols="3">
             <v-btn :disabled="instaFilter" class="search-submit mt-2" type="submit" color=#blue active-color=#bbb button-disabled-opacity="0.26" block>Filter</v-btn>
+          </v-col>
+          <v-col cols="5">
+            <div class="objectCraftableSelection">
+              <v-switch color="primary" label="Only craftable" v-model="localHideUncraftable" @change="updateHideUncraftable" />
+            </div>
           </v-col>
         </v-row>
         <v-row>
@@ -71,7 +77,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, watch } from "vue";
 import GameObject from '../models/GameObject';
 import ObjectImage from "./ObjectImage";
 
@@ -79,8 +85,16 @@ export default {
   components: {
     ObjectImage,
   },
-  setup() {
+  props: {
+    hideUncraftable: Boolean,
+    toggleHideUncraftable: Function,
+  },
+  setup(props, { emit }) {
     const instaFilter = ref(true);
+    const localHideUncraftable = ref(props.hideUncraftable); // Local reference to hideUncraftable
+    const updateHideUncraftable = () => {
+      emit('update:hideUncraftable', localHideUncraftable.value); // Emit the updated value
+    };
     const extraObjectData = GameObject.allExtraObjectsData().map(obj_data => { return {...obj_data, url: GameObject.find(obj_data.id).url()} });
 
     const numSlotsEnabled = ref(false);
@@ -138,6 +152,10 @@ export default {
       filtered_items.value = results;
     };
 
+    watch(() => props.hideUncraftable, (newVal) => {
+      localHideUncraftable.value = newVal; // Watch the parent value and update locally
+    });
+
     return {
       instaFilter,
       setupSubmit,
@@ -150,6 +168,8 @@ export default {
       slotSizeMin,
       slotSizeMax,
       extraObjectData,
+      localHideUncraftable,
+      updateHideUncraftable,
     }
   },
   methods: {
