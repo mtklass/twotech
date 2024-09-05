@@ -23,10 +23,6 @@
       </div>
     </div>
 
-    <div class="filterSearch">
-      <FilterSearch />
-    </div>
-
     <div class="objectListWrapper">
       <div class="objectListHeader">
         <div class="objectListSorter">

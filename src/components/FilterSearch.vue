@@ -5,30 +5,33 @@
         <v-row class="mt-n6 mb-n14">
           <!-- Slot count filter -->
           <v-col>
-            <v-switch v-model="numSlotsEnabled" label="Slots"></v-switch>
+            <v-switch color="primary" v-model="numSlotsEnabled" label="Slots"></v-switch>
           </v-col>
           <v-col>
-            <v-text-field label="Min" :disabled="!numSlotsEnabled" v-model="numSlotsMin" density="compact" />
+            <v-text-field label="Min" :disabled="!numSlotsEnabled" v-model="numSlotsMin" density="compact" @keyup="submitIfAuto()"/>
           </v-col>
           <v-col>
-            <v-text-field label="Max" :disabled="!numSlotsEnabled" v-model="numSlotsMax" density="compact"/>
+            <v-text-field label="Max" :disabled="!numSlotsEnabled" v-model="numSlotsMax" density="compact" @keyup="submitIfAuto()"/>
           </v-col>
         </v-row>
         <!-- Slot size filter -->
         <v-row class="mt-n14 mb-n14">
           <v-col>
-            <v-switch v-model="slotSizeEnabled" label="Slot size"></v-switch>
+            <v-switch color="primary" v-model="slotSizeEnabled" label="Slot size"></v-switch>
           </v-col>
           <v-col>
-            <v-text-field label="Min" :disabled="!slotSizeEnabled" v-model="slotSizeMin" density="compact"/>
+            <v-text-field label="Min" :disabled="!slotSizeEnabled" v-model="slotSizeMin" density="compact" @keyup="submitIfAuto()"/>
           </v-col>
           <v-col>
-            <v-text-field label="Max" :disabled="!slotSizeEnabled" v-model="slotSizeMax" density="compact"/>
+            <v-text-field label="Max" :disabled="!slotSizeEnabled" v-model="slotSizeMax" density="compact" @keyup="submitIfAuto()"/>
           </v-col>
         </v-row>
         <v-row justify="center">
+          <v-col cols="2">
+            <v-switch color="primary" label="Insta-filter" v-model="instaFilter"></v-switch>
+          </v-col>
           <v-col cols="3">
-            <v-btn class="search-submit mt-2" type="submit" color=#999 active-color=#bbb button-disabled-opacity="0.26" block>Filter</v-btn>
+            <v-btn :disabled="instaFilter" class="search-submit mt-2" type="submit" color=#blue active-color=#bbb button-disabled-opacity="0.26" block>Filter</v-btn>
           </v-col>
         </v-row>
         <v-row>
@@ -40,6 +43,8 @@
               <tr>
                 <td class="text-center">
                   <v-list>
+                    <!-- Note: This link has an issue, in that it doesn't change the URL in the browser.
+                               This seems to cause issues on mobile -->
                     <v-list-item class="nostyle" :to="extraObjectData.find(o => o.name === item['Object']).url">
                       <div class="image-container">
                         <ObjectImage
@@ -75,6 +80,7 @@ export default {
     ObjectImage,
   },
   setup() {
+    const instaFilter = ref(true);
     const extraObjectData = GameObject.allExtraObjectsData().map(obj_data => { return {...obj_data, url: GameObject.find(obj_data.id).url()} });
 
     const numSlotsEnabled = ref(false);
@@ -100,7 +106,13 @@ export default {
 
     const filtered_items = ref(GameObject.allObjects().map(o => displayed_data(o)));
 
-    const setup_submit = async (event) => {
+    const submitIfAuto = (event) => {
+      if (instaFilter.value) {
+        setupSubmit(event);
+      }
+    }
+
+    const setupSubmit = (event) => {
       // console.log("event = ", JSON.stringify(event.target.elements));
       // We need to construct some filters to send to GameObject.js's filter() function
       let filters = [];
@@ -119,7 +131,7 @@ export default {
         });
       }
       console.time("Filtering");
-      const results = (await GameObject.filter(filters)).map(o => {
+      const results = GameObject.filter(filters).map(o => {
         return displayed_data(o);
       });
       console.timeEnd("Filtering");
@@ -127,7 +139,9 @@ export default {
     };
 
     return {
-      setup_submit,
+      instaFilter,
+      setupSubmit,
+      submitIfAuto,
       filtered_items,
       numSlotsEnabled,
       numSlotsMin,
@@ -140,7 +154,7 @@ export default {
   },
   methods: {
     async submit(event) {
-      this.setup_submit(event);
+      this.setupSubmit(event);
     },
   }
 }
