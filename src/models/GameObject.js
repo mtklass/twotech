@@ -307,7 +307,7 @@ export default class GameObject {
     return this.sizeText(this.data.slotSize).toLowerCase();
   }
 
-  size() {
+  sizeString() {
     return this.sizeText(this.data.size);
   }
 
