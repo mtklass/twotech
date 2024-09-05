@@ -239,7 +239,7 @@ export default {
         if (!object.value?.data?.minPickupAge) return;
         return "Cannot be placed in container";
       }
-      return `Item size: ${object.value.size()}`;
+      return `Item size: ${object.value.sizeString()}`;
     });
 
     const containerText = computed(() => {
