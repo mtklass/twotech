@@ -92,9 +92,6 @@ export default {
   setup(props, { emit }) {
     const instaFilter = ref(true);
     const localHideUncraftable = ref(props.hideUncraftable); // Local reference to hideUncraftable
-    const updateHideUncraftable = () => {
-      emit('update:hideUncraftable', localHideUncraftable.value); // Emit the updated value
-    };
     const extraObjectData = GameObject.allExtraObjectsData().map(obj_data => { return {...obj_data, url: GameObject.find(obj_data.id).url()} });
 
     const numSlotsEnabled = ref(false);
@@ -120,16 +117,27 @@ export default {
 
     const filtered_items = ref(GameObject.allObjects().map(o => displayed_data(o)));
 
+    const updateHideUncraftable = () => {
+      setupSubmit();
+      emit('update:hideUncraftable', localHideUncraftable.value); // Emit the updated value
+    };
+
     const submitIfAuto = (event) => {
       if (instaFilter.value) {
         setupSubmit(event);
       }
     }
 
-    const setupSubmit = (event) => {
+    const setupSubmit = (_event) => {
       // console.log("event = ", JSON.stringify(event.target.elements));
       // We need to construct some filters to send to GameObject.js's filter() function
       let filters = [];
+      if (localHideUncraftable.value) {
+        filters.push({
+          name: "hideUncraftable",
+          toggled: true,
+        })
+      }
       if (numSlotsEnabled.value) {
         filters.push({
           name: "numSlots",

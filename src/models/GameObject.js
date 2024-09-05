@@ -149,23 +149,22 @@ export default class GameObject {
         let includeObject = true;
 
         for (let filter of filters) {
-            if (filter.name === "numSlots") {
-                // Handle null/undefined values for numSlots
-                if (object.numSlots === null || object.numSlots === undefined) {
-                    object.numSlots = 0;
-                }
-                if (object.numSlots < filter.min || object.numSlots > filter.max) {
-                    includeObject = false;
-                }
-            } else if (filter.name === "slotSize") {
-                // Handle null/undefined values for slotSize
-                if (object.slotSize === null || object.slotSize === undefined) {
-                    object.slotSize = 0;
-                }
-                if (object.slotSize < filter.min || object.slotSize > filter.max) {
-                    includeObject = false;
-                }
-            }
+          if (filter.name === "hideUncraftable") {
+            if (!object.craftable)
+              includeObject = false;
+          } else if (filter.name === "numSlots") {
+            // Handle null/undefined values for numSlots
+            if (object.numSlots === null || object.numSlots === undefined)
+              object.numSlots = 0;
+            if (object.numSlots < filter.min || object.numSlots > filter.max)
+              includeObject = false;
+          } else if (filter.name === "slotSize") {
+            // Handle null/undefined values for slotSize
+            if (object.slotSize === null || object.slotSize === undefined)
+              object.slotSize = 0;
+            if (object.slotSize < filter.min || object.slotSize > filter.max)
+              includeObject = false;
+          }
         }
 
         // Add the object to the result if it matches the filters
