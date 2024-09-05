@@ -74,14 +74,26 @@
 
         <!-- Column selection controls -->
         <v-row justify="center" class="mt-4">
-          <v-col cols="4">
-            <v-switch color="primary" v-model="showNumSlotsColumn" label="Show Slots Column" />
+        Columns to Show
+        </v-row>
+        <v-row justify="center" class="mt-4">
+          <v-col>
+            <v-switch color="primary" v-model="showNumSlotsColumn" label="Slots" />
           </v-col>
-          <v-col cols="4">
-            <v-switch color="primary" v-model="showSlotSizeColumn" label="Show Slot Size Column" />
+          <v-col>
+            <v-switch color="primary" v-model="showSlotSizeColumn" label="Slot Size" />
           </v-col>
-          <v-col cols="4">
-            <v-switch color="primary" v-model="showClothingTypeColumn" label="Show Clothing Type Column" />
+          <v-col>
+            <v-switch color="primary" v-model="showClothingTypeColumn" label="Clothing Type" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showDifficultyColumn" label="Difficulty" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showCraftableColumn" label="Craftable" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showSpawnsInColumn" label="Spawns In" />
           </v-col>
         </v-row>
 
@@ -93,23 +105,24 @@
             :items="filtered_items"
             :headers="tableHeaders"
           >
+            <!-- Render the Object column with special handling for ObjectImage -->
             <template v-slot:item="{ item }">
               <tr>
                 <td class="text-center">
                   <v-list>
-                    <v-list-item class="nostyle" :to="extraObjectData.find(o => o.name === item['Object']).url">
+                    <v-list-item class="nostyle" :to="extraObjectData.find(o => o.name === item.Object).url">
                       <div class="image-container">
-                        <ObjectImage :object="extraObjectData.find(o => o.name === item['Object'])" />
-                        {{ item['Object'] }}
+                        <ObjectImage :object="extraObjectData.find(o => o.name === item.Object)" />
+                        {{ item.Object }}
                       </div>
                     </v-list-item>
                   </v-list>
                 </td>
 
-                <!-- Conditionally render columns -->
-                <td v-if="showNumSlotsColumn">{{ item['Slots'] }}</td>
-                <td v-if="showSlotSizeColumn">{{ item['Slot Size'] }}</td>
-                <td v-if="showClothingTypeColumn">{{ item['Clothing Type'] }}</td>
+                <!-- Loop through the selected fields to dynamically render the <td> -->
+                <td v-for="header in visibleHeaders" :key="header.key">
+                  {{ item[header.key] }}
+                </td>
               </tr>
             </template>
           </v-data-table>
@@ -158,25 +171,46 @@ export default {
     const showNumSlotsColumn = ref(true);
     const showSlotSizeColumn = ref(true);
     const showClothingTypeColumn = ref(true);
+    const showDifficultyColumn = ref(true);
+    const showCraftableColumn = ref(false);
+    const showSpawnsInColumn = ref(true);
 
-    // Dynamically compute table headers based on selected columns
-    const tableHeaders = computed(() => {
-      const headers = [
-        { title: 'Object' },
-      ];
+    // Define the full set of headers/columns
+    const allHeaders = [
+      { title: "Slots", key: "Slots", visible: showNumSlotsColumn },
+      { title: "Slot Size", key: "Slot Size", visible: showSlotSizeColumn },
+      { title: "Clothing Type", key: "Clothing Type", visible: showClothingTypeColumn },
+      { title: "Difficulty", key: "Difficulty", visible: showDifficultyColumn },
+      { title: "Craftable", key: "Craftable", visible: showCraftableColumn },
+      { title: "Spawns In", key: "Spawns In", visible: showSpawnsInColumn },
+    ];
 
-      if (showNumSlotsColumn.value) {
-        headers.push({ title: 'Slots' });
-      }
-      if (showSlotSizeColumn.value) {
-        headers.push({ title: 'Slot Size' });
-      }
-      if (showClothingTypeColumn.value) {
-        headers.push({ title: 'Clothing Type' });
-      }
+    // Dynamically compute the headers based on the column visibility
+    const tableHeaders = computed(() => [
+      { title: "Object", key: "Object" }, // Object column always visible
+      ...allHeaders.filter((header) => header.visible.value),
+    ]);
 
-      return headers;
-    });
+    const visibleHeaders = computed(() => allHeaders.filter((header) => header.visible.value));
+
+    // // Dynamically compute table headers based on selected columns
+    // const tableHeaders = computed(() => {
+    //   const headers = [
+    //     { title: 'Object', key: 'object' },
+    //   ];
+
+    //   if (showNumSlotsColumn.value) {
+    //     headers.push({ title: 'Slots' });
+    //   }
+    //   if (showSlotSizeColumn.value) {
+    //     headers.push({ title: 'Slot Size' });
+    //   }
+    //   if (showClothingTypeColumn.value) {
+    //     headers.push({ title: 'Clothing Type' });
+    //   }
+
+    //   return headers;
+    // });
 
     const displayed_data = (object, colsToShow) => {
       const biome_names = ["Grasslands", "Swamps", "Yellow Prairies", "Badlands", "Tundra", "Desert", "Jungle", "Deep Water", "Flower Fields", "Shallow Water"];
@@ -188,7 +222,8 @@ export default {
         if (col === "Slot Size") dataToDisplay["Slot Size"] = object.slotSize;
         if (col === "Clothing Type") dataToDisplay["Clothing Type"] = object.clothingType;
         if (col === "Craftable") dataToDisplay["Craftable"] = object.craftable;
-        if (col === "Spawns In") dataToDisplay["Spawns In"] = object.biomes?.map(b=>biome_names[b.id]);
+        if (col === "Difficulty") dataToDisplay["Difficulty"] = object.difficulty;
+        if (col === "Spawns In") dataToDisplay["Spawns In"] = object.biomes.join(", ");
         if (col === "Immediate Food") dataToDisplay["Immediate Food"] = object.immediateFood;
         if (col === "Bonus Food") dataToDisplay["Bonus Food"] = object.bonusFood;
         if (col === "Total Food") dataToDisplay["Total Food"] = object.totalFood;
@@ -205,8 +240,11 @@ export default {
       return dataToDisplay;
     };
 
-    const defaultColsToShow = ["Object", "Slots", "Slot Size", "Clothing Type"];
-    const filtered_items = ref(GameObject.allObjects().filter(o => localHideUncraftable.value ? o.craftable : true).map(o => displayed_data(o, defaultColsToShow)));
+    const filtered_items = ref(
+      GameObject.allObjects()
+        .filter(o => localHideUncraftable.value ? o.craftable : true)
+        .map(o => displayed_data(o, visibleHeaders.value.map(h => h.key)))
+    );
 
     const updateHideUncraftable = () => {
       props.toggleHideUncraftable();
@@ -290,7 +328,11 @@ export default {
       showNumSlotsColumn,
       showSlotSizeColumn,
       showClothingTypeColumn,
+      showDifficultyColumn,
+      showCraftableColumn,
+      showSpawnsInColumn,
       tableHeaders,
+      visibleHeaders,
     }
   },
   methods: {
