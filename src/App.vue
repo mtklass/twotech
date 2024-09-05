@@ -35,7 +35,7 @@
       <ObjectSearch v-if="!hideObjectSearch" :hide-uncraftable="hideUncraftable"/>
 
       <router-view
-        :hide-uncraftable="hideUncraftable"
+        v-model:hideUncraftable="hideUncraftable"
         :toggle-hide-uncraftable="toggleHideUncraftable"
       />
     </div>
