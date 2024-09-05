@@ -77,15 +77,13 @@
               <tr>
                 <td class="text-center">
                   <v-list>
-                    <!-- Note: This link has an issue, in that it doesn't change the URL in the browser.
-                               This seems to cause issues on mobile -->
                     <v-list-item class="nostyle" :to="extraObjectData.find(o => o.name === item['Object']).url">
                       <div class="image-container">
                         <ObjectImage
                           :object="extraObjectData.find(o => o.name === item['Object'])"
                         />
+                        {{ item['Object'] }}
                       </div>
-                      <div>{{ item['Object'] }}</div>
                     </v-list-item>
                   </v-list>
                 </td>
@@ -262,8 +260,27 @@ export default {
 .image-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 5px;
+  align-items: center;
+  overflow: hidden; /* Ensure the image stays within the bounds */
+
+  height: 80px;
+  width: 160px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: #333;
+  border: 1px solid transparent;
 }
+
+.image-container img {
+  max-height: 100%; /* Scale down the image to fit the container */
+  max-width: 100%; /* Ensure it doesn't overflow horizontally */
+  object-fit: contain; /* Keep the aspect ratio */
+}
+
 
 .text-center {
   text-align: center;
