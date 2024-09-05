@@ -164,6 +164,17 @@ export default class GameObject {
               object.slotSize = 0;
             if (object.slotSize < filter.min || object.slotSize > filter.max)
               includeObject = false;
+          } else if (filter.name === "clothingType") {
+            if (
+              (!filter.includeHeadItems && object.clothingType === "Head")
+              || (!filter.includeTopItems && object.clothingType === "Top")
+              || (!filter.includeBottomItems && object.clothingType === "Bottom")
+              || (!filter.includeShoeItems && object.clothingType === "Shoe")
+              || (!filter.includePackItems && object.clothingType === "Pack")
+              || (!filter.includeNoneItems && object.clothingType === "None")
+            ) {
+              includeObject = false;
+            }
           }
         }
 
@@ -200,6 +211,15 @@ export default class GameObject {
     immediateFood,
     bonusFood,
     totalFood,
+    numUses,
+    useChance,
+    insulation,
+    deadlyDistance,
+    useDistance,
+    size,
+    minPickupAge,
+    speedMult,
+    moveType,
   }) {
     this.id = id;
     this.name = name;
@@ -214,6 +234,15 @@ export default class GameObject {
     this.immediateFood = immediateFood;
     this.bonusfood = bonusFood;
     this.totalFood = totalFood;
+    this.numUses = numUses;
+    this.useChance = useChance;
+    this.insulation = insulation;
+    this.deadlyDistance = deadlyDistance;
+    this.useDistance = useDistance;
+    this.size = size;
+    this.minPickupAge = minPickupAge;
+    this.speedMult = speedMult;
+    this.moveType = moveType;
     this.data = null;
   }
 

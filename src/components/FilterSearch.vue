@@ -4,39 +4,67 @@
       <v-container class="ga-0">
         <v-row class="mt-n6 mb-n14">
           <!-- Slot count filter -->
-          <v-col>
-            <v-switch color="primary" v-model="numSlotsEnabled" label="Slots"></v-switch>
+          <v-col cols="3">
+            <v-switch color="primary" v-model="numSlotsEnabled" label="Slots" @update:modelValue="submitIfAuto()"></v-switch>
           </v-col>
           <v-col>
-            <v-text-field label="Min" :disabled="!numSlotsEnabled" v-model="numSlotsMin" density="compact" @keyup="submitIfAuto()"/>
+            <v-text-field label="Min" :disabled="!numSlotsEnabled" v-model="numSlotsMin" density="compact" @update:modelValue="submitIfAuto()"/>
           </v-col>
           <v-col>
-            <v-text-field label="Max" :disabled="!numSlotsEnabled" v-model="numSlotsMax" density="compact" @keyup="submitIfAuto()"/>
+            <v-text-field label="Max" :disabled="!numSlotsEnabled" v-model="numSlotsMax" density="compact" @update:modelValue="submitIfAuto()"/>
           </v-col>
         </v-row>
         <!-- Slot size filter -->
         <v-row class="mt-n14 mb-n14">
-          <v-col>
-            <v-switch color="primary" v-model="slotSizeEnabled" label="Slot size"></v-switch>
+          <v-col cols="3">
+            <v-switch color="primary" v-model="slotSizeEnabled" label="Slot size" @update:modelValue="submitIfAuto()"></v-switch>
           </v-col>
           <v-col>
-            <v-text-field label="Min" :disabled="!slotSizeEnabled" v-model="slotSizeMin" density="compact" @keyup="submitIfAuto()"/>
+            <v-text-field label="Min" :disabled="!slotSizeEnabled" v-model="slotSizeMin" density="compact" @update:modelValue="submitIfAuto()"/>
           </v-col>
           <v-col>
-            <v-text-field label="Max" :disabled="!slotSizeEnabled" v-model="slotSizeMax" density="compact" @keyup="submitIfAuto()"/>
+            <v-text-field label="Max" :disabled="!slotSizeEnabled" v-model="slotSizeMax" density="compact" @update:modelValue="submitIfAuto()"/>
           </v-col>
         </v-row>
-        <!-- Insta-filter and Filter controls -->
+        <!-- Slot size filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="clothingTypeEnabled" label="Clothing Type" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-row>
+              <v-col>
+                <v-switch label="Head" :disabled="!clothingTypeEnabled" v-model="clothingTypeHeadEnabled" @update:modelValue="submitIfAuto()"/>
+              </v-col>
+              <v-col>
+                <v-switch label="Top" :disabled="!clothingTypeEnabled" v-model="clothingTypeTopEnabled" @update:modelValue="submitIfAuto()"/>
+              </v-col>
+              <v-col>
+                <v-switch width="120px" label="Bottom" :disabled="!clothingTypeEnabled" v-model="clothingTypeBottomEnabled" @update:modelValue="submitIfAuto()"/>
+              </v-col>
+              <v-col>
+                <v-switch label="Shoe" :disabled="!clothingTypeEnabled" v-model="clothingTypeShoeEnabled" @update:modelValue="submitIfAuto()"/>
+              </v-col>
+              <v-col>
+                <v-switch label="Pack" :disabled="!clothingTypeEnabled" v-model="clothingTypePackEnabled" @update:modelValue="submitIfAuto()"/>
+              </v-col>
+              <v-col>
+                <v-switch label="None" :disabled="!clothingTypeEnabled" v-model="clothingTypeNoneEnabled" @update:modelValue="submitIfAuto()"/>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+        <!-- Insta-filter, Filter, and Hide uncraftable controls -->
         <v-row justify="center">
           <v-col cols="4" class="d-flex justify-end">
-            <v-switch color="primary" label="Insta-filter" v-model="instaFilter"></v-switch>
+            <v-switch color="primary" label="Insta-filter" v-model="instaFilter" @update:modelValue="submitIfAuto()"></v-switch>
           </v-col>
           <v-col cols="3">
             <v-btn :disabled="instaFilter" class="search-submit mt-2" type="submit" color=#blue active-color=#bbb button-disabled-opacity="0.26" block>Filter</v-btn>
           </v-col>
           <v-col cols="5">
             <div class="objectCraftableSelection">
-              <v-switch color="primary" label="Only craftable" v-model="localHideUncraftable" @change="updateHideUncraftable" />
+              <v-switch color="primary" label="Only craftable" v-model="localHideUncraftable" @update:modelValue="updateHideUncraftable" />
             </div>
           </v-col>
         </v-row>
@@ -104,6 +132,14 @@ export default {
     const slotSizeMin = ref(0);
     const slotSizeMax = ref(3);
 
+    const clothingTypeEnabled = ref(false);
+    const clothingTypeHeadEnabled = ref(true);
+    const clothingTypeTopEnabled = ref(true);
+    const clothingTypeBottomEnabled = ref(true);
+    const clothingTypeShoeEnabled = ref(true);
+    const clothingTypePackEnabled = ref(true);
+    const clothingTypeNoneEnabled = ref(true);
+
     const displayed_data = (object) => {
       const biome_names = ["Grasslands", "Swamps", "Yellow Prairies", "Badlands", "Tundra", "Desert", "Jungle", "Deep Water", "Flower Fields", "Shallow Water"];
       return {
@@ -111,7 +147,7 @@ export default {
           "Difficulty": object.difficulty,
           "Slots": object.numSlots,
           "Slot Size": object.slotSize,
-          "Clothing Type": object.clothing || 'n',
+          "Clothing Type": object.clothingType,
           "Craftable": object.craftable,
           "Spawns In": object.biomes?.map(b=>biome_names[b.id]),
         }
@@ -153,6 +189,17 @@ export default {
           max: slotSizeMax.value,
         });
       }
+      if (clothingTypeEnabled.value) {
+        filters.push({
+          name: "clothingType",
+          includeHeadItems: clothingTypeHeadEnabled.value,
+          includeTopItems: clothingTypeTopEnabled.value,
+          includeBottomItems: clothingTypeBottomEnabled.value,
+          includeShoeItems: clothingTypeShoeEnabled.value,
+          includePackItems: clothingTypePackEnabled.value,
+          includeNoneItems: clothingTypeNoneEnabled.value,
+        })
+      }
       console.time("Filtering");
       const results = GameObject.filter(filters).map(o => {
         return displayed_data(o);
@@ -177,6 +224,13 @@ export default {
       slotSizeEnabled,
       slotSizeMin,
       slotSizeMax,
+      clothingTypeEnabled,
+      clothingTypeHeadEnabled,
+      clothingTypeTopEnabled,
+      clothingTypeBottomEnabled,
+      clothingTypeShoeEnabled,
+      clothingTypePackEnabled,
+      clothingTypeNoneEnabled,
       extraObjectData,
       localHideUncraftable,
       updateHideUncraftable,
