@@ -244,7 +244,7 @@ export default {
 
     const containerText = computed(() => {
       if (!object.value?.data?.numSlots) return;
-      return `Holds ${object.value.data.numSlots} ${object.value.slotSize()} items`;
+      return `Holds ${object.value.data.numSlots} ${object.value.slotSizeString()} items`;
     });
 
     const isLetterOrSign = computed(() => {

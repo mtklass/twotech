@@ -110,14 +110,17 @@ export default class GameObject {
 
   static async findAndLoad(id) {
     const object = this.find(id);
-    if (!object) return await Promise.resolve(null);
-    return await object.loadData().then(() => object);
+    if (!object) return null;
+    await object.loadData();
+    let test = object.slotSizeString();
+    return object;
   }
 
   static async findAndLoadByName(name) {
     const object = this.findByName(name);
-    if (!object) return await Promise.resolve(null);
-    return await object.loadData().then(() => object);
+    if (!object) return null;
+    await object.loadData();
+    return object;
   }
 
   static findFilter(key_path_parts) {
@@ -136,42 +139,41 @@ export default class GameObject {
     return filter;
   }
 
-  static async filter(filters) {
+  static filter(filters) {
     let objects = [];
-    const BATCH_SIZE = 25; // Adjust this number based on your testing
-  
+
     const objectValues = Object.values(this.objectsMap);
-  
-    for (let i = 0; i < objectValues.length; i += BATCH_SIZE) {
-      // Create a batch of promises
-      const batch = objectValues.slice(i, i + BATCH_SIZE).map(async (object) => {
-        // const object = await o.loadData();
-  
-        // Now decide based on filters whether to include this object or not
+
+    // Map through all objects without batching
+    objectValues.forEach(object => {
         let includeObject = true;
+
         for (let filter of filters) {
-          if (filter.name === "numSlots") {
-            if (object.numSlots === null || object.numSlots === undefined) object.numSlots = 0;
-            if (object.numSlots < filter.min || object.numSlots > filter.max) {
-              includeObject = false;
+            if (filter.name === "numSlots") {
+                // Handle null/undefined values for numSlots
+                if (object.numSlots === null || object.numSlots === undefined) {
+                    object.numSlots = 0;
+                }
+                if (object.numSlots < filter.min || object.numSlots > filter.max) {
+                    includeObject = false;
+                }
+            } else if (filter.name === "slotSize") {
+                // Handle null/undefined values for slotSize
+                if (object.slotSize === null || object.slotSize === undefined) {
+                    object.slotSize = 0;
+                }
+                if (object.slotSize < filter.min || object.slotSize > filter.max) {
+                    includeObject = false;
+                }
             }
-          } else if (filter.name === "slotSize") {
-            if (object.slotSize === null || object.slotSize === undefined) object.slotSize = 0;
-            if (object.slotSize < filter.min || object.slotSize > filter.max) {
-              includeObject = false;
-            }
-          }
         }
-  
+
+        // Add the object to the result if it matches the filters
         if (includeObject) {
-          objects.push(object); // Add the object to the result if it matches the filters
+            objects.push(object);
         }
-      });
-  
-      // Wait for the current batch to finish before continuing
-      await Promise.all(batch);
-    }
-  
+    });
+
     return objects; // Return the filtered objects
   }
   
@@ -267,18 +269,6 @@ export default class GameObject {
     return +(num*100).toFixed(places);
   }
 
-  async loadData() {
-    if (this.data || this.loading) return await Promise.resolve(this.data);
-    this.loading = true;
-    return await fetch(`${global.staticPath}/objects/${this.id}.json`)
-      .then(data => data.json())
-      .then(data => {
-        this.loading = false;
-        this.data = data;
-        return this.data;
-      });
-  }
-
   sizeText(size) {
     if (size == 3) return "Extra Large";
     if (size > 1) return "Large";
@@ -286,7 +276,7 @@ export default class GameObject {
     return "Tiny";
   }
 
-  slotSize() {
+  slotSizeString() {
     return this.sizeText(this.data.slotSize).toLowerCase();
   }
 
@@ -312,4 +302,16 @@ export default class GameObject {
       then(data => data.json()).
       then(callback);
   }
+  
+  async loadData() {
+    if (this.data || this.loading) return await Promise.resolve(this.data);
+    this.loading = true;
+    return await fetch(`${global.staticPath}/objects/${this.id}.json`)
+      .then(data => data.json())
+      .then(data => {
+        this.loading = false;
+        this.data = data;
+      });
+  }
+
 }

@@ -17,7 +17,7 @@ export default class Biome {
     return this.biomesMap[id.split("-")[0]];
   }
 
-  static findAndLoad(id) {
+  static async findAndLoad(id) {
     const biome = this.find(id);
     if (!biome) return Promise.resolve(null);
     return biome.loadData().then(() => biome);

@@ -26,6 +26,10 @@
           |
         </span>
         <a :href="unreleasedContentUrl()">See Unreleased Content</a>
+        <span>
+          |
+          <router-link to="/advanced-search">Advanced Search</router-link>
+        </span>
       </div>
 
       <ObjectSearch v-if="!hideObjectSearch" :hide-uncraftable="hideUncraftable"/>
