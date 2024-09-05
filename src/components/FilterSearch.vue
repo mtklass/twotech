@@ -108,7 +108,7 @@
             <!-- Render the Object column with special handling for ObjectImage -->
             <template v-slot:item="{ item }">
               <tr>
-                <td class="text-center">
+                <td class="text-center" style="width: 220px">
                   <v-list>
                     <v-list-item class="nostyle" :to="extraObjectData.find(o => o.name === item.Object).url">
                       <div class="image-container">
@@ -119,9 +119,9 @@
                   </v-list>
                 </td>
 
-                <!-- Loop through the selected fields to dynamically render the <td> -->
-                <td v-for="header in visibleHeaders" :key="header.key">
-                  {{ item[header.key] }}
+                <!-- Loop through the selected fields to dynamically render the <td> with static width -->
+                <td v-for="header in visibleHeaders" :key="header.key" :style="{ width: header.width }">
+                  <div class="text-wrapper">{{ item[header.key] }}</div>
                 </td>
               </tr>
             </template>
@@ -177,12 +177,12 @@ export default {
 
     // Define the full set of headers/columns
     const allHeaders = [
-      { title: "Slots", key: "Slots", visible: showNumSlotsColumn },
-      { title: "Slot Size", key: "Slot Size", visible: showSlotSizeColumn },
-      { title: "Clothing Type", key: "Clothing Type", visible: showClothingTypeColumn },
-      { title: "Difficulty", key: "Difficulty", visible: showDifficultyColumn },
-      { title: "Craftable", key: "Craftable", visible: showCraftableColumn },
-      { title: "Spawns In", key: "Spawns In", visible: showSpawnsInColumn },
+      { title: "Slots", key: "Slots", visible: showNumSlotsColumn, width: '80px' },
+      { title: "Slot Size", key: "Slot Size", visible: showSlotSizeColumn, width: '80px' },
+      { title: "Clothing Type", key: "Clothing Type", visible: showClothingTypeColumn, width: '100px' },
+      { title: "Difficulty", key: "Difficulty", visible: showDifficultyColumn, width: '100px' },
+      { title: "Craftable", key: "Craftable", visible: showCraftableColumn, width: '100px' },
+      { title: "Spawns In", key: "Spawns In", visible: showSpawnsInColumn, width: '200px' },
     ];
 
     // Dynamically compute the headers based on the column visibility
@@ -192,25 +192,6 @@ export default {
     ]);
 
     const visibleHeaders = computed(() => allHeaders.filter((header) => header.visible.value));
-
-    // // Dynamically compute table headers based on selected columns
-    // const tableHeaders = computed(() => {
-    //   const headers = [
-    //     { title: 'Object', key: 'object' },
-    //   ];
-
-    //   if (showNumSlotsColumn.value) {
-    //     headers.push({ title: 'Slots' });
-    //   }
-    //   if (showSlotSizeColumn.value) {
-    //     headers.push({ title: 'Slot Size' });
-    //   }
-    //   if (showClothingTypeColumn.value) {
-    //     headers.push({ title: 'Clothing Type' });
-    //   }
-
-    //   return headers;
-    // });
 
     const displayed_data = (object, colsToShow) => {
       const biome_names = ["Grasslands", "Swamps", "Yellow Prairies", "Badlands", "Tundra", "Desert", "Jungle", "Deep Water", "Flower Fields", "Shallow Water"];
@@ -356,6 +337,11 @@ export default {
     opacity: 0.26;
     cursor: not-allowed;
   }
+}
+
+.text-wrapper {
+  word-break: break-word;
+  white-space: normal;
 }
 
 .image-container {
