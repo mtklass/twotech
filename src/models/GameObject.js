@@ -25,7 +25,7 @@ export default class GameObject {
           size: data.size[i],
           minPickupAge: data.minPickupAge[i],
           speedMult: data.speedMult[i],
-          moveType: data.moveType[i],
+          moveType: this.moveTypeString(data.moveType[i]),
         });
       }
       this.ids = data.ids;
@@ -37,6 +37,21 @@ export default class GameObject {
       this.legacyObjectsMap = {};
       callback(data);
     });
+  }
+
+  static moveTypeString(moveType) {
+    switch (moveType) {
+      case 0: return "None";
+      case 1: return "Chase";
+      case 2: return "Flee";
+      case 3: return "Random";
+      case 4: return "North";
+      case 5: return "South";
+      case 6: return "East";
+      case 7: return "West";
+      case 8: return "Find";
+      default: return "None";
+    }
   }
 
   static fetchObjects(callback) {
