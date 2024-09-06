@@ -195,6 +195,21 @@ export default class GameObject {
               object.difficulty = 0;
             if (object.difficulty < filter.min || object.difficulty > filter.max)
               includeObject = false;
+          } else if (filter.name === "spawnsIn") {
+            if (
+              (!filter.includeGrasslands && object.biomes.includes("Grasslands"))
+              || (!filter.includeSwamps && object.biomes.includes("Swamps"))
+              || (!filter.includeYellowPraries && object.biomes.includes("Yellow Praries"))
+              || (!filter.includeBadlands && object.biomes.includes("Badlands"))
+              || (!filter.includeTundra && object.biomes.includes("Tundra"))
+              || (!filter.includeDesert && object.biomes.includes("Desert"))
+              || (!filter.includeJungle && object.biomes.includes("Jungle"))
+              || (!filter.includeDeepWater && object.biomes.includes("Deep Water"))
+              || (!filter.includeFlowerFields && object.biomes.includes("Flower Fields"))
+              || (!filter.includeShallowWater && object.biomes.includes("Shallow Water"))
+            ) {
+              includeObject = false;
+            }
           } else if (filter.name === "immediateFood") {
             // Handle null/undefined values for immediateFood
             if (object.immediateFood === null || object.immediateFood === undefined)
