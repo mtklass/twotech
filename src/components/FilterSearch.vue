@@ -34,26 +34,14 @@
             <v-switch color="primary" v-model="clothingTypeEnabled" label="Clothing Type" @update:modelValue="submitIfAuto()"></v-switch>
           </v-col>
           <v-col>
-            <v-row>
-              <v-col>
-                <v-switch label="Head" :disabled="!clothingTypeEnabled" v-model="clothingTypeHeadEnabled" @update:modelValue="submitIfAuto()"/>
-              </v-col>
-              <v-col>
-                <v-switch label="Top" :disabled="!clothingTypeEnabled" v-model="clothingTypeTopEnabled" @update:modelValue="submitIfAuto()"/>
-              </v-col>
-              <v-col>
-                <v-switch width="120px" label="Bottom" :disabled="!clothingTypeEnabled" v-model="clothingTypeBottomEnabled" @update:modelValue="submitIfAuto()"/>
-              </v-col>
-              <v-col>
-                <v-switch label="Shoe" :disabled="!clothingTypeEnabled" v-model="clothingTypeShoeEnabled" @update:modelValue="submitIfAuto()"/>
-              </v-col>
-              <v-col>
-                <v-switch label="Pack" :disabled="!clothingTypeEnabled" v-model="clothingTypePackEnabled" @update:modelValue="submitIfAuto()"/>
-              </v-col>
-              <v-col>
-                <v-switch label="None" :disabled="!clothingTypeEnabled" v-model="clothingTypeNoneEnabled" @update:modelValue="submitIfAuto()"/>
-              </v-col>
-            </v-row>
+            <v-btn-toggle v-model="clothingTypesToInclude" variant="outlined" divided multiple @update:modelValue="submitIfAuto()">
+              <v-btn>Head</v-btn>
+              <v-btn>Top</v-btn>
+              <v-btn>Bottom</v-btn>
+              <v-btn>Shoe</v-btn>
+              <v-btn>Pack</v-btn>
+              <v-btn>None</v-btn>
+            </v-btn-toggle>
           </v-col>
         </v-row>
 
@@ -327,18 +315,14 @@ export default {
     const slotSizeMax = ref(3);
     // Clothing Type filter data
     const clothingTypeEnabled = ref(false);
-    const clothingTypeHeadEnabled = ref(true);
-    const clothingTypeTopEnabled = ref(true);
-    const clothingTypeBottomEnabled = ref(true);
-    const clothingTypeShoeEnabled = ref(true);
-    const clothingTypePackEnabled = ref(true);
-    const clothingTypeNoneEnabled = ref(true);
+    // Should we make this an array, and just know where the positions are when creating the filter?
+    // Then we can use a v-btn-group
+    const clothingTypesToInclude = ref([0, 1, 2, 3, 4, 5]);
     // Difficulty filter data
     const difficultyEnabled = ref(false);
     const difficultyMin = ref(0.0);
     const difficultyMax = ref(3.0);
     // Craftable filter data
-
     // Spawns In filter data
 
     // Immediate Food filter data
@@ -502,12 +486,12 @@ export default {
       if (clothingTypeEnabled.value) {
         filters.push({
           name: "clothingType",
-          includeHeadItems: clothingTypeHeadEnabled.value,
-          includeTopItems: clothingTypeTopEnabled.value,
-          includeBottomItems: clothingTypeBottomEnabled.value,
-          includeShoeItems: clothingTypeShoeEnabled.value,
-          includePackItems: clothingTypePackEnabled.value,
-          includeNoneItems: clothingTypeNoneEnabled.value,
+          includeHeadItems: clothingTypesToInclude.value.includes(0),
+          includeTopItems: clothingTypesToInclude.value.includes(1),
+          includeBottomItems: clothingTypesToInclude.value.includes(2),
+          includeShoeItems: clothingTypesToInclude.value.includes(3),
+          includePackItems: clothingTypesToInclude.value.includes(4),
+          includeNoneItems: clothingTypesToInclude.value.includes(5),
         })
       }
       if (difficultyEnabled.value) {
@@ -617,36 +601,7 @@ export default {
       slotSizeMin,
       slotSizeMax,
       clothingTypeEnabled,
-      clothingTypeHeadEnabled,
-      clothingTypeTopEnabled,
-      clothingTypeBottomEnabled,
-      clothingTypeShoeEnabled,
-      clothingTypePackEnabled,
-      clothingTypeNoneEnabled,
-
-      extraObjectData,
-      localHideUncraftable,
-      updateHideUncraftable,
-      tableHeaders,
-      visibleHeaders,
-      showNumSlots,
-      showSlotSize,
-      showClothingType,
-      showDifficulty,
-      showCraftable,
-      showSpawnsIn,
-      showImmediateFood,
-      showBonusFood,
-      showTotalFood,
-      showUses,
-      showUseChance,
-      showInsulation,
-      showDeadlyFrom,
-      showUseDistance,
-      showItemSize,
-      showMinPickupAge,
-      showSpeed,
-      showMovementType,
+      clothingTypesToInclude,
       difficultyEnabled,
       difficultyMin,
       difficultyMax,
@@ -683,6 +638,30 @@ export default {
       speedEnabled,
       speedMin,
       speedMax,
+
+      extraObjectData,
+      localHideUncraftable,
+      updateHideUncraftable,
+      tableHeaders,
+      visibleHeaders,
+      showNumSlots,
+      showSlotSize,
+      showClothingType,
+      showDifficulty,
+      showCraftable,
+      showSpawnsIn,
+      showImmediateFood,
+      showBonusFood,
+      showTotalFood,
+      showUses,
+      showUseChance,
+      showInsulation,
+      showDeadlyFrom,
+      showUseDistance,
+      showItemSize,
+      showMinPickupAge,
+      showSpeed,
+      showMovementType,
     }
   },
   methods: {
