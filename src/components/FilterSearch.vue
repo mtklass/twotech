@@ -77,64 +77,24 @@
         Columns to Show
         </v-row>
         <v-row justify="center" class="mt-4">
-          <v-col>
-            <v-switch color="primary" v-model="showNumSlots" label="Slots" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showSlotSize" label="Slot Size" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showClothingType" label="Clothing Type" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showDifficulty" label="Difficulty" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showCraftable" label="Craftable" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showSpawnsIn" label="Spawns In" />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-switch color="primary" v-model="showImmediateFood" label="Immediate Food" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showBonusFood" label="Bonus Food" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showTotalFood" label="Total Food" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showUses" label="Uses" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showUseChance" label="Use Chance" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showInsulation" label="Insulation" />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-switch color="primary" v-model="showDeadlyFrom" label="Deadly From" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showUseDistance" label="Use Distance" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showItemSize" label="Item Size" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showMinPickupAge" label="Min Pickup Age" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showSpeed" label="Speed" />
-          </v-col>
-          <v-col>
-            <v-switch color="primary" v-model="showMovementType" label="Movement Type" />
-          </v-col>
+            <v-checkbox v-model="showNumSlots" label="Slots" />
+            <v-checkbox color="primary" v-model="showSlotSize" label="Slot Size" />
+            <v-checkbox color="primary" v-model="showClothingType" label="Clothing Type" />
+            <v-checkbox color="primary" v-model="showDifficulty" label="Difficulty" />
+            <v-checkbox color="primary" v-model="showCraftable" label="Craftable" />
+            <v-checkbox color="primary" v-model="showSpawnsIn" label="Spawns In" />
+            <v-checkbox color="primary" v-model="showImmediateFood" label="Immediate Food" />
+            <v-checkbox color="primary" v-model="showBonusFood" label="Bonus Food" />
+            <v-checkbox color="primary" v-model="showTotalFood" label="Total Food" />
+            <v-checkbox color="primary" v-model="showUses" label="Uses" />
+            <v-checkbox color="primary" v-model="showUseChance" label="Use Chance" />
+            <v-checkbox color="primary" v-model="showInsulation" label="Insulation" />
+            <v-checkbox color="primary" v-model="showDeadlyFrom" label="Deadly From" />
+            <v-checkbox color="primary" v-model="showUseDistance" label="Use Distance" />
+            <v-checkbox color="primary" v-model="showItemSize" label="Item Size" />
+            <v-checkbox color="primary" v-model="showMinPickupAge" label="Min Pickup Age" />
+            <v-checkbox color="primary" v-model="showSpeed" label="Speed" />
+            <v-checkbox color="primary" v-model="showMovementType" label="Movement Type" />
         </v-row>
 
         <!-- Data Table -->
@@ -148,7 +108,7 @@
             <!-- Render the Object column with special handling for ObjectImage -->
             <template v-slot:item="{ item }">
               <tr>
-                <td class="text-center" style="width: 220px">
+                <td class="text-center" style="width: 170px; min-width: 170px; max-width: 170px">
                   <v-list>
                     <v-list-item class="nostyle" :to="extraObjectData.find(o => o.name === item.Object).url">
                       <div class="image-container">
@@ -226,7 +186,6 @@ export default {
     const showMinPickupAge = ref(false);
     const showSpeed = ref(false);
     const showMovementType = ref(false);
-    
 
     // Define the full set of headers/columns
     const allHeaders = [
@@ -435,5 +394,18 @@ export default {
 
 .text-center {
   text-align: center;
+}
+</style>
+
+<style>
+.v-checkbox .v-icon {
+  color: white !important;
+}
+.v-checkbox .v-input--selection-controls__input {
+  border: 2px solid white !important;
+  border-radius: 4px;
+}
+.v-checkbox .v-input--selection-controls__input--checked {
+  background-color: white !important;
 }
 </style>

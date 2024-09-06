@@ -10,7 +10,7 @@
       </div>
       <ObjectImage :object="object" :scaleUpTo="80" />
       <div class="spawnInfo" v-if="spawnChance">
-        Chance: {{ object.toPercent(spawnChance, 2) }}%
+        Chance: {{ +(spawnChance*100).toFixed(2) }}%
       </div>
     </div>
   </router-link>

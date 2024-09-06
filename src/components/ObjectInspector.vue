@@ -276,7 +276,7 @@ export default {
 
     const biomeTitle = (biome) => {
       const biomeData = object.value?.data?.biomes.find((biomeData) => biomeData.id == biome.id);
-      return `${biome.name} (${object.value.toPercent(biomeData.spawnChance, 2)}%)`;
+      return `${biome.name} (${+(biomeData.spawnChance*100).toFixed(2)}%)`;
     };
 
     const soundPath = (id, extension) => {

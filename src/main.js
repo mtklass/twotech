@@ -1,6 +1,8 @@
 import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { createHead } from '@vueuse/head';
+// mdi used for certain icons, like checkboxes and arrows for table sorting
+import '@mdi/font/css/materialdesignicons.css';
 import './css/tippy.css';
 // import 'tippy.js/themes/light.css'
 import VueTippy from 'vue-tippy';
