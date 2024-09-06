@@ -198,10 +198,6 @@ export default class GameObject {
     this.legacyObjectsMap[object.id] = object;
   }
 
-  static toPercent(num, places) {
-    return +(num*100).toFixed(places);
-  }
-
   constructor({
     id,
     name,
@@ -289,6 +285,10 @@ export default class GameObject {
 
   hasInsulation() {
     return this.data && !isNaN(this.data.insulation);
+  }
+
+  toPercent(num, places) {
+    return +(num*100).toFixed(places);
   }
 
   insulationPercent() {
