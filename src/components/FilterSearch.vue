@@ -104,6 +104,8 @@
             :items-per-page-options="[10, 20, 30, 40, 50]"
             :items="filtered_items"
             :headers="tableHeaders"
+            height="90vh"
+            fixed-header
           >
             <!-- Render the Object column with special handling for ObjectImage -->
             <template v-slot:item="{ item }">
