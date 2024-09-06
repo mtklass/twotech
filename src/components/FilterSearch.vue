@@ -77,24 +77,24 @@
         Columns to Show
         </v-row>
         <v-row justify="center" class="mt-4">
-            <v-checkbox v-model="showNumSlots" label="Slots" />
-            <v-checkbox color="primary" v-model="showSlotSize" label="Slot Size" />
-            <v-checkbox color="primary" v-model="showClothingType" label="Clothing Type" />
-            <v-checkbox color="primary" v-model="showDifficulty" label="Difficulty" />
-            <v-checkbox color="primary" v-model="showCraftable" label="Craftable" />
-            <v-checkbox color="primary" v-model="showSpawnsIn" label="Spawns In" />
-            <v-checkbox color="primary" v-model="showImmediateFood" label="Immediate Food" />
-            <v-checkbox color="primary" v-model="showBonusFood" label="Bonus Food" />
-            <v-checkbox color="primary" v-model="showTotalFood" label="Total Food" />
-            <v-checkbox color="primary" v-model="showUses" label="Uses" />
-            <v-checkbox color="primary" v-model="showUseChance" label="Use Chance" />
-            <v-checkbox color="primary" v-model="showInsulation" label="Insulation" />
-            <v-checkbox color="primary" v-model="showDeadlyFrom" label="Deadly From" />
-            <v-checkbox color="primary" v-model="showUseDistance" label="Use Distance" />
-            <v-checkbox color="primary" v-model="showItemSize" label="Item Size" />
-            <v-checkbox color="primary" v-model="showMinPickupAge" label="Min Pickup Age" />
-            <v-checkbox color="primary" v-model="showSpeed" label="Speed" />
-            <v-checkbox color="primary" v-model="showMovementType" label="Movement Type" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showNumSlots" label="Slots" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showSlotSize" label="Slot Size" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showClothingType" label="Clothing Type" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showDifficulty" label="Difficulty" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showCraftable" label="Craftable" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showSpawnsIn" label="Spawns In" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showImmediateFood" label="Immediate Food" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showBonusFood" label="Bonus Food" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showTotalFood" label="Total Food" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showUses" label="Uses" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showUseChance" label="Use Chance" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showInsulation" label="Insulation" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showDeadlyFrom" label="Deadly From" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showUseDistance" label="Use Distance" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showItemSize" label="Item Size" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showMinPickupAge" label="Min Pickup Age" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showSpeed" label="Speed" />
+            <v-checkbox density="compact" class="filterCheckbox" v-model="showMovementType" label="Movement Type" />
         </v-row>
 
         <!-- Data Table -->
@@ -395,6 +395,12 @@ export default {
 .text-center {
   text-align: center;
 }
+
+.filterCheckbox {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
 </style>
 
 <style>
