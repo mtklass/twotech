@@ -57,6 +57,170 @@
           </v-col>
         </v-row>
 
+        <!-- Difficulty filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="slotSizeEnabled" label="Slot size" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!slotSizeEnabled" v-model="slotSizeMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!slotSizeEnabled" v-model="slotSizeMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- TODO: Craftable filter, just a bool -->
+
+        <!-- TODO: Spawns In filter, similar to clothing, an OR of all the different options -->
+        <!-- This may need to be double-tall to allow for all the options. Maybe not using v-col will be enough -->
+
+        <!-- Immediate Foood filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="immediateFoodEnabled" label="Immediate Food" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!immediateFoodEnabled" v-model="immediateFoodMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!immediateFoodEnabled" v-model="immediateFoodMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- Bonus Food filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="bonusFoodEnabled" label="Bonus Food" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!bonusFoodEnabled" v-model="bonusFoodMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!bonusFoodEnabled" v-model="bonusFoodMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- Total Food filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="totalFoodEnabled" label="Total Foood" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!totalFoodEnabled" v-model="totalFoodMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!totalFoodEnabled" v-model="totalFoodMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- Uses filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="usesEnabled" label="Uses" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!usesEnabled" v-model="usesMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!usesEnabled" v-model="usesMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- Use Chance filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="useChanceEnabled" label="Use Chance" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!useChanceEnabled" v-model="useChanceMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!useChanceEnabled" v-model="useChanceMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- Insulation filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="insulationEnabled" label="Insulation" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!insulationEnabled" v-model="insulationMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!insulationEnabled" v-model="insulationMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- Deadly From filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="deadlyFromEnabled" label="Deadly From" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!deadlyFromEnabled" v-model="deadlyFromMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!deadlyFromEnabled" v-model="deadlyFromMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- Use Distance filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="useDistanceEnabled" label="Use Distance" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!useDistanceEnabled" v-model="useDistanceMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!useDistanceEnabled" v-model="useDistanceMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- Item size filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="itemSizeEnabled" label="Item size" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!itemSizeEnabled" v-model="itemSizeMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!itemSizeEnabled" v-model="itemSizeMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- Min Pickup Age filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="minPickupAgeEnabled" label="Min Pickup Age" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!minPickupAgeEnabled" v-model="minPickupAgeMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!minPickupAgeEnabled" v-model="minPickupAgeMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- Speed filter -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="speedEnabled" label="Speed" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-text-field label="Min" :disabled="!speedEnabled" v-model="speedMin" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+          <v-col>
+            <v-text-field label="Max" :disabled="!speedEnabled" v-model="speedMax" density="compact" @update:modelValue="submitIfAuto()"/>
+          </v-col>
+        </v-row>
+
+        <!-- TODO: Movement Type filter, similar to clothing, an OR of all the different options -->
+        <!-- This may need to be double-tall to allow for all the options. Maybe not using v-col will be enough -->
+
         <!-- Insta-filter, Filter, and Hide uncraftable controls -->
         <v-row justify="center">
           <v-col cols="4" class="d-flex justify-end">
@@ -153,14 +317,15 @@ export default {
     const localHideUncraftable = ref(props.hideUncraftable); // Local reference to hideUncraftable
     const extraObjectData = GameObject.allExtraObjectsData().map(obj_data => { return {...obj_data, url: GameObject.find(obj_data.id).url()} });
 
+    // Num Slots filter data
     const numSlotsEnabled = ref(false);
     const numSlotsMin = ref(0);
     const numSlotsMax = ref(27);
-
+    // Slot Size filter data
     const slotSizeEnabled = ref(false);
     const slotSizeMin = ref(0);
     const slotSizeMax = ref(3);
-
+    // Clothing Type filter data
     const clothingTypeEnabled = ref(false);
     const clothingTypeHeadEnabled = ref(true);
     const clothingTypeTopEnabled = ref(true);
@@ -168,8 +333,61 @@ export default {
     const clothingTypeShoeEnabled = ref(true);
     const clothingTypePackEnabled = ref(true);
     const clothingTypeNoneEnabled = ref(true);
+    // Difficulty filter data
+    const difficultyEnabled = ref(false);
+    const difficultyMin = ref(0.0);
+    const difficultyMax = ref(3.0);
+    // Craftable filter data
 
-    // New column visibility toggles
+    // Spawns In filter data
+
+    // Immediate Food filter data
+    const immediateFoodEnabled = ref(false);
+    const immediateFoodMin = ref(0);
+    const immediateFoodMax = ref(10);
+    // Bonus Food filter data
+    const bonusFoodEnabled = ref(false);
+    const bonusFoodMin = ref(0);
+    const bonusFoodMax = ref(20);
+    // Total Food filter data
+    const totalFoodEnabled = ref(false);
+    const totalFoodMin = ref(0);
+    const totalFoodMax = ref(25);
+    // Uses filter data
+    const usesEnabled = ref(false);
+    const usesMin = ref(0);
+    const usesMax = ref(100);
+    // Use Chance filter data
+    const useChanceEnabled = ref(false);
+    const useChanceMin = ref(0.0);
+    const useChanceMax = ref(1.0);
+    // Insulation filter data
+    const insulationEnabled = ref(false);
+    const insulationMin = ref(0);
+    const insulationMax = ref(10);
+    // Deadly From filter data
+    const deadlyFromEnabled = ref(false);
+    const deadlyFromMin = ref(0);
+    const deadlyFromMax = ref(5);
+    // Use Distance filter data
+    const useDistanceEnabled = ref(false);
+    const useDistanceMin = ref(0);
+    const useDistanceMax = ref(5);
+    // Item Size filter data
+    const itemSizeEnabled = ref(false);
+    const itemSizeMin = ref(0.5);
+    const itemSizeMax = ref(3);
+    // Min Pickup Age filter data
+    const minPickupAgeEnabled = ref(false);
+    const minPickupAgeMin = ref(0);
+    const minPickupAgeMax = ref(20);
+    // Speed filter data
+    const speedEnabled = ref(false);
+    const speedMin = ref(0);
+    const speedMax = ref(3);
+    // Movement Type filter data
+
+    // Column visibility toggles
     const showNumSlots = ref(true);
     const showSlotSize = ref(true);
     const showClothingType = ref(true);
@@ -292,6 +510,90 @@ export default {
           includeNoneItems: clothingTypeNoneEnabled.value,
         })
       }
+      if (difficultyEnabled.value) {
+        filters.push({
+          name: "difficulty",
+          min: difficultyMin.value,
+          max: difficultyMax.value,
+        });
+      }
+      if (immediateFoodEnabled.value) {
+        filters.push({
+          name: "immediateFood",
+          min: immediateFoodMin.value,
+          max: immediateFoodMax.value,
+        });
+      }
+      if (bonusFoodEnabled.value) {
+        filters.push({
+          name: "bonusFood",
+          min: bonusFoodMin.value,
+          max: bonusFoodMax.value,
+        });
+      }
+      if (totalFoodEnabled.value) {
+        filters.push({
+          name: "totalFood",
+          min: totalFoodMin.value,
+          max: totalFoodMax.value,
+        });
+      }
+      if (usesEnabled.value) {
+        filters.push({
+          name: "uses",
+          min: usesMin.value,
+          max: usesMax.value,
+        });
+      }
+      if (useChanceEnabled.value) {
+        filters.push({
+          name: "useChance",
+          min: useChanceMin.value,
+          max: useChanceMax.value,
+        });
+      }
+      if (insulationEnabled.value) {
+        filters.push({
+          name: "insulation",
+          min: insulationMin.value,
+          max: insulationMax.value,
+        });
+      }
+      if (deadlyFromEnabled.value) {
+        filters.push({
+          name: "deadlyFrom",
+          min: deadlyFromMin.value,
+          max: deadlyFromMax.value,
+        });
+      }
+      if (useDistanceEnabled.value) {
+        filters.push({
+          name: "useDistance",
+          min: useDistanceMin.value,
+          max: useDistanceMax.value,
+        });
+      }
+      if (itemSizeEnabled.value) {
+        filters.push({
+          name: "itemSize",
+          min: itemSizeMin.value,
+          max: itemSizeMax.value,
+        });
+      }
+      if (minPickupAgeEnabled.value) {
+        filters.push({
+          name: "minPickupAge",
+          min: minPickupAgeMin.value,
+          max: minPickupAgeMax.value,
+        });
+      }
+      if (speedEnabled.value) {
+        filters.push({
+          name: "speed",
+          min: speedMin.value,
+          max: speedMax.value,
+        });
+      }
 
       const results = GameObject.filter(filters).map(o => displayed_data(o));
       filtered_items.value = results;
@@ -307,6 +609,7 @@ export default {
       setupSubmit,
       submitIfAuto,
       filtered_items,
+
       numSlotsEnabled,
       numSlotsMin,
       numSlotsMax,
@@ -320,6 +623,7 @@ export default {
       clothingTypeShoeEnabled,
       clothingTypePackEnabled,
       clothingTypeNoneEnabled,
+
       extraObjectData,
       localHideUncraftable,
       updateHideUncraftable,
@@ -343,6 +647,42 @@ export default {
       showMinPickupAge,
       showSpeed,
       showMovementType,
+      difficultyEnabled,
+      difficultyMin,
+      difficultyMax,
+      immediateFoodEnabled,
+      immediateFoodMin,
+      immediateFoodMax,
+      bonusFoodEnabled,
+      bonusFoodMin,
+      bonusFoodMax,
+      totalFoodEnabled,
+      totalFoodMin,
+      totalFoodMax,
+      usesEnabled,
+      usesMin,
+      usesMax,
+      useChanceEnabled,
+      useChanceMin,
+      useChanceMax,
+      insulationEnabled,
+      insulationMin,
+      insulationMax,
+      deadlyFromEnabled,
+      deadlyFromMin,
+      deadlyFromMax,
+      useDistanceEnabled,
+      useDistanceMin,
+      useDistanceMax,
+      itemSizeEnabled,
+      itemSizeMin,
+      itemSizeMax,
+      minPickupAgeEnabled,
+      minPickupAgeMin,
+      minPickupAgeMax,
+      speedEnabled,
+      speedMin,
+      speedMax,
     }
   },
   methods: {

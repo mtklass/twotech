@@ -189,6 +189,78 @@ export default class GameObject {
             ) {
               includeObject = false;
             }
+          } else if (filter.name === "difficulty") {
+            // Handle null/undefined values for difficulty
+            if (object.difficulty === null || object.difficulty === undefined)
+              object.difficulty = 0;
+            if (object.difficulty < filter.min || object.difficulty > filter.max)
+              includeObject = false;
+          } else if (filter.name === "immediateFood") {
+            // Handle null/undefined values for immediateFood
+            if (object.immediateFood === null || object.immediateFood === undefined)
+              object.immediateFood = 0;
+            if (object.immediateFood < filter.min || object.immediateFood > filter.max)
+              includeObject = false;
+          } else if (filter.name === "bonusFood") {
+            // Handle null/undefined values for bonusFood
+            if (object.bonusFood === null || object.bonusFood === undefined)
+              object.bonusFood = 0;
+            if (object.bonusFood < filter.min || object.bonusFood > filter.max)
+              includeObject = false;
+          } else if (filter.name === "totalFood") {
+            // Handle null/undefined values for totalFood
+            if (object.totalFood === null || object.totalFood === undefined)
+              object.totalFood = 0;
+            if (object.totalFood < filter.min || object.totalFood > filter.max)
+              includeObject = false;
+          } else if (filter.name === "uses") {
+            // Handle null/undefined values for uses
+            if (object.uses === null || object.uses === undefined)
+              object.uses = 0;
+            if (object.uses < filter.min || object.uses > filter.max)
+              includeObject = false;
+          } else if (filter.name === "useChance") {
+            // Handle null/undefined values for useChance
+            if (object.useChance === null || object.useChance === undefined)
+              object.useChance = 0;
+            if (object.useChance < filter.min || object.useChance > filter.max)
+              includeObject = false;
+          } else if (filter.name === "insulation") {
+            // Handle null/undefined values for insulation
+            if (object.insulation === null || object.insulation === undefined)
+              object.insulation = 0;
+            if (object.insulation < filter.min || object.insulation > filter.max)
+              includeObject = false;
+          } else if (filter.name === "deadlyFrom") {
+            // Handle null/undefined values for deadlyFrom
+            if (object.deadlyFrom === null || object.deadlyFrom === undefined)
+              object.deadlyFrom = 0;
+            if (object.deadlyFrom < filter.min || object.deadlyFrom > filter.max)
+              includeObject = false;
+          } else if (filter.name === "useDistance") {
+            // Handle null/undefined values for useDistance
+            if (object.useDistance === null || object.useDistance === undefined)
+              object.useDistance = 0;
+            if (object.useDistance < filter.min || object.useDistance > filter.max)
+              includeObject = false;
+          } else if (filter.name === "itemSize") {
+            // Handle null/undefined values for itemSize
+            if (object.itemSize === null || object.itemSize === undefined)
+              object.itemSize = 0;
+            if (object.itemSize < filter.min || object.itemSize > filter.max)
+              includeObject = false;
+          } else if (filter.name === "minPickupAge") {
+            // Handle null/undefined values for minPickupAge
+            if (object.minPickupAge === null || object.minPickupAge === undefined)
+              object.minPickupAge = 0;
+            if (object.minPickupAge < filter.min || object.minPickupAge > filter.max)
+              includeObject = false;
+          } else if (filter.name === "speed") {
+            // Handle null/undefined values for speed
+            if (object.speed === null || object.speed === undefined)
+              object.speed = 0;
+            if (object.speed < filter.min || object.speed > filter.max)
+              includeObject = false;
           }
         }
 
