@@ -19,7 +19,7 @@ export default class GameObject {
           totalFood: data.totalFood[i],
           numUses: data.numUses[i],
           useChance: data.useChance[i],
-          insulation: data.insulation[i],
+          insulation: (data.insulation[i]*100).toPrecision(4) + "%",
           deadlyDistance: data.deadlyDistance[i],
           useDistance: data.useDistance[i],
           size: data.size[i],
@@ -112,7 +112,6 @@ export default class GameObject {
     const object = this.find(id);
     if (!object) return null;
     await object.loadData();
-    let test = object.slotSizeString();
     return object;
   }
 
@@ -197,6 +196,10 @@ export default class GameObject {
       object.legacy = true;
     }
     this.legacyObjectsMap[object.id] = object;
+  }
+
+  static toPercent(num, places) {
+    return +(num*100).toFixed(places);
   }
 
   constructor({
@@ -291,10 +294,6 @@ export default class GameObject {
 
   insulationPercent() {
     return this.toPercent(this.data.insulation, 2);
-  }
-
-  toPercent(num, places) {
-    return +(num*100).toFixed(places);
   }
 
   sizeText(size) {
