@@ -78,22 +78,62 @@
         </v-row>
         <v-row justify="center" class="mt-4">
           <v-col>
-            <v-switch color="primary" v-model="showNumSlotsColumn" label="Slots" />
+            <v-switch color="primary" v-model="showNumSlots" label="Slots" />
           </v-col>
           <v-col>
-            <v-switch color="primary" v-model="showSlotSizeColumn" label="Slot Size" />
+            <v-switch color="primary" v-model="showSlotSize" label="Slot Size" />
           </v-col>
           <v-col>
-            <v-switch color="primary" v-model="showClothingTypeColumn" label="Clothing Type" />
+            <v-switch color="primary" v-model="showClothingType" label="Clothing Type" />
           </v-col>
           <v-col>
-            <v-switch color="primary" v-model="showDifficultyColumn" label="Difficulty" />
+            <v-switch color="primary" v-model="showDifficulty" label="Difficulty" />
           </v-col>
           <v-col>
-            <v-switch color="primary" v-model="showCraftableColumn" label="Craftable" />
+            <v-switch color="primary" v-model="showCraftable" label="Craftable" />
           </v-col>
           <v-col>
-            <v-switch color="primary" v-model="showSpawnsInColumn" label="Spawns In" />
+            <v-switch color="primary" v-model="showSpawnsIn" label="Spawns In" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-switch color="primary" v-model="showImmediateFood" label="Immediate Food" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showBonusFood" label="Bonus Food" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showTotalFood" label="Total Food" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showUses" label="Uses" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showUseChance" label="Use Chance" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showInsulation" label="Insulation" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-switch color="primary" v-model="showDeadlyFrom" label="Deadly From" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showUseDistance" label="Use Distance" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showItemSize" label="Item Size" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showMinPickupAge" label="Min Pickup Age" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showSpeed" label="Speed" />
+          </v-col>
+          <v-col>
+            <v-switch color="primary" v-model="showMovementType" label="Movement Type" />
           </v-col>
         </v-row>
 
@@ -168,21 +208,46 @@ export default {
     const clothingTypeNoneEnabled = ref(true);
 
     // New column visibility toggles
-    const showNumSlotsColumn = ref(true);
-    const showSlotSizeColumn = ref(true);
-    const showClothingTypeColumn = ref(true);
-    const showDifficultyColumn = ref(true);
-    const showCraftableColumn = ref(false);
-    const showSpawnsInColumn = ref(true);
+    const showNumSlots = ref(true);
+    const showSlotSize = ref(true);
+    const showClothingType = ref(true);
+    const showDifficulty = ref(true);
+    const showCraftable = ref(false);
+    const showSpawnsIn = ref(true);
+    const showImmediateFood = ref(false);
+    const showBonusFood = ref(false);
+    const showTotalFood = ref(false);
+    const showUses = ref(false);
+    const showUseChance = ref(false);
+    const showInsulation = ref(false);
+    const showDeadlyFrom = ref(false);
+    const showUseDistance = ref(false);
+    const showItemSize = ref(false);
+    const showMinPickupAge = ref(false);
+    const showSpeed = ref(false);
+    const showMovementType = ref(false);
+    
 
     // Define the full set of headers/columns
     const allHeaders = [
-      { title: "Slots", key: "Slots", visible: showNumSlotsColumn, width: '80px' },
-      { title: "Slot Size", key: "Slot Size", visible: showSlotSizeColumn, width: '80px' },
-      { title: "Clothing Type", key: "Clothing Type", visible: showClothingTypeColumn, width: '100px' },
-      { title: "Difficulty", key: "Difficulty", visible: showDifficultyColumn, width: '100px' },
-      { title: "Craftable", key: "Craftable", visible: showCraftableColumn, width: '100px' },
-      { title: "Spawns In", key: "Spawns In", visible: showSpawnsInColumn, width: '200px' },
+      { title: "Slots", key: "Slots", visible: showNumSlots, width: '80px' },
+      { title: "Slot Size", key: "Slot Size", visible: showSlotSize, width: '80px' },
+      { title: "Clothing Type", key: "Clothing Type", visible: showClothingType, width: '100px' },
+      { title: "Difficulty", key: "Difficulty", visible: showDifficulty, width: '100px' },
+      { title: "Craftable", key: "Craftable", visible: showCraftable, width: '100px' },
+      { title: "Spawns In", key: "Spawns In", visible: showSpawnsIn, width: '200px' },
+      { title: "Immediate Food", key: "Immediate Food", visible: showImmediateFood, width: '80px' },
+      { title: "Bonus Food", key: "Bonus Food", visible: showBonusFood, width: '80px' },
+      { title: "Total Food", key: "Total Food", visible: showTotalFood, width: '80px' },
+      { title: "Uses", key: "Uses", visible: showUses, width: '80px' },
+      { title: "Use Chance", key: "Use Chance", visible: showUseChance, width: '80px' },
+      { title: "Insulation", key: "Insulation", visible: showInsulation, width: '80px' },
+      { title: "Deadly From", key: "Deadly From", visible: showDeadlyFrom, width: '80px' },
+      { title: "Use Distance", key: "Use Distance", visible: showUseDistance, width: '80px' },
+      { title: "Item Size", key: "Item Size", visible: showItemSize, width: '80px' },
+      { title: "Min Pickup Age", key: "Min Pickup Age", visible: showMinPickupAge, width: '80px' },
+      { title: "Speed", key: "Speed", visible: showSpeed, width: '80px' },
+      { title: "Movement Type", key: "Movement Type", visible: showMovementType, width: '80px' },
     ];
 
     // Dynamically compute the headers based on the column visibility
@@ -193,38 +258,34 @@ export default {
 
     const visibleHeaders = computed(() => allHeaders.filter((header) => header.visible.value));
 
-    const displayed_data = (object, colsToShow) => {
-      const biome_names = ["Grasslands", "Swamps", "Yellow Prairies", "Badlands", "Tundra", "Desert", "Jungle", "Deep Water", "Flower Fields", "Shallow Water"];
-      let dataToDisplay = {
+    const displayed_data = (object) => {
+      return {
         "Object": object.name,
+        "Slots": object.numSlots,
+        "Slot Size": object.slotSize,
+        "Clothing Type": object.clothingType,
+        "Craftable": object.craftable,
+        "Difficulty": object.difficulty,
+        "Spawns In": object.biomes.join(", "),
+        "Immediate Food": object.immediateFood,
+        "Bonus Food": object.bonusFood,
+        "Total Food": object.totalFood,
+        "Uses": object.numUses,
+        "Use Chance": object.useChance,
+        "Insulation": object.insulation,
+        "Deadly From": object.deadlyDistance,
+        "Use Distance": object.useDistance,
+        "Item Size": object.size,
+        "Min Pickup Age": object.minPickupAge,
+        "Speed": object.speedMult,
+        "Movement Type": object.moveType
       };
-      for (let col of colsToShow) {
-        if (col === "Slots") dataToDisplay["Slots"] = object.numSlots;
-        if (col === "Slot Size") dataToDisplay["Slot Size"] = object.slotSize;
-        if (col === "Clothing Type") dataToDisplay["Clothing Type"] = object.clothingType;
-        if (col === "Craftable") dataToDisplay["Craftable"] = object.craftable;
-        if (col === "Difficulty") dataToDisplay["Difficulty"] = object.difficulty;
-        if (col === "Spawns In") dataToDisplay["Spawns In"] = object.biomes.join(", ");
-        if (col === "Immediate Food") dataToDisplay["Immediate Food"] = object.immediateFood;
-        if (col === "Bonus Food") dataToDisplay["Bonus Food"] = object.bonusFood;
-        if (col === "Total Food") dataToDisplay["Total Food"] = object.totalFood;
-        if (col === "Uses") dataToDisplay["Uses"] = object.numUses;
-        if (col === "Use Chance") dataToDisplay["Use Chance"] = object.useChance;
-        if (col === "Insulation") dataToDisplay["Insulation"] = object.insulation;
-        if (col === "Deadly From") dataToDisplay["Deadly From"] = object.deadlyDistance;
-        if (col === "Use Distance") dataToDisplay["Use Distance"] = object.useDistance;
-        if (col === "Item Size") dataToDisplay["Item Size"] = object.size;
-        if (col === "Min Pickup Age") dataToDisplay["Min Pickup Age"] = object.minPickupAge;
-        if (col === "Speed") dataToDisplay["Speed"] = object.speedMult;
-        if (col === "Movement Type") dataToDisplay["Movement Type"] = object.moveType;
-      }
-      return dataToDisplay;
     };
 
     const filtered_items = ref(
       GameObject.allObjects()
         .filter(o => localHideUncraftable.value ? o.craftable : true)
-        .map(o => displayed_data(o, visibleHeaders.value.map(h => h.key)))
+        .map(o => displayed_data(o))
     );
 
     const updateHideUncraftable = () => {
@@ -271,12 +332,7 @@ export default {
         })
       }
 
-      let colsToShow = ["Object"];
-      if (showNumSlotsColumn.value) colsToShow.push("Slots");
-      if (showSlotSizeColumn.value) colsToShow.push("Slot Size");
-      if (showClothingTypeColumn.value) colsToShow.push("Clothing Type");
-
-      const results = GameObject.filter(filters).map(o => displayed_data(o, colsToShow));
+      const results = GameObject.filter(filters).map(o => displayed_data(o));
       filtered_items.value = results;
     };
 
@@ -306,14 +362,26 @@ export default {
       extraObjectData,
       localHideUncraftable,
       updateHideUncraftable,
-      showNumSlotsColumn,
-      showSlotSizeColumn,
-      showClothingTypeColumn,
-      showDifficultyColumn,
-      showCraftableColumn,
-      showSpawnsInColumn,
       tableHeaders,
       visibleHeaders,
+      showNumSlots,
+      showSlotSize,
+      showClothingType,
+      showDifficulty,
+      showCraftable,
+      showSpawnsIn,
+      showImmediateFood,
+      showBonusFood,
+      showTotalFood,
+      showUses,
+      showUseChance,
+      showInsulation,
+      showDeadlyFrom,
+      showUseDistance,
+      showItemSize,
+      showMinPickupAge,
+      showSpeed,
+      showMovementType,
     }
   },
   methods: {
