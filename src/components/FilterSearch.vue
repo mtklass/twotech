@@ -34,13 +34,13 @@
             <v-switch color="primary" v-model="clothingTypeEnabled" label="Clothing Type" @update:modelValue="submitIfAuto()"></v-switch>
           </v-col>
           <v-col>
-            <v-btn-toggle v-model="clothingTypesToInclude" variant="outlined" divided multiple @update:modelValue="submitIfAuto()">
-              <v-btn>Head</v-btn>
-              <v-btn>Top</v-btn>
-              <v-btn>Bottom</v-btn>
-              <v-btn>Shoe</v-btn>
-              <v-btn>Pack</v-btn>
-              <v-btn>None</v-btn>
+            <v-btn-toggle density="compact" :disabled="!clothingTypeEnabled" v-model="clothingTypeValues" variant="outlined" divided multiple @update:modelValue="submitIfAuto()">
+              <v-btn slim>Head</v-btn>
+              <v-btn slim>Top</v-btn>
+              <v-btn slim>Bottom</v-btn>
+              <v-btn slim>Shoe</v-btn>
+              <v-btn slim>Pack</v-btn>
+              <v-btn slim>None</v-btn>
             </v-btn-toggle>
           </v-col>
         </v-row>
@@ -48,22 +48,32 @@
         <!-- Difficulty filter -->
         <v-row class="mt-n14 mb-n14">
           <v-col cols="3">
-            <v-switch color="primary" v-model="slotSizeEnabled" label="Slot size" @update:modelValue="submitIfAuto()"></v-switch>
+            <v-switch color="primary" v-model="difficultyEnabled" label="Difficulty" @update:modelValue="submitIfAuto()"></v-switch>
           </v-col>
           <v-col>
-            <v-text-field label="Min" :disabled="!slotSizeEnabled" v-model="slotSizeMin" density="compact" @update:modelValue="submitIfAuto()"/>
+            <v-text-field label="Min" :disabled="!difficultyEnabled" v-model="difficultyMin" density="compact" @update:modelValue="submitIfAuto()"/>
           </v-col>
           <v-col>
-            <v-text-field label="Max" :disabled="!slotSizeEnabled" v-model="slotSizeMax" density="compact" @update:modelValue="submitIfAuto()"/>
+            <v-text-field label="Max" :disabled="!difficultyEnabled" v-model="difficultyMax" density="compact" @update:modelValue="submitIfAuto()"/>
           </v-col>
         </v-row>
 
-        <!-- TODO: Craftable filter, just a bool -->
-
         <!-- TODO: Spawns In filter, similar to clothing, an OR of all the different options -->
         <!-- This may need to be double-tall to allow for all the options. Maybe not using v-col will be enough -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="spawnsInEnabled" label="Spawns In" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-btn-toggle :disabled="!spawnsInEnabled" v-model="spawnsInValues" variant="outlined" divided multiple @update:modelValue="submitIfAuto()">
+              <v-btn v-tippy="{content: biome.name, theme: 'twotech', animation: 'scale'}" v-for="biome in biomes" :key="biome.id">
+                <BiomeImage :biome="biome" />
+              </v-btn>
+            </v-btn-toggle>
+          </v-col>
+        </v-row>
 
-        <!-- Immediate Foood filter -->
+        <!-- Immediate Food filter -->
         <v-row class="mt-n14 mb-n14">
           <v-col cols="3">
             <v-switch color="primary" v-model="immediateFoodEnabled" label="Immediate Food" @update:modelValue="submitIfAuto()"></v-switch>
@@ -289,12 +299,21 @@
 <script>
 import { ref, computed, watch } from "vue";
 import GameObject from '../models/GameObject';
+import Biome from '../models/Biome';
 import ObjectImage from "./ObjectImage";
+import BiomeImage from './BiomeImage';
 import BrowserStorage from '../models/BrowserStorage';
+import '../css/tippy.css'
+import 'tippy.js/animations/perspective.css'
+import 'tippy.js/animations/scale.css'
+import 'tippy.js/animations/shift-away.css'
+import 'tippy.js/animations/shift-toward.css'
+
 
 export default {
   components: {
     ObjectImage,
+    BiomeImage,
   },
   props: {
     hideUncraftable: Boolean,
@@ -315,16 +334,19 @@ export default {
     const slotSizeMax = ref(3);
     // Clothing Type filter data
     const clothingTypeEnabled = ref(false);
-    // Should we make this an array, and just know where the positions are when creating the filter?
-    // Then we can use a v-btn-group
-    const clothingTypesToInclude = ref([0, 1, 2, 3, 4, 5]);
+    // Array to be used with v-btn-group
+    // Order here is Head, Top, Bottom, Shoe, Pack, None
+    const clothingTypeValues = ref([0, 1, 2, 3, 4, 5]);
     // Difficulty filter data
     const difficultyEnabled = ref(false);
     const difficultyMin = ref(0.0);
     const difficultyMax = ref(3.0);
-    // Craftable filter data
     // Spawns In filter data
-
+    const spawnsInEnabled = ref(false);
+    // Array to be used with v-btn-group
+    // Order here is "Grasslands", "Swamps", "Yellow Prairies", "Badlands", "Tundra", "Desert", "Jungle", "Deep Water", "Flower Fields", "Shallow Water"
+    const spawnsInValues = ref([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    const biomes = computed(() => Biome.biomes());
     // Immediate Food filter data
     const immediateFoodEnabled = ref(false);
     const immediateFoodMin = ref(0);
@@ -486,12 +508,12 @@ export default {
       if (clothingTypeEnabled.value) {
         filters.push({
           name: "clothingType",
-          includeHeadItems: clothingTypesToInclude.value.includes(0),
-          includeTopItems: clothingTypesToInclude.value.includes(1),
-          includeBottomItems: clothingTypesToInclude.value.includes(2),
-          includeShoeItems: clothingTypesToInclude.value.includes(3),
-          includePackItems: clothingTypesToInclude.value.includes(4),
-          includeNoneItems: clothingTypesToInclude.value.includes(5),
+          includeHeadItems: clothingTypeValues.value.includes(0),
+          includeTopItems: clothingTypeValues.value.includes(1),
+          includeBottomItems: clothingTypeValues.value.includes(2),
+          includeShoeItems: clothingTypeValues.value.includes(3),
+          includePackItems: clothingTypeValues.value.includes(4),
+          includeNoneItems: clothingTypeValues.value.includes(5),
         })
       }
       if (difficultyEnabled.value) {
@@ -500,6 +522,21 @@ export default {
           min: difficultyMin.value,
           max: difficultyMax.value,
         });
+      }
+      if (spawnsInEnabled.value) {
+        filters.push({
+          name: "spawnsIn",
+          includeGrasslands: spawnsInValues.value.includes(0),
+          includeSwamps: spawnsInValues.value.includes(1),
+          includeYellowPraries: spawnsInValues.value.includes(2),
+          includeBadlands: spawnsInValues.value.includes(3),
+          includeTundra: spawnsInValues.value.includes(4),
+          includeDesert: spawnsInValues.value.includes(5),
+          includeJungle: spawnsInValues.value.includes(6),
+          includeDeepWater: spawnsInValues.value.includes(7),
+          includeFlowerFields: spawnsInValues.value.includes(8),
+          includeShallowWater: spawnsInValues.value.includes(9),
+        })
       }
       if (immediateFoodEnabled.value) {
         filters.push({
@@ -601,10 +638,13 @@ export default {
       slotSizeMin,
       slotSizeMax,
       clothingTypeEnabled,
-      clothingTypesToInclude,
+      clothingTypeValues,
       difficultyEnabled,
       difficultyMin,
       difficultyMax,
+      biomes,
+      spawnsInEnabled,
+      spawnsInValues,
       immediateFoodEnabled,
       immediateFoodMin,
       immediateFoodMax,
@@ -720,6 +760,12 @@ export default {
 .filterCheckbox {
   margin-left: 8px;
   margin-right: 8px;
+}
+
+.v-btn .biomeImage {
+  background-size: cover;
+  width: 30px; /* or whatever size fits */
+  height: 30px;
 }
 
 </style>
