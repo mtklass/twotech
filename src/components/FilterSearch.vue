@@ -495,6 +495,8 @@ export default {
         .map(o => displayed_data(o))
     );
 
+    let filterTimeout = null; // Track the timeout
+
     const updateHideUncraftable = () => {
       props.toggleHideUncraftable();
     };
@@ -505,155 +507,164 @@ export default {
       }
     };
 
-    const setupSubmit = (_event) => {
-      let filters = [];
-      if (localHideUncraftable.value) {
-        filters.push({
-          name: "hideUncraftable",
-          toggled: true,
-        })
-      }
-      if (numSlotsEnabled.value) {
-        filters.push({
-          name: "numSlots",
-          min: numSlotsMin.value,
-          max: numSlotsMax.value,
-        });
-      }
-      if (slotSizeEnabled.value) {
-        filters.push({
-          name: "slotSize",
-          min: slotSizeMin.value,
-          max: slotSizeMax.value,
-        });
-      }
-      if (clothingTypeEnabled.value) {
-        filters.push({
-          name: "clothingType",
-          includeHeadItems: clothingTypeValues.value.includes(0),
-          includeTopItems: clothingTypeValues.value.includes(1),
-          includeBottomItems: clothingTypeValues.value.includes(2),
-          includeShoeItems: clothingTypeValues.value.includes(3),
-          includePackItems: clothingTypeValues.value.includes(4),
-          includeNoneItems: clothingTypeValues.value.includes(5),
-        })
-      }
-      if (difficultyEnabled.value) {
-        filters.push({
-          name: "difficulty",
-          min: difficultyMin.value,
-          max: difficultyMax.value,
-        });
-      }
-      if (spawnsInEnabled.value) {
-        filters.push({
-          name: "spawnsIn",
-          includeGrasslands: spawnsInValues.value.includes(0),
-          includeSwamps: spawnsInValues.value.includes(1),
-          includeYellowPraries: spawnsInValues.value.includes(2),
-          includeBadlands: spawnsInValues.value.includes(3),
-          includeTundra: spawnsInValues.value.includes(4),
-          includeDesert: spawnsInValues.value.includes(5),
-          includeJungle: spawnsInValues.value.includes(6),
-          includeDeepWater: spawnsInValues.value.includes(7),
-          includeFlowerFields: spawnsInValues.value.includes(8),
-          includeShallowWater: spawnsInValues.value.includes(9),
-        })
-      }
-      if (immediateFoodEnabled.value) {
-        filters.push({
-          name: "immediateFood",
-          min: immediateFoodMin.value,
-          max: immediateFoodMax.value,
-        });
-      }
-      if (bonusFoodEnabled.value) {
-        filters.push({
-          name: "bonusFood",
-          min: bonusFoodMin.value,
-          max: bonusFoodMax.value,
-        });
-      }
-      if (totalFoodEnabled.value) {
-        filters.push({
-          name: "totalFood",
-          min: totalFoodMin.value,
-          max: totalFoodMax.value,
-        });
-      }
-      if (usesEnabled.value) {
-        filters.push({
-          name: "uses",
-          min: usesMin.value,
-          max: usesMax.value,
-        });
-      }
-      if (useChanceEnabled.value) {
-        filters.push({
-          name: "useChance",
-          min: useChanceMin.value,
-          max: useChanceMax.value,
-        });
-      }
-      if (insulationEnabled.value) {
-        filters.push({
-          name: "insulation",
-          min: insulationMin.value,
-          max: insulationMax.value,
-        });
-      }
-      if (deadlyFromEnabled.value) {
-        filters.push({
-          name: "deadlyFrom",
-          min: deadlyFromMin.value,
-          max: deadlyFromMax.value,
-        });
-      }
-      if (useDistanceEnabled.value) {
-        filters.push({
-          name: "useDistance",
-          min: useDistanceMin.value,
-          max: useDistanceMax.value,
-        });
-      }
-      if (itemSizeEnabled.value) {
-        filters.push({
-          name: "itemSize",
-          min: itemSizeMin.value,
-          max: itemSizeMax.value,
-        });
-      }
-      if (minPickupAgeEnabled.value) {
-        filters.push({
-          name: "minPickupAge",
-          min: minPickupAgeMin.value,
-          max: minPickupAgeMax.value,
-        });
-      }
-      if (speedEnabled.value) {
-        filters.push({
-          name: "speed",
-          min: speedMin.value,
-          max: speedMax.value,
-        });
-      }
-      if (movementTypeEnabled.value) {
-        filters.push({
-          name: "movementType",
-          includeNone: movementTypeValues.value.includes(0),
-          includeChase: movementTypeValues.value.includes(1),
-          includeFlee: movementTypeValues.value.includes(2),
-          includeRandom: movementTypeValues.value.includes(3),
-          includeNorth: movementTypeValues.value.includes(4),
-          includeSouth: movementTypeValues.value.includes(5),
-          includeEast: movementTypeValues.value.includes(6),
-          includeWest: movementTypeValues.value.includes(7),
-          includeFind: movementTypeValues.value.includes(8),
-        })
+    const setupSubmit = async (_event) => {
+      // Clear the previous timeout if another filter change happens before the previous one finishes
+      if (filterTimeout) {
+        clearTimeout(filterTimeout);
+        filtered_items.value = []; // Clear the current results while waiting for the new results
       }
 
-      const results = GameObject.filter(filters).map(o => displayed_data(o));
-      filtered_items.value = results;
+      // Set a new timeout to defer the filtering process
+      filterTimeout = setTimeout(() => {
+        let filters = [];
+        if (localHideUncraftable.value) {
+          filters.push({
+            name: "hideUncraftable",
+            toggled: true,
+          })
+        }
+        if (numSlotsEnabled.value) {
+          filters.push({
+            name: "numSlots",
+            min: numSlotsMin.value,
+            max: numSlotsMax.value,
+          });
+        }
+        if (slotSizeEnabled.value) {
+          filters.push({
+            name: "slotSize",
+            min: slotSizeMin.value,
+            max: slotSizeMax.value,
+          });
+        }
+        if (clothingTypeEnabled.value) {
+          filters.push({
+            name: "clothingType",
+            includeHeadItems: clothingTypeValues.value.includes(0),
+            includeTopItems: clothingTypeValues.value.includes(1),
+            includeBottomItems: clothingTypeValues.value.includes(2),
+            includeShoeItems: clothingTypeValues.value.includes(3),
+            includePackItems: clothingTypeValues.value.includes(4),
+            includeNoneItems: clothingTypeValues.value.includes(5),
+          })
+        }
+        if (difficultyEnabled.value) {
+          filters.push({
+            name: "difficulty",
+            min: difficultyMin.value,
+            max: difficultyMax.value,
+          });
+        }
+        if (spawnsInEnabled.value) {
+          filters.push({
+            name: "spawnsIn",
+            includeGrasslands: spawnsInValues.value.includes(0),
+            includeSwamps: spawnsInValues.value.includes(1),
+            includeYellowPraries: spawnsInValues.value.includes(2),
+            includeBadlands: spawnsInValues.value.includes(3),
+            includeTundra: spawnsInValues.value.includes(4),
+            includeDesert: spawnsInValues.value.includes(5),
+            includeJungle: spawnsInValues.value.includes(6),
+            includeDeepWater: spawnsInValues.value.includes(7),
+            includeFlowerFields: spawnsInValues.value.includes(8),
+            includeShallowWater: spawnsInValues.value.includes(9),
+          })
+        }
+        if (immediateFoodEnabled.value) {
+          filters.push({
+            name: "immediateFood",
+            min: immediateFoodMin.value,
+            max: immediateFoodMax.value,
+          });
+        }
+        if (bonusFoodEnabled.value) {
+          filters.push({
+            name: "bonusFood",
+            min: bonusFoodMin.value,
+            max: bonusFoodMax.value,
+          });
+        }
+        if (totalFoodEnabled.value) {
+          filters.push({
+            name: "totalFood",
+            min: totalFoodMin.value,
+            max: totalFoodMax.value,
+          });
+        }
+        if (usesEnabled.value) {
+          filters.push({
+            name: "uses",
+            min: usesMin.value,
+            max: usesMax.value,
+          });
+        }
+        if (useChanceEnabled.value) {
+          filters.push({
+            name: "useChance",
+            min: useChanceMin.value,
+            max: useChanceMax.value,
+          });
+        }
+        if (insulationEnabled.value) {
+          filters.push({
+            name: "insulation",
+            min: insulationMin.value,
+            max: insulationMax.value,
+          });
+        }
+        if (deadlyFromEnabled.value) {
+          filters.push({
+            name: "deadlyFrom",
+            min: deadlyFromMin.value,
+            max: deadlyFromMax.value,
+          });
+        }
+        if (useDistanceEnabled.value) {
+          filters.push({
+            name: "useDistance",
+            min: useDistanceMin.value,
+            max: useDistanceMax.value,
+          });
+        }
+        if (itemSizeEnabled.value) {
+          filters.push({
+            name: "itemSize",
+            min: itemSizeMin.value,
+            max: itemSizeMax.value,
+          });
+        }
+        if (minPickupAgeEnabled.value) {
+          filters.push({
+            name: "minPickupAge",
+            min: minPickupAgeMin.value,
+            max: minPickupAgeMax.value,
+          });
+        }
+        if (speedEnabled.value) {
+          filters.push({
+            name: "speed",
+            min: speedMin.value,
+            max: speedMax.value,
+          });
+        }
+        if (movementTypeEnabled.value) {
+          filters.push({
+            name: "movementType",
+            includeNone: movementTypeValues.value.includes(0),
+            includeChase: movementTypeValues.value.includes(1),
+            includeFlee: movementTypeValues.value.includes(2),
+            includeRandom: movementTypeValues.value.includes(3),
+            includeNorth: movementTypeValues.value.includes(4),
+            includeSouth: movementTypeValues.value.includes(5),
+            includeEast: movementTypeValues.value.includes(6),
+            includeWest: movementTypeValues.value.includes(7),
+            includeFind: movementTypeValues.value.includes(8),
+          })
+        }
+
+        const results = GameObject.filter(filters).map(o => displayed_data(o));
+        filtered_items.value = results;
+      }, 0);
     };
 
     watch(() => props.hideUncraftable, (newVal) => {
