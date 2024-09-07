@@ -4,6 +4,7 @@ const BrowserStorage = {
 
   setItem: function(key, value) {
     if (this.storage) {
+      console.log("setting (" + key + ", " + value + ")");
       this.storage.setItem(key, value);
     } else {
       this.legacyStorage[key] = value;
