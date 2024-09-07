@@ -276,6 +276,20 @@ export default class GameObject {
               object.speed = 0;
             if (object.speed < filter.min || object.speed > filter.max)
               includeObject = false;
+          } else if (filter.name === "movementType") {
+            if (
+              (!filter.includeNone && object.moveType === "None")
+              || (!filter.includeChase && object.biomes === "Chase")
+              || (!filter.includeFlee && object.biomes === "Flee")
+              || (!filter.includeRandom && object.biomes === "Random")
+              || (!filter.includeNorth && object.biomes === "North")
+              || (!filter.includeSouth && object.biomes === "South")
+              || (!filter.includeEast && object.biomes === "East")
+              || (!filter.includeWest && object.biomes === "West")
+              || (!filter.includeFind && object.biomes === "Find")
+            ) {
+              includeObject = false;
+            }
           }
         }
 
