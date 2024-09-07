@@ -102,7 +102,7 @@
         <!-- Total Food filter -->
         <v-row class="mt-n14 mb-n14">
           <v-col cols="3">
-            <v-switch color="primary" v-model="totalFoodEnabled" label="Total Foood" @update:modelValue="submitIfAuto()"></v-switch>
+            <v-switch color="primary" v-model="totalFoodEnabled" label="Total Food" @update:modelValue="submitIfAuto()"></v-switch>
           </v-col>
           <v-col>
             <v-text-field label="Min" :disabled="!totalFoodEnabled" v-model="totalFoodMin" density="compact" @update:modelValue="submitIfAuto()"/>
