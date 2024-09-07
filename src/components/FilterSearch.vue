@@ -2,7 +2,7 @@
   <v-sheet class="mx-auto" theme="dark">
     <v-form @submit.prevent="submit">
       <v-container class="ga-0">
-        <!-- Slot count filter -->
+        <!-- Slot Count filter -->
         <v-row class="mt-n6 mb-n14">
           <v-col cols="3">
             <v-switch color="primary" v-model="numSlotsEnabled" label="Slots" @update:modelValue="submitIfAuto()"></v-switch>
@@ -15,7 +15,7 @@
           </v-col>
         </v-row>
 
-        <!-- Slot size filter -->
+        <!-- Slot Size filter -->
         <v-row class="mt-n14 mb-n14">
           <v-col cols="3">
             <v-switch color="primary" v-model="slotSizeEnabled" label="Slot size" @update:modelValue="submitIfAuto()"></v-switch>
@@ -28,7 +28,7 @@
           </v-col>
         </v-row>
 
-        <!-- Clothing type filter -->
+        <!-- Clothing Type filter -->
         <v-row class="mt-n14 mb-n14">
           <v-col cols="3">
             <v-switch color="primary" v-model="clothingTypeEnabled" label="Clothing Type" @update:modelValue="submitIfAuto()"></v-switch>
@@ -58,7 +58,7 @@
           </v-col>
         </v-row>
 
-        <!-- TODO: Spawns In filter, similar to clothing, an OR of all the different options -->
+        <!-- Spawns In filter -->
         <!-- This may need to be double-tall to allow for all the options. Maybe not using v-col will be enough -->
         <v-row class="mt-n14 mb-n14">
           <v-col cols="3">
@@ -216,8 +216,28 @@
           </v-col>
         </v-row>
 
-        <!-- TODO: Movement Type filter, similar to clothing, an OR of all the different options -->
+        <!-- Movement Type filter -->
         <!-- This may need to be double-tall to allow for all the options. Maybe not using v-col will be enough -->
+        <v-row class="mt-n14 mb-n14">
+          <v-col cols="3">
+            <v-switch color="primary" v-model="movementTypeEnabled" label="Movement Type" @update:modelValue="submitIfAuto()"></v-switch>
+          </v-col>
+          <v-col>
+            <v-btn-toggle density="compact" :disabled="!movementTypeEnabled" v-model="movementTypeValues" variant="outlined" divided multiple @update:modelValue="submitIfAuto()">
+              <v-btn slim>None</v-btn>
+              <v-btn slim>Chase</v-btn>
+              <v-btn slim>Flee</v-btn>
+              <v-btn slim>Random</v-btn>
+              <v-btn slim>North</v-btn>
+              <v-btn slim>South</v-btn>
+              <v-btn slim>East</v-btn>
+              <v-btn slim>West</v-btn>
+              <v-btn slim>Find</v-btn>
+            </v-btn-toggle>
+          </v-col>
+        </v-row>
+
+        <!-- TODO: Movement Type filter, similar to clothing, an OR of all the different options -->
 
         <!-- Insta-filter, Filter, and Hide uncraftable controls -->
         <v-row justify="center">
@@ -392,6 +412,8 @@ export default {
     const speedMin = ref(0);
     const speedMax = ref(3);
     // Movement Type filter data
+    const movementTypeEnabled = ref(false);
+    const movementTypeValues = ref([0, 1, 2, 3, 4, 5, 6, 7, 8]);
 
     // Column visibility toggles
     const showNumSlots = ref(true);
@@ -615,6 +637,20 @@ export default {
           max: speedMax.value,
         });
       }
+      if (movementTypeEnabled.value) {
+        filters.push({
+          name: "movementType",
+          includeNone: movementTypeValues.value.includes(0),
+          includeChase: movementTypeValues.value.includes(1),
+          includeFlee: movementTypeValues.value.includes(2),
+          includeRandom: movementTypeValues.value.includes(3),
+          includeNorth: movementTypeValues.value.includes(4),
+          includeSouth: movementTypeValues.value.includes(5),
+          includeEast: movementTypeValues.value.includes(6),
+          includeWest: movementTypeValues.value.includes(7),
+          includeFind: movementTypeValues.value.includes(8),
+        })
+      }
 
       const results = GameObject.filter(filters).map(o => displayed_data(o));
       filtered_items.value = results;
@@ -645,6 +681,8 @@ export default {
       biomes,
       spawnsInEnabled,
       spawnsInValues,
+      movementTypeEnabled,
+      movementTypeValues,
       immediateFoodEnabled,
       immediateFoodMin,
       immediateFoodMax,
