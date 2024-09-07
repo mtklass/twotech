@@ -347,7 +347,7 @@ export default class GameObject {
     this.clothingType = clothingType;
     this.biomes = biomes;
     this.immediateFood = immediateFood;
-    this.bonusfood = bonusFood;
+    this.bonusFood = bonusFood;
     this.totalFood = totalFood;
     this.numUses = numUses;
     this.useChance = useChance;
