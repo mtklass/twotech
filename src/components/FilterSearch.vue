@@ -294,7 +294,7 @@
             <!-- Render the Object column with special handling for ObjectImage -->
             <template v-slot:item="{ item }">
               <tr>
-                <td class="text-center" style="width: 170px; min-width: 170px; max-width: 170px">
+                <td class="text-center" style="width: 230px; min-width: 230px; max-width: 230px">
                   <v-list>
                     <v-list-item class="nostyle" :to="extraObjectData.find(o => o.name === item.Object).url">
                       <div class="image-container">
@@ -496,7 +496,7 @@ export default {
 
     // Dynamically compute the headers based on the column visibility
     const tableHeaders = computed(() => [
-      { title: "Object", key: "Object" }, // Object column always visible
+      { title: "Object", key: "Object", visible: true, width: '230px' }, // Object column always visible
       ...allHeaders.filter((header) => header.visible.value),
     ]);
 
@@ -504,7 +504,6 @@ export default {
 
     // Save control state to BrowserStorage
     const saveControlState = (key, value) => {
-      console.log(`saveControlState(${key}, ${value})`);
       BrowserStorage.setItem(key, JSON.stringify(value));
     };
 
