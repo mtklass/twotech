@@ -3,15 +3,20 @@
     <v-form @submit.prevent="submit">
       <v-container class="ga-0">
         <!-- Filter control -->
-        <v-row>
-          <v-select
-            class="mb-n6"
-            label="Filter"
-            :items="filterNames"
-            v-model="activeFilters"
-            @update:modelValue="saveAndSubmit('activeFilters', activeFilters)"
-            multiple
-          ></v-select>
+        <v-row align-content="center">
+          <v-col cols="10">
+            <v-select
+              class="mb-n6"
+              label="Filter"
+              :items="filterNames"
+              v-model="activeFilters"
+              @update:modelValue="saveAndSubmit('activeFilters', activeFilters)"
+              multiple
+            ></v-select>
+          </v-col>
+          <v-col align-self="center" cols="2">
+            <v-btn class="light-button" @click="setFiltersToDefaults()">Reset Filters</v-btn>
+          </v-col>
         </v-row>
 
         <!-- Slot Count filter -->
@@ -264,7 +269,6 @@
 
         <!-- Control resets -->
         <v-row justify="center mt-n8 mb-4">
-          <v-btn class="light-button" @click="setFiltersToDefaults()">Reset Filters</v-btn>
           <v-btn class="light-button" @click="setColumnsToDefaults()">Reset Columns</v-btn>
         </v-row>
 
