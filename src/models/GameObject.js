@@ -199,7 +199,7 @@ export default class GameObject {
             if (
               (!filter.includeGrasslands && object.biomes.includes("Grasslands"))
               || (!filter.includeSwamps && object.biomes.includes("Swamps"))
-              || (!filter.includeYellowPraries && object.biomes.includes("Yellow Praries"))
+              || (!filter.includeYellowPrairies && object.biomes.includes("Yellow Prairies"))
               || (!filter.includeBadlands && object.biomes.includes("Badlands"))
               || (!filter.includeTundra && object.biomes.includes("Tundra"))
               || (!filter.includeDesert && object.biomes.includes("Desert"))

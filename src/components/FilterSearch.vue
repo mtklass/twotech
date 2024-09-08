@@ -867,7 +867,7 @@ export default {
             name: "spawnsIn",
             includeGrasslands: spawnsInValues.value.includes(0),
             includeSwamps: spawnsInValues.value.includes(1),
-            includeYellowPraries: spawnsInValues.value.includes(2),
+            includeYellowPrairies: spawnsInValues.value.includes(2),
             includeBadlands: spawnsInValues.value.includes(3),
             includeTundra: spawnsInValues.value.includes(4),
             includeDesert: spawnsInValues.value.includes(5),
