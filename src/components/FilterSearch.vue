@@ -638,6 +638,8 @@ export default {
       // Movement Type
       movementTypeValues.value = DEFAULT_MOVEMENT_TYPE.values;
       saveControlState('movementTypeValues', DEFAULT_MOVEMENT_TYPE.values);
+
+      setupSubmit();
     };
 
     const setColumnsToDefaults = () => {
