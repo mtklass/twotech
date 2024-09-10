@@ -15,7 +15,7 @@
             ></v-select>
           </v-col>
           <v-col align-self="center" cols="2">
-            <v-btn class="light-button" @click="setFiltersToDefaults()">Reset Filters</v-btn>
+            <v-btn class="light-button" @click="setFiltersToDefaults()">Reset</v-btn>
           </v-col>
         </v-row>
 
@@ -269,7 +269,7 @@
 
         <!-- Control resets -->
         <v-row justify="center mt-n8 mb-4">
-          <v-btn class="light-button" @click="setColumnsToDefaults()">Reset Columns</v-btn>
+          <v-btn class="light-button" @click="setColumnsToDefaults()">Reset</v-btn>
         </v-row>
 
         <!-- Column selection controls -->
