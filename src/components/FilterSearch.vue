@@ -1,6 +1,6 @@
 <template>
-  <v-sheet class="mx-auto" theme="dark">
-    <v-form @submit.prevent="submit">
+  <v-form @submit.prevent="submit">
+    <v-sheet class="mx-auto" theme="dark">
       <v-container class="ga-0">
         <!-- Filter control -->
         <v-row align-content="center">
@@ -253,7 +253,7 @@
         </v-row>
 
         <!-- Insta-filter, Filter, and Hide uncraftable controls -->
-        <!-- <v-row justify="center mb-n8">
+        <v-row justify="center mb-n8">
           <v-col cols="4" class="d-flex justify-end">
             <v-switch color="primary" label="Insta-filter" v-model="instaFilter" @update:modelValue="submitIfAuto()"></v-switch>
           </v-col>
@@ -265,8 +265,12 @@
               <v-switch color="primary" label="Only craftable" v-model="localHideUncraftable" @update:modelValue="updateHideUncraftable" />
             </div>
           </v-col>
-        </v-row> -->
-
+        </v-row>
+      </v-container>
+    </v-sheet>
+    <br />
+    <v-sheet class="mx-auto" theme="dark">
+      <v-container>
         <!-- Column selection controls -->
         <!-- <v-row justify="center" class="mt-4">
         Columns to Show
@@ -321,8 +325,8 @@
           </v-data-table>
         </v-row>
       </v-container>
-    </v-form>
-  </v-sheet>
+    </v-sheet>
+  </v-form>
 </template>
 
 <script>
@@ -342,7 +346,7 @@ import 'tippy.js/animations/shift-toward.css'
 const DEFAULT_NUM_SLOTS = { enabled: false, min: 0, max: 27 };
 const DEFAULT_SLOT_SIZE = { enabled: false, min: 0, max: 3 };
 const DEFAULT_CLOTHING_TYPE = { enabled: false, values: [0, 1, 2, 3, 4, 5] };
-const DEFAULT_DIFFICULTY = { enabled: false, min: 0.0, max: 3.0 };
+const DEFAULT_DIFFICULTY = { enabled: false, min: 0.0, max: 1.0 };
 const DEFAULT_SPAWNS_IN = { enabled: false, values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] };
 const DEFAULT_IMMEDIATE_FOOD = { enabled: false, min: 0, max: 10 };
 const DEFAULT_BONUS_FOOD = { enabled: false, min: 0, max: 20 };
