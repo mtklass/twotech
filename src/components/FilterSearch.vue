@@ -512,12 +512,12 @@ export default {
     // Dynamically compute the headers based on the column visibility
     const tableHeaders = computed(() => [
       { title: 'Object', key: 'Object', value: 'object', visible: true, width: '230px', sortable: true }, // Object column always visible
-      ...allHeaders.filter((header) => headerControls.value[header.value].value === true),
+      ...allHeaders.filter((header) => headerControls.value[header.value].control.value === true),
     ]);
 
     const visibleHeaders = computed(() => {
       let ret = allHeaders.filter((header) => {
-        return headerControls.value[header.value].value === true;
+        return headerControls.value[header.value].control.value === true;
       });
       return ret;
     });
@@ -526,31 +526,33 @@ export default {
 
     const headerControls = computed(() => {
       return {
-        numSlots: showNumSlots,
-        slotSize: showSlotSize,
-        clothingType: showClothingType,
-        difficulty: showDifficulty,
-        craftable: showCraftable,
-        spawnsIn: showSpawnsIn,
-        immediateFood: showImmediateFood,
-        bonusFood: showBonusFood,
-        totalFood: showTotalFood,
-        uses: showUses,
-        useChance: showUseChance,
-        insulation: showInsulation,
-        deadlyFrom: showDeadlyFrom,
-        useDistance: showUseDistance,
-        itemSize: showItemSize,
-        minPickupAge: showMinPickupAge,
-        speed: showSpeed,
-        movementType: showMovementType,
+        numSlots: {name: 'showNumSlots', control: showNumSlots },
+        slotSize: {name: 'showSlotSize', control: showSlotSize},
+        clothingType: {name: 'showClothingType', control: showClothingType},
+        difficulty: {name: 'showDifficulty', control: showDifficulty},
+        craftable: {name: 'showCraftable', control: showCraftable},
+        spawnsIn: {name: 'showSpawnsIn', control: showSpawnsIn},
+        immediateFood: {name: 'showImmediateFood', control: showImmediateFood},
+        bonusFood: {name: 'showBonusFood', control: showBonusFood},
+        totalFood: {name: 'showTotalFood', control: showTotalFood},
+        uses: {name: 'showUses', control: showUses},
+        useChance: {name: 'showUseChance', control: showUseChance},
+        insulation: {name: 'showInsulation', control: showInsulation},
+        deadlyFrom: {name: 'showDeadlyFrom', control: showDeadlyFrom},
+        useDistance: {name: 'showUseDistance', control: showUseDistance},
+        itemSize: {name: 'showItemSize', control: showItemSize},
+        minPickupAge: {name: 'showMinPickupAge', control: showMinPickupAge},
+        speed: {name: 'showSpeed', control: showSpeed},
+        movementType: {name: 'showMovementType', control: showMovementType},
       };
     });
 
     const updateTableHeaders = () => {
       // we need to update the coresponding reactive controls for each table header
       for (const headerControl in headerControls.value) {
-        headerControls.value[headerControl].value = (selectedHeaderControls.value.includes(headerControl));
+        headerControls.value[headerControl].control.value = (selectedHeaderControls.value.includes(headerControl));
+        // Save the new control state for this control so it remembers until browser cache is cleared
+        saveControlState(headerControls.value[headerControl].name, headerControls.value[headerControl].control.value);
       }
     };
 
@@ -811,6 +813,7 @@ export default {
       loadControlState('showMinPickupAge', showMinPickupAge, false);
       loadControlState('showSpeed', showSpeed, false);
       loadControlState('showMovementType', showMovementType, false);
+      selectedHeaderControls.value = allHeaders.filter(h => h.visible.value === true).map(h => h.value);
 
       loadControlState('instaFilter', instaFilter, true);
 
