@@ -307,9 +307,9 @@
               <tr>
                 <td class="text-center" style="width: 230px; min-width: 230px; max-width: 230px">
                   <v-list>
-                    <v-list-item class="nostyle" :to="extraObjectData.find(o => o.name === item.Object).url">
+                    <v-list-item class="nostyle" :to="extraObjectData.find(o => o.name === item.object).url">
                       <div class="image-container">
-                        <ObjectImage :object="extraObjectData.find(o => o.name === item.Object)" />
+                        <ObjectImage :object="extraObjectData.find(o => o.name === item.object)" />
                         {{ item.Object }}
                       </div>
                     </v-list-item>
@@ -317,8 +317,8 @@
                 </td>
 
                 <!-- Loop through the selected fields to dynamically render the <td> with static width -->
-                <td v-for="header in visibleHeaders" :key="header.key" :style="{ width: header.width }">
-                  <div class="text-wrapper">{{ item[header.key] }}</div>
+                <td v-for="header in visibleHeaders" :key="header.value" :style="{ width: header.width }">
+                  <div class="text-wrapper">{{ item[header.value] }}</div>
                 </td>
               </tr>
             </template>
@@ -489,40 +489,36 @@ export default {
 
     // Define the full set of headers/columns
     const allHeaders = [
-      { title: 'Clothing Type', key: 'Clothing Type', value: 'clothingType', visible: showClothingType, width: '100px' },
-      { title: 'Craftable', key: 'Craftable', value: 'craftable', visible: showCraftable, width: '100px' },
-      { title: 'Deadly From', key: 'Deadly From', value: 'deadlyFrom', visible: showDeadlyFrom, width: '80px' },
-      { title: 'Difficulty', key: 'Difficulty', value: 'difficulty', visible: showDifficulty, width: '100px' },
-      { title: 'Food - Bonus', key: 'Bonus Food', value: 'bonusFood', visible: showBonusFood, width: '80px' },
-      { title: 'Food - Immediate', key: 'Immediate Food', value: 'immediateFood', visible: showImmediateFood, width: '80px' },
-      { title: 'Food - Total', key: 'Total Food', value: 'totalFood', visible: showTotalFood, width: '80px' },
-      { title: 'Insulation', key: 'Insulation', value: 'insulation', visible: showInsulation, width: '80px' },
-      { title: 'Item Size', key: 'Item Size', value: 'itemSize', visible: showItemSize, width: '80px' },
-      { title: 'Min Pickup Age', key: 'Min Pickup Age', value: 'minPickupAge', visible: showMinPickupAge, width: '80px' },
-      { title: 'Movement Type', key: 'Movement Type', value: 'movementType', visible: showMovementType, width: '80px' },
-      { title: 'Slots', key: 'Slots', value: 'numSlots', visible: showNumSlots, width: '80px' },
-      { title: 'Slot Size', key: 'Slot Size', value: 'slotSize', visible: showSlotSize, width: '80px' },
-      { title: 'Spawns In', key: 'Spawns In', value: 'spawnsIn', visible: showSpawnsIn, width: '200px' },
-      { title: 'Speed', key: 'Speed', value: 'speed', visible: showSpeed, width: '80px' },
-      { title: 'Use Chance', key: 'Use Chance', value: 'useChance', visible: showUseChance, width: '80px' },
-      { title: 'Use Distance', key: 'Use Distance', value: 'useDistance', visible: showUseDistance, width: '80px' },
-      { title: 'Uses', key: 'Uses', value: 'uses', visible: showUses, width: '80px' },
+      { title: 'Clothing Type', key: 'Clothing Type', value: 'clothingType', visible: showClothingType, width: '100px', sortable: true },
+      { title: 'Craftable', key: 'Craftable', value: 'craftable', visible: showCraftable, width: '100px', sortable: true },
+      { title: 'Deadly From', key: 'Deadly From', value: 'deadlyFrom', visible: showDeadlyFrom, width: '80px', sortable: true },
+      { title: 'Difficulty', key: 'Difficulty', value: 'difficulty', visible: showDifficulty, width: '100px', sortable: true },
+      { title: 'Food - Bonus', key: 'Bonus Food', value: 'bonusFood', visible: showBonusFood, width: '80px', sortable: true },
+      { title: 'Food - Immediate', key: 'Immediate Food', value: 'immediateFood', visible: showImmediateFood, width: '80px', sortable: true },
+      { title: 'Food - Total', key: 'Total Food', value: 'totalFood', visible: showTotalFood, width: '80px', sortable: true },
+      { title: 'Insulation', key: 'Insulation', value: 'insulation', visible: showInsulation, width: '80px', sortable: true },
+      { title: 'Item Size', key: 'Item Size', value: 'itemSize', visible: showItemSize, width: '80px', sortable: true },
+      { title: 'Min Pickup Age', key: 'Min Pickup Age', value: 'minPickupAge', visible: showMinPickupAge, width: '80px', sortable: true },
+      { title: 'Movement Type', key: 'Movement Type', value: 'movementType', visible: showMovementType, width: '80px', sortable: true },
+      { title: 'Slots', key: 'Slots', value: 'numSlots', visible: showNumSlots, width: '80px', sortable: true },
+      { title: 'Slot Size', key: 'Slot Size', value: 'slotSize', visible: showSlotSize, width: '80px', sortable: true },
+      { title: 'Spawns In', key: 'Spawns In', value: 'spawnsIn', visible: showSpawnsIn, width: '200px', sortable: true },
+      { title: 'Speed', key: 'Speed', value: 'speed', visible: showSpeed, width: '80px', sortable: true },
+      { title: 'Use Chance', key: 'Use Chance', value: 'useChance', visible: showUseChance, width: '80px', sortable: true },
+      { title: 'Use Distance', key: 'Use Distance', value: 'useDistance', visible: showUseDistance, width: '80px', sortable: true },
+      { title: 'Uses', key: 'Uses', value: 'uses', visible: showUses, width: '80px', sortable: true },
     ];
 
     // Dynamically compute the headers based on the column visibility
     const tableHeaders = computed(() => [
-      { title: 'Object', key: 'Object', value: 'object', visible: true, width: '230px' }, // Object column always visible
+      { title: 'Object', key: 'Object', value: 'object', visible: true, width: '230px', sortable: true }, // Object column always visible
       ...allHeaders.filter((header) => headerControls.value[header.value].value === true),
     ]);
 
     const visibleHeaders = computed(() => {
-      console.log("headerControls.value = ", JSON.stringify(headerControls.value));
       let ret = allHeaders.filter((header) => {
-        console.log("headerControls.value = ", JSON.stringify(headerControls.value));
-        console.log("header = ", JSON.stringify(header.value));
         return headerControls.value[header.value].value === true;
       });
-      console.log("ret = ", JSON.stringify(ret));
       return ret;
     });
 
@@ -817,25 +813,25 @@ export default {
 
     const displayed_data = (object) => {
       return {
-        "Object": object.name,
-        "Clothing Type": object.clothingType || "None",
-        "Craftable": object.craftable || false,
-        "Deadly From": object.deadlyDistance,
-        "Difficulty": object.difficulty || 0.0,
-        "Food - Immediate": object.immediateFood || 0,
-        "Food - Bonus": object.bonusFood || 0,
-        "Food - Total": object.totalFood || 0,
-        "Item Size": object.size,
-        "Insulation": object.insulation,
-        "Min Pickup Age": object.minPickupAge,
-        "Movement Type": object.moveType,
-        "Slots": object.numSlots || 0,
-        "Slot Size": object.slotSize,
-        "Spawns In": object.biomes.join(", "),
-        "Speed": object.speedMult,
-        "Use Chance": object.useChance,
-        "Use Distance": object.useDistance,
-        "Uses": object.numUses || 0,
+        "object": object.name,
+        "clothingType": object.clothingType || "None",
+        "craftable": object.craftable || false,
+        "deadlyFrom": object.deadlyDistance,
+        "difficulty": object.difficulty || 0.0,
+        "immediateFood": object.immediateFood || 0,
+        "bonusFood": object.bonusFood || 0,
+        "totalFood": object.totalFood || 0,
+        "itemSize": object.size,
+        "insulation": object.insulation,
+        "minPickupAge": object.minPickupAge,
+        "movementType": object.moveType,
+        "slots": object.numSlots || 0,
+        "slotSize": object.slotSize,
+        "spawnsIn": object.biomes.join(", "),
+        "speed": object.speedMult,
+        "useChance": object.useChance,
+        "useDistance": object.useDistance,
+        "uses": object.numUses || 0,
       };
     };
 
