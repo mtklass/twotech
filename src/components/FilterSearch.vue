@@ -276,25 +276,21 @@
         <v-row justify="center" class="mt-4">
         Columns to Show
         </v-row>
-        <v-row justify="center" class="mt-4">
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showNumSlots" label="Slots" @update:modelValue="saveControlState('showNumSlots', showNumSlots)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showSlotSize" label="Slot Size" @update:modelValue="saveControlState('showSlotSize', showSlotSize)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showClothingType" label="Clothing Type" @update:modelValue="saveControlState('showClothingType', showClothingType)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showDifficulty" label="Difficulty" @update:modelValue="saveControlState('showDifficulty', showDifficulty)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showCraftable" label="Craftable" @update:modelValue="saveControlState('showCraftable', showCraftable)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showSpawnsIn" label="Spawns In" @update:modelValue="saveControlState('showSpawnsIn', showSpawnsIn)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showImmediateFood" label="Immediate Food" @update:modelValue="saveControlState('showImmediateFood', showImmediateFood)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showBonusFood" label="Bonus Food" @update:modelValue="saveControlState('showBonusFood', showBonusFood)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showTotalFood" label="Total Food" @update:modelValue="saveControlState('showTotalFood', showTotalFood)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showUses" label="Uses" @update:modelValue="saveControlState('showUses', showUses)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showUseChance" label="Use Chance" @update:modelValue="saveControlState('showUseChance', showUseChance)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showInsulation" label="Insulation" @update:modelValue="saveControlState('showInsulation', showInsulation)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showDeadlyFrom" label="Deadly From" @update:modelValue="saveControlState('showDeadlyFrom', showDeadlyFrom)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showUseDistance" label="Use Distance" @update:modelValue="saveControlState('showUseDistance', showUseDistance)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showItemSize" label="Item Size" @update:modelValue="saveControlState('showItemSize', showItemSize)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showMinPickupAge" label="Min Pickup Age" @update:modelValue="saveControlState('showMinPickupAge', showMinPickupAge)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showSpeed" label="Speed" @update:modelValue="saveControlState('showSpeed', showSpeed)" />
-          <v-checkbox density="compact" class="filterCheckbox" v-model="showMovementType" label="Movement Type" @update:modelValue="saveControlState('showMovementType', showMovementType)" />
+        <!-- Column control -->
+        <v-row align-content="center">
+          <v-col cols="10">
+            <v-select
+              class="mb-n6"
+              label="Columns"
+              :items="allHeaders"
+              v-model="selectedHeaderControls"
+              @update:modelValue="updateTableHeaders()"
+              multiple
+            ></v-select>
+          </v-col>
+          <v-col align-self="center" cols="2">
+            <v-btn class="light-button" @click="setColumnsToDefaults()">Reset</v-btn>
+          </v-col>
         </v-row>
 
         <!-- Data Table -->
@@ -494,33 +490,74 @@ export default {
 
     // Define the full set of headers/columns
     const allHeaders = [
-      { title: "Slots", key: "Slots", visible: showNumSlots, width: '80px' },
-      { title: "Slot Size", key: "Slot Size", visible: showSlotSize, width: '80px' },
-      { title: "Clothing Type", key: "Clothing Type", visible: showClothingType, width: '100px' },
-      { title: "Difficulty", key: "Difficulty", visible: showDifficulty, width: '100px' },
-      { title: "Craftable", key: "Craftable", visible: showCraftable, width: '100px' },
-      { title: "Spawns In", key: "Spawns In", visible: showSpawnsIn, width: '200px' },
-      { title: "Immediate Food", key: "Immediate Food", visible: showImmediateFood, width: '80px' },
-      { title: "Bonus Food", key: "Bonus Food", visible: showBonusFood, width: '80px' },
-      { title: "Total Food", key: "Total Food", visible: showTotalFood, width: '80px' },
-      { title: "Uses", key: "Uses", visible: showUses, width: '80px' },
-      { title: "Use Chance", key: "Use Chance", visible: showUseChance, width: '80px' },
-      { title: "Insulation", key: "Insulation", visible: showInsulation, width: '80px' },
-      { title: "Deadly From", key: "Deadly From", visible: showDeadlyFrom, width: '80px' },
-      { title: "Use Distance", key: "Use Distance", visible: showUseDistance, width: '80px' },
-      { title: "Item Size", key: "Item Size", visible: showItemSize, width: '80px' },
-      { title: "Min Pickup Age", key: "Min Pickup Age", visible: showMinPickupAge, width: '80px' },
-      { title: "Speed", key: "Speed", visible: showSpeed, width: '80px' },
-      { title: "Movement Type", key: "Movement Type", visible: showMovementType, width: '80px' },
+      { title: 'Slots', key: 'Slots', value: 'numSlots', visible: showNumSlots, width: '80px' },
+      { title: 'Slot Size', key: 'Slot Size', value: 'slotSize', visible: showSlotSize, width: '80px' },
+      { title: 'Clothing Type', key: 'Clothing Type', value: 'clothingType', visible: showClothingType, width: '100px' },
+      { title: 'Difficulty', key: 'Difficulty', value: 'difficulty', visible: showDifficulty, width: '100px' },
+      { title: 'Craftable', key: 'Craftable', value: 'craftable', visible: showCraftable, width: '100px' },
+      { title: 'Spawns In', key: 'Spawns In', value: 'spawnsIn', visible: showSpawnsIn, width: '200px' },
+      { title: 'Immediate Food', key: 'Immediate Food', value: 'immediateFood', visible: showImmediateFood, width: '80px' },
+      { title: 'Bonus Food', key: 'Bonus Food', value: 'bonusFood', visible: showBonusFood, width: '80px' },
+      { title: 'Total Food', key: 'Total Food', value: 'totalFood', visible: showTotalFood, width: '80px' },
+      { title: 'Uses', key: 'Uses', value: 'uses', visible: showUses, width: '80px' },
+      { title: 'Use Chance', key: 'Use Chance', value: 'useChance', visible: showUseChance, width: '80px' },
+      { title: 'Insulation', key: 'Insulation', value: 'insulation', visible: showInsulation, width: '80px' },
+      { title: 'Deadly From', key: 'Deadly From', value: 'deadlyFrom', visible: showDeadlyFrom, width: '80px' },
+      { title: 'Use Distance', key: 'Use Distance', value: 'useDistance', visible: showUseDistance, width: '80px' },
+      { title: 'Item Size', key: 'Item Size', value: 'itemSize', visible: showItemSize, width: '80px' },
+      { title: 'Min Pickup Age', key: 'Min Pickup Age', value: 'minPickupAge', visible: showMinPickupAge, width: '80px' },
+      { title: 'Speed', key: 'Speed', value: 'speed', visible: showSpeed, width: '80px' },
+      { title: 'Movement Type', key: 'Movement Type', value: 'movementType', visible: showMovementType, width: '80px' },
     ];
 
     // Dynamically compute the headers based on the column visibility
     const tableHeaders = computed(() => [
-      { title: "Object", key: "Object", visible: true, width: '230px' }, // Object column always visible
-      ...allHeaders.filter((header) => header.visible.value),
+      { title: 'Object', key: 'Object', value: 'object', visible: true, width: '230px' }, // Object column always visible
+      ...allHeaders.filter((header) => headerControls.value[header.value].value === true),
     ]);
 
-    const visibleHeaders = computed(() => allHeaders.filter((header) => header.visible.value));
+    const visibleHeaders = computed(() => {
+      console.log("headerControls.value = ", JSON.stringify(headerControls.value));
+      let ret = allHeaders.filter((header) => {
+        console.log("headerControls.value = ", JSON.stringify(headerControls.value));
+        console.log("header = ", JSON.stringify(header.value));
+        return headerControls.value[header.value].value === true;
+      });
+      console.log("ret = ", JSON.stringify(ret));
+      return ret;
+    });
+
+    const selectedHeaderControls = ref(allHeaders.filter(h => h.visible.value === true).map(h => h.value));
+
+    const headerControls = computed(() => {
+      return {
+        numSlots: showNumSlots,
+        slotSize: showSlotSize,
+        clothingType: showClothingType,
+        difficulty: showDifficulty,
+        craftable: showCraftable,
+        spawnsIn: showSpawnsIn,
+        immediateFood: showImmediateFood,
+        bonusFood: showBonusFood,
+        totalFood: showTotalFood,
+        uses: showUses,
+        useChance: showUseChance,
+        insulation: showInsulation,
+        deadlyFrom: showDeadlyFrom,
+        useDistance: showUseDistance,
+        itemSize: showItemSize,
+        minPickupAge: showMinPickupAge,
+        speed: showSpeed,
+        movementType: showMovementType,
+      };
+    });
+
+    const updateTableHeaders = () => {
+      // we need to update the coresponding reactive controls for each table header
+      for (const headerControl in headerControls.value) {
+        headerControls.value[headerControl].value = (selectedHeaderControls.value.includes(headerControl));
+      }
+    };
 
     // Save control state to BrowserStorage
     const saveControlState = (key, value) => {
@@ -718,6 +755,8 @@ export default {
       // Show Movement Type
       showMovementType.value = DEFAULT_COLUMNS.showMovementType;
       saveControlState('showMovementType', DEFAULT_COLUMNS.showMovementType);
+
+      selectedHeaderControls.value = allHeaders.filter(h => h.visible.value === true).map(h => h.value);
     };
 
     // Load all saved states on mount
@@ -1034,6 +1073,7 @@ export default {
       extraObjectData,
       localHideUncraftable,
       updateHideUncraftable,
+      allHeaders,
       tableHeaders,
       visibleHeaders,
       showNumSlots,
@@ -1054,6 +1094,10 @@ export default {
       showMinPickupAge,
       showSpeed,
       showMovementType,
+
+      headerControls,
+      selectedHeaderControls,
+      updateTableHeaders,
     }
   },
   methods: {
