@@ -10,7 +10,7 @@
               label="Filters"
               :items="filterNames"
               v-model="activeFilters"
-              @update:modelValue="saveAndSubmit('activeFilters', activeFilters)"
+              @update:modelValue="saveAndSubmit('activeFilters', activeFilters, true)"
               multiple
             ></v-select>
           </v-col>
@@ -25,7 +25,7 @@
             <v-btn density="compact" variant="text" disabled="true">Clothing Type</v-btn>
           </v-col>
           <v-col>
-            <v-btn-toggle density="compact" v-model="clothingTypeValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('clothingTypeValues', clothingTypeValues)">
+            <v-btn-toggle density="compact" v-model="clothingTypeValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('clothingTypeValues', clothingTypeValues, true)">
               <v-btn slim>Head</v-btn>
               <v-btn slim>Top</v-btn>
               <v-btn slim>Bottom</v-btn>
@@ -42,10 +42,10 @@
             <v-btn density="compact" variant="text" disabled="true">Deadly From</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="deadlyFromMin" density="compact" @update:modelValue="saveAndSubmit('deadlyFromMin', deadlyFromMin)" />
+            <v-text-field hide-details label="Min" v-model="deadlyFromMin" density="compact" @update:modelValue="saveAndSubmit('deadlyFromMin', deadlyFromMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="deadlyFromMax" density="compact" @update:modelValue="saveAndSubmit('deadlyFromMax', deadlyFromMax)" />
+            <v-text-field hide-details label="Max" v-model="deadlyFromMax" density="compact" @update:modelValue="saveAndSubmit('deadlyFromMax', deadlyFromMax, true)" />
           </v-col>
         </v-row>
 
@@ -55,10 +55,10 @@
             <v-btn density="compact" variant="text" disabled="true">Difficulty</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="difficultyMin" density="compact" @update:modelValue="saveAndSubmit('difficultyMin', difficultyMin)" />
+            <v-text-field hide-details label="Min" v-model="difficultyMin" density="compact" @update:modelValue="saveAndSubmit('difficultyMin', difficultyMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="difficultyMax" density="compact" @update:modelValue="saveAndSubmit('difficultyMax', difficultyMax)" />
+            <v-text-field hide-details label="Max" v-model="difficultyMax" density="compact" @update:modelValue="saveAndSubmit('difficultyMax', difficultyMax, true)" />
           </v-col>
         </v-row>
 
@@ -68,10 +68,10 @@
             <v-btn density="compact" variant="text" disabled="true">Food - Bonus</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="bonusFoodMin" density="compact" @update:modelValue="saveAndSubmit('bonusFoodMin', bonusFoodMin)" />
+            <v-text-field hide-details label="Min" v-model="bonusFoodMin" density="compact" @update:modelValue="saveAndSubmit('bonusFoodMin', bonusFoodMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="bonusFoodMax" density="compact" @update:modelValue="saveAndSubmit('bonusFoodMax', bonusFoodMax)" />
+            <v-text-field hide-details label="Max" v-model="bonusFoodMax" density="compact" @update:modelValue="saveAndSubmit('bonusFoodMax', bonusFoodMax, true)" />
           </v-col>
         </v-row>
 
@@ -81,10 +81,10 @@
             <v-btn density="compact" variant="text" disabled="true">Food - Immediate</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="immediateFoodMin" density="compact" @update:modelValue="saveAndSubmit('immediateFoodMin', immediateFoodMin)" />
+            <v-text-field hide-details label="Min" v-model="immediateFoodMin" density="compact" @update:modelValue="saveAndSubmit('immediateFoodMin', immediateFoodMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="immediateFoodMax" density="compact" @update:modelValue="saveAndSubmit('immediateFoodMax', immediateFoodMax)" />
+            <v-text-field hide-details label="Max" v-model="immediateFoodMax" density="compact" @update:modelValue="saveAndSubmit('immediateFoodMax', immediateFoodMax, true)" />
           </v-col>
         </v-row>
 
@@ -94,10 +94,10 @@
             <v-btn density="compact" variant="text" disabled="true">Food - Total</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="totalFoodMin" density="compact" @update:modelValue="saveAndSubmit('totalFoodMin', totalFoodMin)" />
+            <v-text-field hide-details label="Min" v-model="totalFoodMin" density="compact" @update:modelValue="saveAndSubmit('totalFoodMin', totalFoodMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="totalFoodMax" density="compact" @update:modelValue="saveAndSubmit('totalFoodMax', totalFoodMax)" />
+            <v-text-field hide-details label="Max" v-model="totalFoodMax" density="compact" @update:modelValue="saveAndSubmit('totalFoodMax', totalFoodMax, true)" />
           </v-col>
         </v-row>
 
@@ -107,10 +107,10 @@
             <v-btn density="compact" variant="text" disabled="true">Insulation</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="insulationMin" density="compact" @update:modelValue="saveAndSubmit('insulationMin', insulationMin)" />
+            <v-text-field hide-details label="Min" v-model="insulationMin" density="compact" @update:modelValue="saveAndSubmit('insulationMin', insulationMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="insulationMax" density="compact" @update:modelValue="saveAndSubmit('insulationMax', insulationMax)" />
+            <v-text-field hide-details label="Max" v-model="insulationMax" density="compact" @update:modelValue="saveAndSubmit('insulationMax', insulationMax, true)" />
           </v-col>
         </v-row>
 
@@ -120,10 +120,10 @@
             <v-btn density="compact" variant="text" disabled="true">Item Size</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="itemSizeMin" density="compact" @update:modelValue="saveAndSubmit('itemSizeMin', itemSizeMin)" />
+            <v-text-field hide-details label="Min" v-model="itemSizeMin" density="compact" @update:modelValue="saveAndSubmit('itemSizeMin', itemSizeMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="itemSizeMax" density="compact" @update:modelValue="saveAndSubmit('itemSizeMax', itemSizeMax)" />
+            <v-text-field hide-details label="Max" v-model="itemSizeMax" density="compact" @update:modelValue="saveAndSubmit('itemSizeMax', itemSizeMax, true)" />
           </v-col>
         </v-row>
 
@@ -133,10 +133,10 @@
             <v-btn density="compact" variant="text" disabled="true">Min Pickup Age</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="minPickupAgeMin" density="compact" @update:modelValue="saveAndSubmit('minPickupAgeMin', minPickupAgeMin)" />
+            <v-text-field hide-details label="Min" v-model="minPickupAgeMin" density="compact" @update:modelValue="saveAndSubmit('minPickupAgeMin', minPickupAgeMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="minPickupAgeMax" density="compact" @update:modelValue="saveAndSubmit('minPickupAgeMax', minPickupAgeMax)" />
+            <v-text-field hide-details label="Max" v-model="minPickupAgeMax" density="compact" @update:modelValue="saveAndSubmit('minPickupAgeMax', minPickupAgeMax, true)" />
           </v-col>
         </v-row>
 
@@ -146,7 +146,7 @@
             <v-btn density="compact" variant="text" disabled="true">Movement Type</v-btn>
           </v-col>
           <v-col>
-            <v-btn-toggle density="compact" v-model="movementTypeValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('movementTypeValues', movementTypeValues)">
+            <v-btn-toggle density="compact" v-model="movementTypeValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('movementTypeValues', movementTypeValues, true)">
               <v-btn slim>None</v-btn>
               <v-btn slim>Chase</v-btn>
               <v-btn slim>Flee</v-btn>
@@ -166,10 +166,10 @@
             <v-btn density="compact" variant="text" disabled="true">Slots</v-btn>
           </v-col>
           <v-col align-self="center">
-            <v-text-field hide-details class="custom-text-field" label="Min" v-model="numSlotsMin" density="compact" @update:modelValue="saveAndSubmit('numSlotsMin', numSlotsMin)" />
+            <v-text-field hide-details class="custom-text-field" label="Min" v-model="numSlotsMin" density="compact" @update:modelValue="saveAndSubmit('numSlotsMin', numSlotsMin, true)" />
           </v-col>
           <v-col align-self="center">
-            <v-text-field hide-details class="custom-text-field" label="Max" v-model="numSlotsMax" density="compact" @update:modelValue="saveAndSubmit('numSlotsMax', numSlotsMax)" />
+            <v-text-field hide-details class="custom-text-field" label="Max" v-model="numSlotsMax" density="compact" @update:modelValue="saveAndSubmit('numSlotsMax', numSlotsMax, true)" />
           </v-col>
         </v-row>
 
@@ -179,10 +179,10 @@
             <v-btn density="compact" variant="text" disabled="true">Slot Size</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="slotSizeMin" density="compact" @update:modelValue="saveAndSubmit('slotSizeMin', slotSizeMin)" />
+            <v-text-field hide-details label="Min" v-model="slotSizeMin" density="compact" @update:modelValue="saveAndSubmit('slotSizeMin', slotSizeMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="slotSizeMax" density="compact" @update:modelValue="saveAndSubmit('slotSizeMax', slotSizeMax)" />
+            <v-text-field hide-details label="Max" v-model="slotSizeMax" density="compact" @update:modelValue="saveAndSubmit('slotSizeMax', slotSizeMax, true)" />
           </v-col>
         </v-row>
 
@@ -192,7 +192,7 @@
             <v-btn density="compact" variant="text" disabled="true">Spawns In</v-btn>
           </v-col>
           <v-col>
-            <v-btn-toggle v-model="spawnsInValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('spawnsInValues', spawnsInValues)">
+            <v-btn-toggle v-model="spawnsInValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('spawnsInValues', spawnsInValues, true)">
               <v-btn v-tippy="{content: biome.name, theme: 'twotech', animation: 'scale'}" v-for="biome in biomes" :key="biome.id">
                 <BiomeImage :biome="biome" />
               </v-btn>
@@ -206,10 +206,10 @@
             <v-btn density="compact" variant="text" disabled="true">Speed</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="speedMin" density="compact" @update:modelValue="saveAndSubmit('speedMin', speedMin)" />
+            <v-text-field hide-details label="Min" v-model="speedMin" density="compact" @update:modelValue="saveAndSubmit('speedMin', speedMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="speedMax" density="compact" @update:modelValue="saveAndSubmit('speedMax', speedMax)" />
+            <v-text-field hide-details label="Max" v-model="speedMax" density="compact" @update:modelValue="saveAndSubmit('speedMax', speedMax, true)" />
           </v-col>
         </v-row>
 
@@ -219,10 +219,10 @@
             <v-btn density="compact" variant="text" disabled="true">Use Chance</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="useChanceMin" density="compact" @update:modelValue="saveAndSubmit('useChanceMin', useChanceMin)" />
+            <v-text-field hide-details label="Min" v-model="useChanceMin" density="compact" @update:modelValue="saveAndSubmit('useChanceMin', useChanceMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="useChanceMax" density="compact" @update:modelValue="saveAndSubmit('useChanceMax', useChanceMax)" />
+            <v-text-field hide-details label="Max" v-model="useChanceMax" density="compact" @update:modelValue="saveAndSubmit('useChanceMax', useChanceMax, true)" />
           </v-col>
         </v-row>
 
@@ -232,10 +232,10 @@
             <v-btn density="compact" variant="text" disabled="true">Use Distance</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="useDistanceMin" density="compact" @update:modelValue="saveAndSubmit('useDistanceMin', useDistanceMin)" />
+            <v-text-field hide-details label="Min" v-model="useDistanceMin" density="compact" @update:modelValue="saveAndSubmit('useDistanceMin', useDistanceMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="useDistanceMax" density="compact" @update:modelValue="saveAndSubmit('useDistanceMax', useDistanceMax)" />
+            <v-text-field hide-details label="Max" v-model="useDistanceMax" density="compact" @update:modelValue="saveAndSubmit('useDistanceMax', useDistanceMax, true)" />
           </v-col>
         </v-row>
 
@@ -245,17 +245,17 @@
             <v-btn density="compact" variant="text" disabled="true">Uses</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="usesMin" density="compact" @update:modelValue="saveAndSubmit('usesMin', usesMin)" />
+            <v-text-field hide-details label="Min" v-model="usesMin" density="compact" @update:modelValue="saveAndSubmit('usesMin', usesMin, true)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="usesMax" density="compact" @update:modelValue="saveAndSubmit('usesMax', usesMax)" />
+            <v-text-field hide-details label="Max" v-model="usesMax" density="compact" @update:modelValue="saveAndSubmit('usesMax', usesMax, true)" />
           </v-col>
         </v-row>
 
         <!-- Insta-filter, Filter, and Hide uncraftable controls -->
-        <v-row justify="center mb-n8">
+        <v-row justify="center mb-n8" dense>
           <v-col cols="4" class="d-flex justify-end">
-            <v-switch color="primary" label="Insta-filter" v-model="instaFilter" @update:modelValue="submitIfAuto()"></v-switch>
+            <v-switch color="primary" label="Insta-filter" v-model="instaFilter" @update:modelValue="saveAndSubmit('instaFilter', instaFilter, true)"></v-switch>
           </v-col>
           <v-col cols="3">
             <v-btn :disabled="instaFilter" class="light-button mt-2" type="submit" color="#blue" active-color="#bbb" button-disabled-opacity="0.26" block>Filter</v-btn>
@@ -570,9 +570,13 @@ export default {
     };
 
     // Function that saves control state and triggers submit if necessary
-    const saveAndSubmit = (key, value) => {
+    const saveAndSubmit = (key, value, ifAuto = false) => {
       saveControlState(key, value);
-      setupSubmit();
+      if (ifAuto) {
+        submitIfAuto();
+      } else {
+        setupSubmit();
+      }
     };
 
     const setFiltersToDefaults = () => {
@@ -675,7 +679,7 @@ export default {
       movementTypeValues.value = DEFAULT_MOVEMENT_TYPE.values;
       saveControlState('movementTypeValues', DEFAULT_MOVEMENT_TYPE.values);
 
-      setupSubmit();
+      submitIfAuto();
     };
 
     const setColumnsToDefaults = () => {
@@ -807,6 +811,8 @@ export default {
       loadControlState('showMinPickupAge', showMinPickupAge, false);
       loadControlState('showSpeed', showSpeed, false);
       loadControlState('showMovementType', showMovementType, false);
+
+      loadControlState('instaFilter', instaFilter, true);
 
       setupSubmit();
     });
@@ -1016,7 +1022,7 @@ export default {
 
     watch(() => props.hideUncraftable, (newVal) => {
       localHideUncraftable.value = newVal;
-      setupSubmit();
+      submitIfAuto();
     });
 
     return {

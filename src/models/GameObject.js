@@ -231,9 +231,9 @@ export default class GameObject {
               includeObject = false;
           } else if (filter.name === "uses") {
             // Handle null/undefined values for uses
-            if (object.uses === null || object.uses === undefined)
-              object.uses = 0;
-            if (object.uses < filter.min || object.uses > filter.max)
+            if (object.numUses === null || object.numUses === undefined)
+              object.numUses = 0;
+            if (object.numUses < filter.min || object.numUses > filter.max)
               includeObject = false;
           } else if (filter.name === "useChance") {
             // Handle null/undefined values for useChance
@@ -249,9 +249,9 @@ export default class GameObject {
               includeObject = false;
           } else if (filter.name === "deadlyFrom") {
             // Handle null/undefined values for deadlyFrom
-            if (object.deadlyFrom === null || object.deadlyFrom === undefined)
-              object.deadlyFrom = 0;
-            if (object.deadlyFrom < filter.min || object.deadlyFrom > filter.max)
+            if (object.deadlyDistance === null || object.deadlyDistance === undefined)
+              object.deadlyDistance = 0;
+            if (object.deadlyDistance < filter.min || object.deadlyDistance > filter.max)
               includeObject = false;
           } else if (filter.name === "useDistance") {
             // Handle null/undefined values for useDistance
@@ -273,21 +273,21 @@ export default class GameObject {
               includeObject = false;
           } else if (filter.name === "speed") {
             // Handle null/undefined values for speed
-            if (object.speed === null || object.speed === undefined)
-              object.speed = 0;
-            if (object.speed < filter.min || object.speed > filter.max)
+            if (object.speedMult === null || object.speedMult === undefined)
+              object.speedMult = 0;
+            if (object.speedMult < filter.min || object.speedMult > filter.max)
               includeObject = false;
           } else if (filter.name === "movementType") {
             if (
               (!filter.includeNone && object.moveType === "None")
-              || (!filter.includeChase && object.biomes === "Chase")
-              || (!filter.includeFlee && object.biomes === "Flee")
-              || (!filter.includeRandom && object.biomes === "Random")
-              || (!filter.includeNorth && object.biomes === "North")
-              || (!filter.includeSouth && object.biomes === "South")
-              || (!filter.includeEast && object.biomes === "East")
-              || (!filter.includeWest && object.biomes === "West")
-              || (!filter.includeFind && object.biomes === "Find")
+              || (!filter.includeChase && object.moveType === "Chase")
+              || (!filter.includeFlee && object.moveType === "Flee")
+              || (!filter.includeRandom && object.moveType === "Random")
+              || (!filter.includeNorth && object.moveType === "North")
+              || (!filter.includeSouth && object.moveType === "South")
+              || (!filter.includeEast && object.moveType === "East")
+              || (!filter.includeWest && object.moveType === "West")
+              || (!filter.includeFind && object.moveType === "Find")
             ) {
               includeObject = false;
             }
