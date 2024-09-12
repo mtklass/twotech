@@ -7,7 +7,7 @@
           <v-col cols="10">
             <v-select
               class="mb-n6"
-              label="Filter"
+              label="Filters"
               :items="filterNames"
               v-model="activeFilters"
               @update:modelValue="saveAndSubmit('activeFilters', activeFilters)"
@@ -16,32 +16,6 @@
           </v-col>
           <v-col align-self="center" cols="2">
             <v-btn class="light-button" @click="setFiltersToDefaults()">Reset</v-btn>
-          </v-col>
-        </v-row>
-
-        <!-- Slot Count filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('numSlots')" align-content="center">
-          <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Slots</v-btn>
-          </v-col>
-          <v-col align-self="center">
-            <v-text-field hide-details class="custom-text-field" label="Min" v-model="numSlotsMin" density="compact" @update:modelValue="saveAndSubmit('numSlotsMin', numSlotsMin)" />
-          </v-col>
-          <v-col align-self="center">
-            <v-text-field hide-details class="custom-text-field" label="Max" v-model="numSlotsMax" density="compact" @update:modelValue="saveAndSubmit('numSlotsMax', numSlotsMax)" />
-          </v-col>
-        </v-row>
-
-        <!-- Slot Size filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('slotSize')">
-          <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Slot Size</v-btn>
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Min" v-model="slotSizeMin" density="compact" @update:modelValue="saveAndSubmit('slotSizeMin', slotSizeMin)" />
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Max" v-model="slotSizeMax" density="compact" @update:modelValue="saveAndSubmit('slotSizeMax', slotSizeMax)" />
           </v-col>
         </v-row>
 
@@ -62,111 +36,6 @@
           </v-col>
         </v-row>
 
-        <!-- Difficulty filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('difficulty')">
-          <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Difficulty</v-btn>
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Min" v-model="difficultyMin" density="compact" @update:modelValue="saveAndSubmit('difficultyMin', difficultyMin)" />
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Max" v-model="difficultyMax" density="compact" @update:modelValue="saveAndSubmit('difficultyMax', difficultyMax)" />
-          </v-col>
-        </v-row>
-
-        <!-- Spawns In filter -->
-        <v-row class="mt-n3" v-if="activeFilters.includes('spawnsIn')">
-          <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Spawns In</v-btn>
-          </v-col>
-          <v-col>
-            <v-btn-toggle v-model="spawnsInValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('spawnsInValues', spawnsInValues)">
-              <v-btn v-tippy="{content: biome.name, theme: 'twotech', animation: 'scale'}" v-for="biome in biomes" :key="biome.id">
-                <BiomeImage :biome="biome" />
-              </v-btn>
-            </v-btn-toggle>
-          </v-col>
-        </v-row>
-
-        <!-- Immediate Food filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('immediateFood')">
-          <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Immediate Food</v-btn>
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Min" v-model="immediateFoodMin" density="compact" @update:modelValue="saveAndSubmit('immediateFoodMin', immediateFoodMin)" />
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Max" v-model="immediateFoodMax" density="compact" @update:modelValue="saveAndSubmit('immediateFoodMax', immediateFoodMax)" />
-          </v-col>
-        </v-row>
-
-        <!-- Bonus Food filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('bonusFood')">
-          <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Bonus Food</v-btn>
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Min" v-model="bonusFoodMin" density="compact" @update:modelValue="saveAndSubmit('bonusFoodMin', bonusFoodMin)" />
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Max" v-model="bonusFoodMax" density="compact" @update:modelValue="saveAndSubmit('bonusFoodMax', bonusFoodMax)" />
-          </v-col>
-        </v-row>
-
-        <!-- Total Food filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('totalFood')">
-          <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Total Food</v-btn>
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Min" v-model="totalFoodMin" density="compact" @update:modelValue="saveAndSubmit('totalFoodMin', totalFoodMin)" />
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Max" v-model="totalFoodMax" density="compact" @update:modelValue="saveAndSubmit('totalFoodMax', totalFoodMax)" />
-          </v-col>
-        </v-row>
-
-        <!-- Uses filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('uses')">
-          <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Uses</v-btn>
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Min" v-model="usesMin" density="compact" @update:modelValue="saveAndSubmit('usesMin', usesMin)" />
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Max" v-model="usesMax" density="compact" @update:modelValue="saveAndSubmit('usesMax', usesMax)" />
-          </v-col>
-        </v-row>
-
-        <!-- Use Chance filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('useChance')">
-          <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Use Chance</v-btn>
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Min" v-model="useChanceMin" density="compact" @update:modelValue="saveAndSubmit('useChanceMin', useChanceMin)" />
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Max" v-model="useChanceMax" density="compact" @update:modelValue="saveAndSubmit('useChanceMax', useChanceMax)" />
-          </v-col>
-        </v-row>
-
-        <!-- Insulation filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('insulation')">
-          <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Insulation</v-btn>
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Min" v-model="insulationMin" density="compact" @update:modelValue="saveAndSubmit('insulationMin', insulationMin)" />
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Max" v-model="insulationMax" density="compact" @update:modelValue="saveAndSubmit('insulationMax', insulationMax)" />
-          </v-col>
-        </v-row>
-
         <!-- Deadly From filter -->
         <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('deadlyFrom')">
           <v-col align-self="center" cols="2">
@@ -180,16 +49,68 @@
           </v-col>
         </v-row>
 
-        <!-- Use Distance filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('useDistance')">
+        <!-- Difficulty filter -->
+        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('difficulty')">
           <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Use Distance</v-btn>
+            <v-btn density="compact" variant="text" disabled="true">Difficulty</v-btn>
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Min" v-model="useDistanceMin" density="compact" @update:modelValue="saveAndSubmit('useDistanceMin', useDistanceMin)" />
+            <v-text-field hide-details label="Min" v-model="difficultyMin" density="compact" @update:modelValue="saveAndSubmit('difficultyMin', difficultyMin)" />
           </v-col>
           <v-col>
-            <v-text-field hide-details label="Max" v-model="useDistanceMax" density="compact" @update:modelValue="saveAndSubmit('useDistanceMax', useDistanceMax)" />
+            <v-text-field hide-details label="Max" v-model="difficultyMax" density="compact" @update:modelValue="saveAndSubmit('difficultyMax', difficultyMax)" />
+          </v-col>
+        </v-row>
+
+        <!-- Food - Bonus filter -->
+        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('bonusFood')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Food - Bonus</v-btn>
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Min" v-model="bonusFoodMin" density="compact" @update:modelValue="saveAndSubmit('bonusFoodMin', bonusFoodMin)" />
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Max" v-model="bonusFoodMax" density="compact" @update:modelValue="saveAndSubmit('bonusFoodMax', bonusFoodMax)" />
+          </v-col>
+        </v-row>
+
+        <!-- Food - Immediate filter -->
+        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('immediateFood')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Food - Immediate</v-btn>
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Min" v-model="immediateFoodMin" density="compact" @update:modelValue="saveAndSubmit('immediateFoodMin', immediateFoodMin)" />
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Max" v-model="immediateFoodMax" density="compact" @update:modelValue="saveAndSubmit('immediateFoodMax', immediateFoodMax)" />
+          </v-col>
+        </v-row>
+
+        <!-- Food - Total filter -->
+        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('totalFood')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Food - Total</v-btn>
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Min" v-model="totalFoodMin" density="compact" @update:modelValue="saveAndSubmit('totalFoodMin', totalFoodMin)" />
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Max" v-model="totalFoodMax" density="compact" @update:modelValue="saveAndSubmit('totalFoodMax', totalFoodMax)" />
+          </v-col>
+        </v-row>
+
+        <!-- Insulation filter -->
+        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('insulation')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Insulation</v-btn>
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Min" v-model="insulationMin" density="compact" @update:modelValue="saveAndSubmit('insulationMin', insulationMin)" />
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Max" v-model="insulationMax" density="compact" @update:modelValue="saveAndSubmit('insulationMax', insulationMax)" />
           </v-col>
         </v-row>
 
@@ -219,19 +140,6 @@
           </v-col>
         </v-row>
 
-        <!-- Speed filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('speed')">
-          <v-col align-self="center" cols="2">
-            <v-btn density="compact" variant="text" disabled="true">Speed</v-btn>
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Min" v-model="speedMin" density="compact" @update:modelValue="saveAndSubmit('speedMin', speedMin)" />
-          </v-col>
-          <v-col>
-            <v-text-field hide-details label="Max" v-model="speedMax" density="compact" @update:modelValue="saveAndSubmit('speedMax', speedMax)" />
-          </v-col>
-        </v-row>
-
         <!-- Movement Type filter -->
         <v-row class="mt-n3" v-if="activeFilters.includes('movementType')">
           <v-col align-self="center" cols="2">
@@ -252,8 +160,100 @@
           </v-col>
         </v-row>
 
+        <!-- Slot Count filter -->
+        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('numSlots')" align-content="center">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Slots</v-btn>
+          </v-col>
+          <v-col align-self="center">
+            <v-text-field hide-details class="custom-text-field" label="Min" v-model="numSlotsMin" density="compact" @update:modelValue="saveAndSubmit('numSlotsMin', numSlotsMin)" />
+          </v-col>
+          <v-col align-self="center">
+            <v-text-field hide-details class="custom-text-field" label="Max" v-model="numSlotsMax" density="compact" @update:modelValue="saveAndSubmit('numSlotsMax', numSlotsMax)" />
+          </v-col>
+        </v-row>
+
+        <!-- Slot Size filter -->
+        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('slotSize')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Slot Size</v-btn>
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Min" v-model="slotSizeMin" density="compact" @update:modelValue="saveAndSubmit('slotSizeMin', slotSizeMin)" />
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Max" v-model="slotSizeMax" density="compact" @update:modelValue="saveAndSubmit('slotSizeMax', slotSizeMax)" />
+          </v-col>
+        </v-row>
+
+        <!-- Spawns In filter -->
+        <v-row class="mt-n3" v-if="activeFilters.includes('spawnsIn')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Spawns In</v-btn>
+          </v-col>
+          <v-col>
+            <v-btn-toggle v-model="spawnsInValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('spawnsInValues', spawnsInValues)">
+              <v-btn v-tippy="{content: biome.name, theme: 'twotech', animation: 'scale'}" v-for="biome in biomes" :key="biome.id">
+                <BiomeImage :biome="biome" />
+              </v-btn>
+            </v-btn-toggle>
+          </v-col>
+        </v-row>
+
+        <!-- Speed filter -->
+        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('speed')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Speed</v-btn>
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Min" v-model="speedMin" density="compact" @update:modelValue="saveAndSubmit('speedMin', speedMin)" />
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Max" v-model="speedMax" density="compact" @update:modelValue="saveAndSubmit('speedMax', speedMax)" />
+          </v-col>
+        </v-row>
+
+        <!-- Use Chance filter -->
+        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('useChance')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Use Chance</v-btn>
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Min" v-model="useChanceMin" density="compact" @update:modelValue="saveAndSubmit('useChanceMin', useChanceMin)" />
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Max" v-model="useChanceMax" density="compact" @update:modelValue="saveAndSubmit('useChanceMax', useChanceMax)" />
+          </v-col>
+        </v-row>
+
+        <!-- Use Distance filter -->
+        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('useDistance')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Use Distance</v-btn>
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Min" v-model="useDistanceMin" density="compact" @update:modelValue="saveAndSubmit('useDistanceMin', useDistanceMin)" />
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Max" v-model="useDistanceMax" density="compact" @update:modelValue="saveAndSubmit('useDistanceMax', useDistanceMax)" />
+          </v-col>
+        </v-row>
+
+        <!-- Uses filter -->
+        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('uses')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Uses</v-btn>
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Min" v-model="usesMin" density="compact" @update:modelValue="saveAndSubmit('usesMin', usesMin)" />
+          </v-col>
+          <v-col>
+            <v-text-field hide-details label="Max" v-model="usesMax" density="compact" @update:modelValue="saveAndSubmit('usesMax', usesMax)" />
+          </v-col>
+        </v-row>
+
         <!-- Insta-filter, Filter, and Hide uncraftable controls -->
-        <v-row justify="center mb-n8">
+        <!-- <v-row justify="center mb-n8">
           <v-col cols="4" class="d-flex justify-end">
             <v-switch color="primary" label="Insta-filter" v-model="instaFilter" @update:modelValue="submitIfAuto()"></v-switch>
           </v-col>
@@ -265,17 +265,12 @@
               <v-switch color="primary" label="Only craftable" v-model="localHideUncraftable" @update:modelValue="updateHideUncraftable" />
             </div>
           </v-col>
-        </v-row>
-
-        <!-- Control resets -->
-        <v-row justify="center mt-n8 mb-4">
-          <v-btn class="light-button" @click="setColumnsToDefaults()">Reset</v-btn>
-        </v-row>
+        </v-row> -->
 
         <!-- Column selection controls -->
-        <v-row justify="center" class="mt-4">
+        <!-- <v-row justify="center" class="mt-4">
         Columns to Show
-        </v-row>
+        </v-row> -->
         <!-- Column control -->
         <v-row align-content="center">
           <v-col cols="10">
@@ -448,23 +443,23 @@ export default {
     const movementTypeValues = ref(DEFAULT_MOVEMENT_TYPE.values);
 
     const filterNames = [
-      { title: "Slots", value: "numSlots" },
-      { title: "Slot Size", value: "slotSize" },
       { title: "Clothing Type", value: "clothingType" },
-      { title: "Difficulty", value: "difficulty" },
-      { title: "Spawns In", value: "spawnsIn" },
-      { title: "Immediate Food", value: "immediateFood" },
-      { title: "Bonus Food", value: "bonusFood" },
-      { title: "Total Food", value: "totalFood" },
-      { title: "Uses", value: "uses" },
-      { title: "Use Chance", value: "useChance" },
-      { title: "Insulation", value: "insulation" },
       { title: "Deadly From", value: "deadlyFrom" },
-      { title: "Use Distance", value: "useDistance" },
+      { title: "Difficulty", value: "difficulty" },
+      { title: "Food - Bonus", value: "bonusFood" },
+      { title: "Food - Immediate", value: "immediateFood" },
+      { title: "Food - Total", value: "totalFood" },
+      { title: "Insulation", value: "insulation" },
       { title: "Item Size", value: "itemSize" },
       { title: "Min Pickup Age", value: "minPickupAge" },
-      { title: "Speed", value: "speed" },
       { title: "Movement Type", value: "movementType" },
+      { title: "Slot Size", value: "slotSize" },
+      { title: "Slots", value: "numSlots" },
+      { title: "Speed", value: "speed" },
+      { title: "Spawns In", value: "spawnsIn" },
+      { title: "Use Chance", value: "useChance" },
+      { title: "Use Distance", value: "useDistance" },
+      { title: "Uses", value: "uses" },
     ];
     const activeFilters = ref([]);
 
