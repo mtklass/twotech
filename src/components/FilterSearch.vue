@@ -15,7 +15,7 @@
             ></v-select>
           </v-col>
           <v-col align-self="center" cols="2">
-            <v-btn class="light-button" color="primary" @click="setFiltersToDefaults()">Reset</v-btn>
+            <v-btn class="light-button" color="#0066cc" @click="setFiltersToDefaults()">Reset</v-btn>
           </v-col>
         </v-row>
 
@@ -37,7 +37,7 @@
             </v-btn-toggle>
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('blocksWalking')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('blocksWalking')"></v-btn>
           </v-col>
         </v-row>
 
@@ -59,7 +59,7 @@
             </v-btn-toggle>
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('clothingType')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('clothingType')"></v-btn>
           </v-col>
         </v-row>
 
@@ -75,7 +75,7 @@
             <v-text-field hide-details label="Max" v-model="deadlyFromMax" density="compact" @update:modelValue="saveAndSubmit('deadlyFromMax', deadlyFromMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('deadlyFrom')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('deadlyFrom')"></v-btn>
           </v-col>
         </v-row>
 
@@ -91,7 +91,7 @@
             <v-text-field hide-details label="Max" v-model="difficultyMax" density="compact" @update:modelValue="saveAndSubmit('difficultyMax', difficultyMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('difficulty')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('difficulty')"></v-btn>
           </v-col>
         </v-row>
 
@@ -107,7 +107,7 @@
             <v-text-field hide-details label="Max" v-model="bonusFoodMax" density="compact" @update:modelValue="saveAndSubmit('bonusFoodMax', bonusFoodMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('bonusFood')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('bonusFood')"></v-btn>
           </v-col>
         </v-row>
 
@@ -123,7 +123,7 @@
             <v-text-field hide-details label="Max" v-model="immediateFoodMax" density="compact" @update:modelValue="saveAndSubmit('immediateFoodMax', immediateFoodMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('immediateFood')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('immediateFood')"></v-btn>
           </v-col>
         </v-row>
 
@@ -139,7 +139,7 @@
             <v-text-field hide-details label="Max" v-model="totalFoodMax" density="compact" @update:modelValue="saveAndSubmit('totalFoodMax', totalFoodMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('totalFood')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('totalFood')"></v-btn>
           </v-col>
         </v-row>
 
@@ -155,7 +155,7 @@
             <v-text-field hide-details label="Max" v-model="insulationMax" density="compact" @update:modelValue="saveAndSubmit('insulationMax', insulationMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('insulation')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('insulation')"></v-btn>
           </v-col>
         </v-row>
 
@@ -171,7 +171,7 @@
             <v-text-field hide-details label="Max" v-model="itemSizeMax" density="compact" @update:modelValue="saveAndSubmit('itemSizeMax', itemSizeMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('itemSize')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('itemSize')"></v-btn>
           </v-col>
         </v-row>
 
@@ -187,7 +187,7 @@
             <v-text-field hide-details label="Max" v-model="minPickupAgeMax" density="compact" @update:modelValue="saveAndSubmit('minPickupAgeMax', minPickupAgeMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('minPickupAge')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('minPickupAge')"></v-btn>
           </v-col>
         </v-row>
 
@@ -209,7 +209,7 @@
             </v-btn-toggle>
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('movementType')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('movementType')"></v-btn>
           </v-col>
         </v-row>
 
@@ -231,7 +231,7 @@
             </v-btn-toggle>
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('permanent')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('permanent')"></v-btn>
           </v-col>
         </v-row>
 
@@ -247,7 +247,7 @@
             <v-text-field hide-details class="custom-text-field" label="Max" v-model="numSlotsMax" density="compact" @update:modelValue="saveAndSubmit('numSlotsMax', numSlotsMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('numSlots')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('numSlots')"></v-btn>
           </v-col>
         </v-row>
 
@@ -263,7 +263,7 @@
             <v-text-field hide-details label="Max" v-model="slotSizeMax" density="compact" @update:modelValue="saveAndSubmit('slotSizeMax', slotSizeMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('slotSize')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('slotSize')"></v-btn>
           </v-col>
         </v-row>
 
@@ -285,7 +285,7 @@
             </v-btn-toggle>
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('spawnsIn')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('spawnsIn')"></v-btn>
           </v-col>
         </v-row>
 
@@ -301,7 +301,7 @@
             <v-text-field hide-details label="Max" v-model="speedMax" density="compact" @update:modelValue="saveAndSubmit('speedMax', speedMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('speed')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('speed')"></v-btn>
           </v-col>
         </v-row>
 
@@ -317,7 +317,7 @@
             <v-text-field hide-details label="Max" v-model="useChanceMax" density="compact" @update:modelValue="saveAndSubmit('useChanceMax', useChanceMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('useChance')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('useChance')"></v-btn>
           </v-col>
         </v-row>
 
@@ -333,7 +333,7 @@
             <v-text-field hide-details label="Max" v-model="useDistanceMax" density="compact" @update:modelValue="saveAndSubmit('useDistanceMax', useDistanceMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('useDistance')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('useDistance')"></v-btn>
           </v-col>
         </v-row>
 
@@ -349,7 +349,7 @@
             <v-text-field hide-details label="Max" v-model="usesMax" density="compact" @update:modelValue="saveAndSubmit('usesMax', usesMax, true)" />
           </v-col>
           <v-col cols="1">
-            <v-btn slim icon="mdi-delete" color="red" density="comfortable" @click="removeFilter('uses')"></v-btn>
+            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('uses')"></v-btn>
           </v-col>
         </v-row>
 
@@ -389,7 +389,7 @@
             ></v-select>
           </v-col>
           <v-col align-self="center" cols="2">
-            <v-btn class="light-button" color="primary" @click="setColumnsToDefaults()">Reset</v-btn>
+            <v-btn class="light-button" color="#0066cc" @click="setColumnsToDefaults()">Reset</v-btn>
           </v-col>
         </v-row>
 
