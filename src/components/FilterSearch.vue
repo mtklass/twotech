@@ -974,7 +974,7 @@ export default {
         "minPickupAge": object.minPickupAge,
         "movementType": object.moveType,
         "permanent": object.permanent || false,
-        "slots": object.numSlots || 0,
+        "numSlots": object.numSlots || 0,
         "slotSize": object.slotSize,
         "spawnsIn": object.biomes.join(", "),
         "speed": object.speedMult,
