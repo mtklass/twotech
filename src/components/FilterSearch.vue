@@ -419,7 +419,8 @@
 
                 <!-- Loop through the selected fields to dynamically render the <td> with static width -->
                 <td v-for="header in visibleHeaders" :key="header.value" :style="{ width: header.width }">
-                  <div class="text-wrapper">{{ item[header.value] }}</div>
+                  <div v-if="header.value === 'insulation'" class="text-wrapper">{{ item[header.value] }}%</div>
+                  <div v-else class="text-wrapper">{{ item[header.value] }}</div>
                 </td>
               </tr>
             </template>
@@ -454,7 +455,7 @@ const DEFAULT_BONUS_FOOD = { enabled: false, min: 0, max: 20 };
 const DEFAULT_TOTAL_FOOD = { enabled: false, min: 0, max: 25 };
 const DEFAULT_USES = { enabled: false, min: 0, max: 100 };
 const DEFAULT_USE_CHANCE = { enabled: false, min: 0.0, max: 1.0 };
-const DEFAULT_INSULATION = { enabled: false, min: 0, max: 10 };
+const DEFAULT_INSULATION = { enabled: false, min: 0, max: 100 };
 const DEFAULT_DEADLY_FROM = { enabled: false, min: 0, max: 5 };
 const DEFAULT_USE_DISTANCE = { enabled: false, min: 0, max: 5 };
 const DEFAULT_ITEM_SIZE = { enabled: false, min: 0.5, max: 3 };
@@ -917,7 +918,7 @@ export default {
       loadControlState('useChanceMin', useChanceMin, 0.0);
       loadControlState('useChanceMax', useChanceMax, 1.0);
       loadControlState('insulationMin', insulationMin, 0);
-      loadControlState('insulationMax', insulationMax, 10);
+      loadControlState('insulationMax', insulationMax, 100);
       loadControlState('deadlyFromMin', deadlyFromMin, 0);
       loadControlState('deadlyFromMax', deadlyFromMax, 5);
       loadControlState('useDistanceMin', useDistanceMin, 0);

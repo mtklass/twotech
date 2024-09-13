@@ -19,7 +19,7 @@ export default class GameObject {
           totalFood: data.totalFood[i],
           numUses: data.numUses[i],
           useChance: data.useChance[i],
-          insulation: (data.insulation[i]*100).toPrecision(4) + "%",
+          insulation: +((data.insulation[i] * 100).toFixed(4)),
           deadlyDistance: data.deadlyDistance[i],
           useDistance: data.useDistance[i],
           size: data.size[i],
