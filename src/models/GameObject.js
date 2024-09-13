@@ -263,9 +263,9 @@ export default class GameObject {
               includeObject = false;
           } else if (filter.name === "itemSize") {
             // Handle null/undefined values for itemSize
-            if (object.itemSize === null || object.itemSize === undefined)
-              object.itemSize = 0;
-            if (object.itemSize < filter.min || object.itemSize > filter.max)
+            if (object.size === null || object.size === undefined)
+              object.size = 0;
+            if (object.size < filter.min || object.size > filter.max)
               includeObject = false;
           } else if (filter.name === "minPickupAge") {
             // Handle null/undefined values for minPickupAge
