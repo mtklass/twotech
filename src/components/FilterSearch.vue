@@ -30,6 +30,9 @@
               <v-btn slim>False</v-btn>
             </v-btn-toggle>
           </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('blocksWalking')"></v-btn>
+          </v-col>
         </v-row>
 
         <!-- Clothing Type filter -->
@@ -47,6 +50,9 @@
               <v-btn slim>None</v-btn>
             </v-btn-toggle>
           </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('clothingType')"></v-btn>
+          </v-col>
         </v-row>
 
         <!-- Deadly From filter -->
@@ -59,6 +65,9 @@
           </v-col>
           <v-col>
             <v-text-field hide-details label="Max" v-model="deadlyFromMax" density="compact" @update:modelValue="saveAndSubmit('deadlyFromMax', deadlyFromMax, true)" />
+          </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('deadlyFrom')"></v-btn>
           </v-col>
         </v-row>
 
@@ -73,6 +82,9 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="difficultyMax" density="compact" @update:modelValue="saveAndSubmit('difficultyMax', difficultyMax, true)" />
           </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('difficulty')"></v-btn>
+          </v-col>
         </v-row>
 
         <!-- Food - Bonus filter -->
@@ -85,6 +97,9 @@
           </v-col>
           <v-col>
             <v-text-field hide-details label="Max" v-model="bonusFoodMax" density="compact" @update:modelValue="saveAndSubmit('bonusFoodMax', bonusFoodMax, true)" />
+          </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('bonusFood')"></v-btn>
           </v-col>
         </v-row>
 
@@ -99,6 +114,9 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="immediateFoodMax" density="compact" @update:modelValue="saveAndSubmit('immediateFoodMax', immediateFoodMax, true)" />
           </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('immediateFood')"></v-btn>
+          </v-col>
         </v-row>
 
         <!-- Food - Total filter -->
@@ -111,6 +129,9 @@
           </v-col>
           <v-col>
             <v-text-field hide-details label="Max" v-model="totalFoodMax" density="compact" @update:modelValue="saveAndSubmit('totalFoodMax', totalFoodMax, true)" />
+          </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('totalFood')"></v-btn>
           </v-col>
         </v-row>
 
@@ -125,6 +146,9 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="insulationMax" density="compact" @update:modelValue="saveAndSubmit('insulationMax', insulationMax, true)" />
           </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('insulation')"></v-btn>
+          </v-col>
         </v-row>
 
         <!-- Item size filter -->
@@ -138,6 +162,9 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="itemSizeMax" density="compact" @update:modelValue="saveAndSubmit('itemSizeMax', itemSizeMax, true)" />
           </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('itemSize')"></v-btn>
+          </v-col>
         </v-row>
 
         <!-- Min Pickup Age filter -->
@@ -150,6 +177,9 @@
           </v-col>
           <v-col>
             <v-text-field hide-details label="Max" v-model="minPickupAgeMax" density="compact" @update:modelValue="saveAndSubmit('minPickupAgeMax', minPickupAgeMax, true)" />
+          </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('minPickupAge')"></v-btn>
           </v-col>
         </v-row>
 
@@ -171,6 +201,9 @@
               <v-btn slim>Find</v-btn>
             </v-btn-toggle>
           </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('movementType')"></v-btn>
+          </v-col>
         </v-row>
 
         <!-- Permanent filter -->
@@ -183,6 +216,9 @@
               <v-btn slim>True</v-btn>
               <v-btn slim>False</v-btn>
             </v-btn-toggle>
+          </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('permanent')"></v-btn>
           </v-col>
         </v-row>
 
@@ -197,6 +233,9 @@
           <v-col align-self="center">
             <v-text-field hide-details class="custom-text-field" label="Max" v-model="numSlotsMax" density="compact" @update:modelValue="saveAndSubmit('numSlotsMax', numSlotsMax, true)" />
           </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('numSlots')"></v-btn>
+          </v-col>
         </v-row>
 
         <!-- Slot Size filter -->
@@ -209,6 +248,9 @@
           </v-col>
           <v-col>
             <v-text-field hide-details label="Max" v-model="slotSizeMax" density="compact" @update:modelValue="saveAndSubmit('slotSizeMax', slotSizeMax, true)" />
+          </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('slotSize')"></v-btn>
           </v-col>
         </v-row>
 
@@ -224,6 +266,9 @@
               </v-btn>
             </v-btn-toggle>
           </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('spawnsIn')"></v-btn>
+          </v-col>
         </v-row>
 
         <!-- Speed filter -->
@@ -236,6 +281,9 @@
           </v-col>
           <v-col>
             <v-text-field hide-details label="Max" v-model="speedMax" density="compact" @update:modelValue="saveAndSubmit('speedMax', speedMax, true)" />
+          </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('speed')"></v-btn>
           </v-col>
         </v-row>
 
@@ -250,6 +298,9 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="useChanceMax" density="compact" @update:modelValue="saveAndSubmit('useChanceMax', useChanceMax, true)" />
           </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('useChance')"></v-btn>
+          </v-col>
         </v-row>
 
         <!-- Use Distance filter -->
@@ -263,6 +314,9 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="useDistanceMax" density="compact" @update:modelValue="saveAndSubmit('useDistanceMax', useDistanceMax, true)" />
           </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('useDistance')"></v-btn>
+          </v-col>
         </v-row>
 
         <!-- Uses filter -->
@@ -275,6 +329,9 @@
           </v-col>
           <v-col>
             <v-text-field hide-details label="Max" v-model="usesMax" density="compact" @update:modelValue="saveAndSubmit('usesMax', usesMax, true)" />
+          </v-col>
+          <v-col cols="1">
+            <v-btn slim icon="mdi-close" density="comfortable" @click="removeFilter('uses')"></v-btn>
           </v-col>
         </v-row>
 
@@ -626,6 +683,12 @@ export default {
         setupSubmit();
       }
     };
+
+    const removeFilter = (filterName) => {
+      let filterIndex = activeFilters.value.indexOf(filterName);
+      if (filterIndex >= 0) activeFilters.value.splice(filterIndex, 1);
+      saveAndSubmit('activeFilters', activeFilters.value, true);
+    }
 
     const setFiltersToDefaults = () => {
       activeFilters.value = [];
@@ -1107,6 +1170,7 @@ export default {
       setupSubmit,
       submitIfAuto,
       saveAndSubmit,
+      removeFilter,
       saveControlState,
       setFiltersToDefaults,
       setColumnsToDefaults,
@@ -1230,11 +1294,6 @@ export default {
   text-align: center;
 }
 
-.filterCheckbox {
-  margin-left: 8px;
-  margin-right: 8px;
-}
-
 .v-btn .biomeImage {
   background-size: cover;
   width: 30px; /* or whatever size fits */
@@ -1271,18 +1330,5 @@ export default {
 
 .custom-text-field .v-input__details {
   margin-top: 0px;
-}
-</style>
-
-<style>
-.v-checkbox .v-icon {
-  color: white !important;
-}
-.v-checkbox .v-input--selection-controls__input {
-  border: 2px solid white !important;
-  border-radius: 4px;
-}
-.v-checkbox .v-input--selection-controls__input--checked {
-  background-color: white !important;
 }
 </style>
