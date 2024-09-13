@@ -25,7 +25,7 @@
             <v-btn density="compact" variant="text" disabled="true">Blocks Walking</v-btn>
           </v-col>
           <v-col>
-            <v-btn-toggle color="secondary" density="compact" v-model="blocksWalkingValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('blocksWalkingValues', blocksWalkingValues, true)">
+            <v-btn-toggle color="#366b7d" density="compact" v-model="blocksWalkingValues" divided multiple @update:modelValue="saveAndSubmit('blocksWalkingValues', blocksWalkingValues, true)">
               <v-btn
                 v-for="(type, index) in ['True', 'False']"
                 :key="index"
@@ -47,7 +47,7 @@
             <v-btn density="compact" variant="text" disabled="true">Clothing Type</v-btn>
           </v-col>
           <v-col>
-            <v-btn-toggle color="secondary" density="compact" v-model="clothingTypeValues" divided multiple @update:modelValue="saveAndSubmit('clothingTypeValues', clothingTypeValues, true)">
+            <v-btn-toggle color="#366b7d" density="compact" v-model="clothingTypeValues" divided multiple @update:modelValue="saveAndSubmit('clothingTypeValues', clothingTypeValues, true)">
               <v-btn
                 v-for="(type, index) in ['Head', 'Top', 'Bottom', 'Shoe', 'Pack', 'None']"
                 :key="index"
@@ -197,7 +197,7 @@
             <v-btn density="compact" variant="text" disabled="true">Movement Type</v-btn>
           </v-col>
           <v-col>
-            <v-btn-toggle color="secondary" density="compact" v-model="movementTypeValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('movementTypeValues', movementTypeValues, true)">
+            <v-btn-toggle color="#366b7d" density="compact" v-model="movementTypeValues" divided multiple @update:modelValue="saveAndSubmit('movementTypeValues', movementTypeValues, true)">
               <v-btn
                 v-for="(type, index) in ['None', 'Chase', 'Flee', 'Random', 'North', 'South', 'East', 'West', 'Find']"
                 :key="index"
@@ -219,9 +219,15 @@
             <v-btn density="compact" variant="text" disabled="true">Permanent</v-btn>
           </v-col>
           <v-col>
-            <v-btn-toggle density="compact" v-model="permanentValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('permanentValues', permanentValues, true)">
-              <v-btn slim>True</v-btn>
-              <v-btn slim>False</v-btn>
+            <v-btn-toggle color="#366b7d" density="compact" v-model="permanentValues" divided multiple @update:modelValue="saveAndSubmit('permanentValues', permanentValues, true)">
+              <v-btn
+                v-for="(type, index) in ['True', 'False']"
+                :key="index"
+                slim
+                :variant="permanentValues.includes(index) ? 'elevated' : 'outlined'"
+              >
+                {{ type }}
+              </v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col cols="1">
@@ -267,8 +273,13 @@
             <v-btn density="compact" variant="text" disabled="true">Spawns In</v-btn>
           </v-col>
           <v-col>
-            <v-btn-toggle v-model="spawnsInValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('spawnsInValues', spawnsInValues, true)">
-              <v-btn v-tippy="{content: biome.name, theme: 'twotech', animation: 'scale'}" v-for="biome in biomes" :key="biome.id">
+            <v-btn-toggle color="#366b7d" v-model="spawnsInValues" divided multiple @update:modelValue="saveAndSubmit('spawnsInValues', spawnsInValues, true)">
+              <v-btn
+                v-tippy="{content: biome.name, theme: 'twotech', animation: 'scale'}"
+                v-for="(biome, index) in biomes"
+                :key="biome.id"
+                :variant="spawnsInValues.includes(index) ? 'elevated' : 'outlined'"
+              >
                 <BiomeImage :biome="biome" />
               </v-btn>
             </v-btn-toggle>
