@@ -26,6 +26,8 @@ export default class GameObject {
           minPickupAge: data.minPickupAge[i],
           speedMult: data.speedMult[i],
           moveType: this.moveTypeString(data.moveType[i]),
+          blocksWalking: data.blocksWalking[i],
+          permanent: data.permanent[i],
         });
       }
       this.ids = data.ids;
@@ -291,6 +293,16 @@ export default class GameObject {
             ) {
               includeObject = false;
             }
+          } else if (filter.name === "blocksWalking") {
+            if ((!filter.includeTrue && object.blocksWalking)
+              || (!filter.includeFalse && !object.blocksWalking)) {
+              includeObject = false;
+            }
+          } else if (filter.name === "permanent") {
+            if ((!filter.includeTrue && object.permanent)
+              || (!filter.includeFalse && !object.permanent)) {
+              includeObject = false;
+            }
           }
         }
 
@@ -336,6 +348,8 @@ export default class GameObject {
     minPickupAge,
     speedMult,
     moveType,
+    blocksWalking,
+    permanent,
   }) {
     this.id = id;
     this.name = name;
@@ -359,6 +373,8 @@ export default class GameObject {
     this.minPickupAge = minPickupAge;
     this.speedMult = speedMult;
     this.moveType = moveType;
+    this.blocksWalking = blocksWalking;
+    this.permanent = permanent;
     this.data = null;
   }
 

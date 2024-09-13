@@ -19,6 +19,19 @@
           </v-col>
         </v-row>
 
+        <!-- Blocks Walking filter -->
+        <v-row class="mt-n3" v-if="activeFilters.includes('blocksWalking')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Blocks Walking</v-btn>
+          </v-col>
+          <v-col>
+            <v-btn-toggle density="compact" v-model="blocksWalkingValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('blocksWalkingValues', blocksWalkingValues, true)">
+              <v-btn slim>True</v-btn>
+              <v-btn slim>False</v-btn>
+            </v-btn-toggle>
+          </v-col>
+        </v-row>
+
         <!-- Clothing Type filter -->
         <v-row class="mt-n3" v-if="activeFilters.includes('clothingType')">
           <v-col align-self="center" cols="2">
@@ -156,6 +169,19 @@
               <v-btn slim>East</v-btn>
               <v-btn slim>West</v-btn>
               <v-btn slim>Find</v-btn>
+            </v-btn-toggle>
+          </v-col>
+        </v-row>
+
+        <!-- Permanent filter -->
+        <v-row class="mt-n3" v-if="activeFilters.includes('permanent')">
+          <v-col align-self="center" cols="2">
+            <v-btn density="compact" variant="text" disabled="true">Permanent</v-btn>
+          </v-col>
+          <v-col>
+            <v-btn-toggle density="compact" v-model="permanentValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('permanentValues', permanentValues, true)">
+              <v-btn slim>True</v-btn>
+              <v-btn slim>False</v-btn>
             </v-btn-toggle>
           </v-col>
         </v-row>
@@ -360,6 +386,8 @@ const DEFAULT_ITEM_SIZE = { enabled: false, min: 0.5, max: 3 };
 const DEFAULT_MIN_PICKUP_AGE = { enabled: false, min: 0, max: 20 };
 const DEFAULT_SPEED = { enabled: false, min: 0, max: 3 };
 const DEFAULT_MOVEMENT_TYPE = { enabled: false, values: [0, 1, 2, 3, 4, 5, 6, 7, 8] };
+const DEFAULT_BLOCKS_WALKING = { enabled: false, includeTrueFalse: [0, 1] };
+const DEFAULT_PERMANENT = { enabled: false, includeTrueFalse: [0, 1] };
 
 const DEFAULT_COLUMNS = {
   showNumSlots: true,
@@ -445,8 +473,13 @@ export default {
     const speedMax = ref(DEFAULT_SPEED.max);
     // Movement Type filter data
     const movementTypeValues = ref(DEFAULT_MOVEMENT_TYPE.values);
+    // Blocks Walking filter data
+    const blocksWalkingValues = ref(DEFAULT_BLOCKS_WALKING.includeTrueFalse);
+    // Permanent filter data
+    const permanentValues = ref(DEFAULT_PERMANENT.includeTrueFalse);
 
     const filterNames = [
+      { title: "Blocks Walking", value: "blocksWalking" },
       { title: "Clothing Type", value: "clothingType" },
       { title: "Deadly From", value: "deadlyFrom" },
       { title: "Difficulty", value: "difficulty" },
@@ -457,6 +490,7 @@ export default {
       { title: "Item Size", value: "itemSize" },
       { title: "Min Pickup Age", value: "minPickupAge" },
       { title: "Movement Type", value: "movementType" },
+      { title: "Permanent", value: "permanent" },
       { title: "Slot Size", value: "slotSize" },
       { title: "Slots", value: "numSlots" },
       { title: "Spawns In", value: "spawnsIn" },
@@ -486,9 +520,12 @@ export default {
     const showMinPickupAge = ref(DEFAULT_COLUMNS.showMinPickupAge);
     const showSpeed = ref(DEFAULT_COLUMNS.showSpeed);
     const showMovementType = ref(DEFAULT_COLUMNS.showMovementType);
+    const showBlocksWalking = ref(DEFAULT_COLUMNS.showBlocksWalking);
+    const showPermanent = ref(DEFAULT_COLUMNS.showPermanent);
 
     // Define the full set of headers/columns
     const allHeaders = [
+      { title: 'Blocks Walking', key: 'Blocks Walking', value: 'blocksWalking', visible: showBlocksWalking, width: '80px', sortable: true },
       { title: 'Clothing Type', key: 'Clothing Type', value: 'clothingType', visible: showClothingType, width: '100px', sortable: true },
       { title: 'Craftable', key: 'Craftable', value: 'craftable', visible: showCraftable, width: '100px', sortable: true },
       { title: 'Deadly From', key: 'Deadly From', value: 'deadlyFrom', visible: showDeadlyFrom, width: '80px', sortable: true },
@@ -500,6 +537,7 @@ export default {
       { title: 'Item Size', key: 'Item Size', value: 'itemSize', visible: showItemSize, width: '80px', sortable: true },
       { title: 'Min Pickup Age', key: 'Min Pickup Age', value: 'minPickupAge', visible: showMinPickupAge, width: '80px', sortable: true },
       { title: 'Movement Type', key: 'Movement Type', value: 'movementType', visible: showMovementType, width: '80px', sortable: true },
+      { title: 'Permanent', key: 'Permanent', value: 'permanent', visible: showPermanent, width: '80px', sortable: true },
       { title: 'Slots', key: 'Slots', value: 'numSlots', visible: showNumSlots, width: '80px', sortable: true },
       { title: 'Slot Size', key: 'Slot Size', value: 'slotSize', visible: showSlotSize, width: '80px', sortable: true },
       { title: 'Spawns In', key: 'Spawns In', value: 'spawnsIn', visible: showSpawnsIn, width: '200px', sortable: true },
@@ -544,6 +582,8 @@ export default {
         minPickupAge: {name: 'showMinPickupAge', control: showMinPickupAge},
         speed: {name: 'showSpeed', control: showSpeed},
         movementType: {name: 'showMovementType', control: showMovementType},
+        blocksWalking: {name: 'blocksWalking', control: showBlocksWalking},
+        permanent: {name: 'permanent', control: showPermanent},
       };
     });
 
@@ -564,12 +604,18 @@ export default {
     // Load control state from BrowserStorage on mounted
     const loadControlState = (key, refValue, defaultValue) => {
       const savedValue = BrowserStorage.getItem(key);
-      if (savedValue !== null) {
-        refValue.value = JSON.parse(savedValue);
+      if (savedValue && savedValue !== "undefined") { // Add this condition to avoid undefined
+        try {
+          refValue.value = JSON.parse(savedValue);
+        } catch (e) {
+          console.error(`Error parsing saved value for ${key}:`, e);
+          refValue.value = defaultValue; // Fallback to default in case of any parsing errors
+        }
       } else {
         refValue.value = defaultValue;
       }
     };
+
 
     // Function that saves control state and triggers submit if necessary
     const saveAndSubmit = (key, value, ifAuto = false) => {
@@ -680,6 +726,14 @@ export default {
       // Movement Type
       movementTypeValues.value = DEFAULT_MOVEMENT_TYPE.values;
       saveControlState('movementTypeValues', DEFAULT_MOVEMENT_TYPE.values);
+
+      // Blocks Walking
+      blocksWalkingValues.value = DEFAULT_BLOCKS_WALKING.includeTrueFalse;
+      saveControlState('blocksWalkingValues', DEFAULT_BLOCKS_WALKING.includeTrueFalse);
+
+      // Permanent
+      permanentValues.value = DEFAULT_PERMANENT.includeTrueFalse;
+      saveControlState('permanentValues', DEFAULT_PERMANENT.includeTrueFalse);
 
       submitIfAuto();
     };
@@ -794,6 +848,8 @@ export default {
       loadControlState('speedMin', speedMin, 0);
       loadControlState('speedMax', speedMax, 3);
       loadControlState('movementTypeValues', movementTypeValues, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+      loadControlState('blocksWalkingValues', blocksWalkingValues, [0, 1]);
+      loadControlState('permanentValues', permanentValues, [0, 1]);
       
       loadControlState('showNumSlots', showNumSlots, true);
       loadControlState('showSlotSize', showSlotSize, true);
@@ -823,6 +879,7 @@ export default {
     const displayed_data = (object) => {
       return {
         "object": object.name,
+        "blocksWalking": object.blocksWalking || false,
         "clothingType": object.clothingType || "None",
         "craftable": object.craftable || false,
         "deadlyFrom": object.deadlyDistance,
@@ -834,6 +891,7 @@ export default {
         "insulation": object.insulation,
         "minPickupAge": object.minPickupAge,
         "movementType": object.moveType,
+        "permanent": object.permanent || false,
         "slots": object.numSlots || 0,
         "slotSize": object.slotSize,
         "spawnsIn": object.biomes.join(", "),
@@ -1017,6 +1075,20 @@ export default {
             includeFind: movementTypeValues.value.includes(8),
           })
         }
+        if (activeFilters.value.includes("blocksWalking")) {
+          filters.push({
+            name: "blocksWalking",
+            includeTrue: blocksWalkingValues.value.includes(0),
+            includeFalse: blocksWalkingValues.value.includes(1),
+          })
+        }
+        if (activeFilters.value.includes("permanent")) {
+          filters.push({
+            name: "permanent",
+            includeTrue: permanentValues.value.includes(0),
+            includeFalse: permanentValues.value.includes(1),
+          })
+        }
 
         const results = GameObject.filter(filters).map(o => displayed_data(o));
         filtered_items.value = results;
@@ -1049,7 +1121,6 @@ export default {
       difficultyMax,
       biomes,
       spawnsInValues,
-      movementTypeValues,
       immediateFoodMin,
       immediateFoodMax,
       bonusFoodMin,
@@ -1073,6 +1144,8 @@ export default {
       speedMin,
       speedMax,
       movementTypeValues,
+      blocksWalkingValues,
+      permanentValues,
 
       extraObjectData,
       localHideUncraftable,
