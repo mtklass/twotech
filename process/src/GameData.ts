@@ -275,6 +275,8 @@ class GameData {
         acc.minPickupAge.push(o.data.minPickupAge);
         acc.speedMult.push(o.data.speedMult);
         acc.moveType.push(o.transitionsAway.find(t=>t.move>0)?.move);
+        acc.blocksWalking.push(o.data.blocksWalking !== 0);
+        acc.permanent.push(o.data.permanent !== 0);
         return acc;
       },
       {
@@ -298,6 +300,8 @@ class GameData {
         minPickupAge: [],
         speedMult: [],
         moveType: [],
+        blocksWalking: [],
+        permanent: [],
       }
     );
     return {
@@ -329,6 +333,8 @@ class GameData {
       minPickupAge: objectsData.minPickupAge,
       speedMult: objectsData.speedMult,
       moveType: objectsData.moveType,
+      blocksWalking: objectsData.blocksWalking,
+      permanent: objectsData.permanent,
     };
   }
 
@@ -412,9 +418,6 @@ interface ExportedFullObjectData {
   clothingType: string[],
   craftable: boolean[],
   biomes: string[][],
-  filters: ExportedObjectFilterData,
-  badges: ExportedObjectBadgesData,
-  date: Date,
   versions: string[],
   biomeIds: string[],
   biomeNames: string[],
@@ -431,6 +434,11 @@ interface ExportedFullObjectData {
   minPickupAge: number[],
   speedMult: number[],
   moveType: number[],
+  blocksWalking: boolean[],
+  permanent: boolean[],
+  filters: ExportedObjectFilterData,
+  badges: ExportedObjectBadgesData,
+  date: Date,
 }
 
 export { GameData }
