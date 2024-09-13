@@ -400,7 +400,7 @@
                     <v-list-item class="nostyle" :to="extraObjectData.find(o => o.name === item.object).url">
                       <div class="image-container">
                         <ObjectImage :object="extraObjectData.find(o => o.name === item.object)" />
-                        {{ item.Object }}
+                        {{ item.object }}
                       </div>
                     </v-list-item>
                   </v-list>
