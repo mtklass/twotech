@@ -15,7 +15,7 @@
             ></v-select>
           </v-col>
           <v-col align-self="center" cols="2">
-            <v-btn class="light-button" @click="setFiltersToDefaults()">Reset</v-btn>
+            <v-btn class="light-button" color="primary" @click="setFiltersToDefaults()">Reset</v-btn>
           </v-col>
         </v-row>
 
@@ -25,9 +25,15 @@
             <v-btn density="compact" variant="text" disabled="true">Blocks Walking</v-btn>
           </v-col>
           <v-col>
-            <v-btn-toggle density="compact" v-model="blocksWalkingValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('blocksWalkingValues', blocksWalkingValues, true)">
-              <v-btn slim>True</v-btn>
-              <v-btn slim>False</v-btn>
+            <v-btn-toggle color="secondary" density="compact" v-model="blocksWalkingValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('blocksWalkingValues', blocksWalkingValues, true)">
+              <v-btn
+                v-for="(type, index) in ['True', 'False']"
+                :key="index"
+                slim
+                :variant="blocksWalkingValues.includes(index) ? 'elevated' : 'outlined'"
+              >
+                {{ type }}
+              </v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col cols="1">
@@ -41,13 +47,15 @@
             <v-btn density="compact" variant="text" disabled="true">Clothing Type</v-btn>
           </v-col>
           <v-col>
-            <v-btn-toggle density="compact" v-model="clothingTypeValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('clothingTypeValues', clothingTypeValues, true)">
-              <v-btn slim>Head</v-btn>
-              <v-btn slim>Top</v-btn>
-              <v-btn slim>Bottom</v-btn>
-              <v-btn slim>Shoe</v-btn>
-              <v-btn slim>Pack</v-btn>
-              <v-btn slim>None</v-btn>
+            <v-btn-toggle color="secondary" density="compact" v-model="clothingTypeValues" divided multiple @update:modelValue="saveAndSubmit('clothingTypeValues', clothingTypeValues, true)">
+              <v-btn
+                v-for="(type, index) in ['Head', 'Top', 'Bottom', 'Shoe', 'Pack', 'None']"
+                :key="index"
+                slim
+                :variant="clothingTypeValues.includes(index) ? 'elevated' : 'outlined'"
+              >
+                {{ type }}
+              </v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col cols="1">
@@ -189,16 +197,15 @@
             <v-btn density="compact" variant="text" disabled="true">Movement Type</v-btn>
           </v-col>
           <v-col>
-            <v-btn-toggle density="compact" v-model="movementTypeValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('movementTypeValues', movementTypeValues, true)">
-              <v-btn slim>None</v-btn>
-              <v-btn slim>Chase</v-btn>
-              <v-btn slim>Flee</v-btn>
-              <v-btn slim>Random</v-btn>
-              <v-btn slim>North</v-btn>
-              <v-btn slim>South</v-btn>
-              <v-btn slim>East</v-btn>
-              <v-btn slim>West</v-btn>
-              <v-btn slim>Find</v-btn>
+            <v-btn-toggle color="secondary" density="compact" v-model="movementTypeValues" variant="outlined" divided multiple @update:modelValue="saveAndSubmit('movementTypeValues', movementTypeValues, true)">
+              <v-btn
+                v-for="(type, index) in ['None', 'Chase', 'Flee', 'Random', 'North', 'South', 'East', 'West', 'Find']"
+                :key="index"
+                slim
+                :variant="movementTypeValues.includes(index) ? 'elevated' : 'outlined'"
+              >
+                {{ type }}
+              </v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col cols="1">
@@ -341,7 +348,7 @@
             <v-switch color="primary" label="Insta-filter" v-model="instaFilter" @update:modelValue="saveAndSubmit('instaFilter', instaFilter, true)"></v-switch>
           </v-col>
           <v-col cols="3">
-            <v-btn :disabled="instaFilter" class="light-button mt-2" type="submit" color="#blue" active-color="#bbb" button-disabled-opacity="0.26" block>Filter</v-btn>
+            <v-btn :disabled="instaFilter" class="light-button mt-2" type="submit" color="primary" active-color="#bbb" button-disabled-opacity="0.26" block>Filter</v-btn>
           </v-col>
           <v-col cols="5">
             <div class="objectCraftableSelection">
@@ -371,7 +378,7 @@
             ></v-select>
           </v-col>
           <v-col align-self="center" cols="2">
-            <v-btn class="light-button" @click="setColumnsToDefaults()">Reset</v-btn>
+            <v-btn class="light-button" color="primary" @click="setColumnsToDefaults()">Reset</v-btn>
           </v-col>
         </v-row>
 
