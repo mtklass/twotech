@@ -4,7 +4,7 @@
       <v-container class="ga-0">
         <!-- Filter control -->
         <v-row align-content="center">
-          <v-col cols="10">
+          <v-col cols="11">
             <v-select
               class="mb-n6"
               label="Filters"
@@ -14,13 +14,13 @@
               multiple
             ></v-select>
           </v-col>
-          <v-col align-self="center" cols="2">
+          <v-col align-self="center" cols="1">
             <v-btn class="light-button" color="#0066cc" @click="setFiltersToDefaults()">Reset</v-btn>
           </v-col>
         </v-row>
 
         <!-- Blocks Walking filter -->
-        <v-row class="mt-n3" v-if="activeFilters.includes('blocksWalking')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('blocksWalking')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Blocks Walking</v-btn>
           </v-col>
@@ -36,13 +36,14 @@
               </v-btn>
             </v-btn-toggle>
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('blocksWalking')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('blocksWalking')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('blocksWalking')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Clothing Type filter -->
-        <v-row class="mt-n3" v-if="activeFilters.includes('clothingType')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('clothingType')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Clothing Type</v-btn>
           </v-col>
@@ -58,13 +59,14 @@
               </v-btn>
             </v-btn-toggle>
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('clothingType')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('clothingType')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('clothingType')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Deadly From filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('deadlyFrom')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('deadlyFrom')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Deadly From</v-btn>
           </v-col>
@@ -74,13 +76,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="deadlyFromMax" density="compact" @update:modelValue="saveAndSubmit('deadlyFromMax', deadlyFromMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('deadlyFrom')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('deadlyFrom')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('deadlyFrom')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Difficulty filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('difficulty')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('difficulty')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Difficulty</v-btn>
           </v-col>
@@ -90,13 +93,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="difficultyMax" density="compact" @update:modelValue="saveAndSubmit('difficultyMax', difficultyMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('difficulty')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('difficulty')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('difficulty')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Food - Bonus filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('bonusFood')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('bonusFood')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Food - Bonus</v-btn>
           </v-col>
@@ -106,13 +110,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="bonusFoodMax" density="compact" @update:modelValue="saveAndSubmit('bonusFoodMax', bonusFoodMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('bonusFood')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('bonusFood')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('bonusFood')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Food - Immediate filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('immediateFood')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('immediateFood')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Food - Immediate</v-btn>
           </v-col>
@@ -122,13 +127,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="immediateFoodMax" density="compact" @update:modelValue="saveAndSubmit('immediateFoodMax', immediateFoodMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('immediateFood')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('immediateFood')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('immediateFood')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Food - Total filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('totalFood')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('totalFood')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Food - Total</v-btn>
           </v-col>
@@ -138,13 +144,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="totalFoodMax" density="compact" @update:modelValue="saveAndSubmit('totalFoodMax', totalFoodMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('totalFood')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('totalFood')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('totalFood')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Insulation filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('insulation')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('insulation')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Insulation</v-btn>
           </v-col>
@@ -154,13 +161,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="insulationMax" density="compact" @update:modelValue="saveAndSubmit('insulationMax', insulationMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('insulation')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('insulation')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('insulation')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Item size filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('itemSize')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('itemSize')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Item Size</v-btn>
           </v-col>
@@ -170,13 +178,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="itemSizeMax" density="compact" @update:modelValue="saveAndSubmit('itemSizeMax', itemSizeMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('itemSize')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('itemSize')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('itemSize')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Min Pickup Age filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('minPickupAge')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('minPickupAge')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Min Pickup Age</v-btn>
           </v-col>
@@ -186,13 +195,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="minPickupAgeMax" density="compact" @update:modelValue="saveAndSubmit('minPickupAgeMax', minPickupAgeMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('minPickupAge')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('minPickupAge')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('minPickupAge')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Movement Type filter -->
-        <v-row class="mt-n3" v-if="activeFilters.includes('movementType')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('movementType')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Movement Type</v-btn>
           </v-col>
@@ -208,13 +218,14 @@
               </v-btn>
             </v-btn-toggle>
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('movementType')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('movementType')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('movementType')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Permanent filter -->
-        <v-row class="mt-n3" v-if="activeFilters.includes('permanent')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('permanent')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Permanent</v-btn>
           </v-col>
@@ -230,13 +241,14 @@
               </v-btn>
             </v-btn-toggle>
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('permanent')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('permanent')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('permanent')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Slot Count filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('numSlots')" align-content="center">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('numSlots')" align-content="center">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Slots</v-btn>
           </v-col>
@@ -246,13 +258,14 @@
           <v-col align-self="center">
             <v-text-field hide-details class="custom-text-field" label="Max" v-model="numSlotsMax" density="compact" @update:modelValue="saveAndSubmit('numSlotsMax', numSlotsMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('numSlots')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('numSlots')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('numSlots')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Slot Size filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('slotSize')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('slotSize')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Slot Size</v-btn>
           </v-col>
@@ -262,13 +275,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="slotSizeMax" density="compact" @update:modelValue="saveAndSubmit('slotSizeMax', slotSizeMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('slotSize')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('slotSize')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('slotSize')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Spawns In filter -->
-        <v-row class="mt-n3" v-if="activeFilters.includes('spawnsIn')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('spawnsIn')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Spawns In</v-btn>
           </v-col>
@@ -284,13 +298,14 @@
               </v-btn>
             </v-btn-toggle>
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('spawnsIn')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('spawnsIn')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('spawnsIn')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Speed filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('speed')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('speed')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Speed</v-btn>
           </v-col>
@@ -300,13 +315,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="speedMax" density="compact" @update:modelValue="saveAndSubmit('speedMax', speedMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('speed')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('speed')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('speed')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Use Chance filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('useChance')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('useChance')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Use Chance</v-btn>
           </v-col>
@@ -316,13 +332,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="useChanceMax" density="compact" @update:modelValue="saveAndSubmit('useChanceMax', useChanceMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('useChance')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('useChance')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('useChance')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Use Distance filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('useDistance')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('useDistance')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Use Distance</v-btn>
           </v-col>
@@ -332,13 +349,14 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="useDistanceMax" density="compact" @update:modelValue="saveAndSubmit('useDistanceMax', useDistanceMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('useDistance')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('useDistance')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('useDistance')"></v-btn>
           </v-col>
         </v-row>
 
         <!-- Uses filter -->
-        <v-row  class="mt-n5 mb-n5" v-if="activeFilters.includes('uses')">
+        <v-row no-gutters class="mt-1 mb-1" v-if="activeFilters.includes('uses')">
           <v-col align-self="center" cols="2">
             <v-btn density="compact" variant="text" disabled="true">Uses</v-btn>
           </v-col>
@@ -348,8 +366,9 @@
           <v-col>
             <v-text-field hide-details label="Max" v-model="usesMax" density="compact" @update:modelValue="saveAndSubmit('usesMax', usesMax, true)" />
           </v-col>
-          <v-col cols="1">
-            <v-btn slim icon="mdi-close" color="#aa0909" density="comfortable" @click="removeFilter('uses')"></v-btn>
+          <v-col align-self="center" cols="1">
+            <v-btn style="margin: 2px" slim icon="mdi-restart" color="#0066cc" density="compact" @click="resetFilter('uses')"></v-btn>
+            <v-btn style="margin: 2px" slim icon="mdi-close" color="#aa0909" density="compact" @click="removeFilter('uses')"></v-btn>
           </v-col>
         </v-row>
 
@@ -378,7 +397,7 @@
         </v-row> -->
         <!-- Column control -->
         <v-row align-content="center">
-          <v-col cols="10">
+          <v-col cols="11">
             <v-select
               class="mb-n6"
               label="Columns"
@@ -388,7 +407,7 @@
               multiple
             ></v-select>
           </v-col>
-          <v-col align-self="center" cols="2">
+          <v-col align-self="center" cols="1">
             <v-btn class="light-button" color="#0066cc" @click="setColumnsToDefaults()">Reset</v-btn>
           </v-col>
         </v-row>
@@ -707,6 +726,138 @@ export default {
       let filterIndex = activeFilters.value.indexOf(filterName);
       if (filterIndex >= 0) activeFilters.value.splice(filterIndex, 1);
       saveAndSubmit('activeFilters', activeFilters.value, true);
+    }
+
+    const resetFilter = (filterName) => {
+      switch (filterName) {
+        case 'blocksWalking': {
+          blocksWalkingValues.value = DEFAULT_BLOCKS_WALKING.includeTrueFalse;
+          saveControlState('blocksWalkingValues', DEFAULT_BLOCKS_WALKING.includeTrueFalse);
+        }
+        break;
+        case 'clothingType': {
+          clothingTypeValues.value = DEFAULT_CLOTHING_TYPE.values;
+          saveControlState('clothingTypeValues', DEFAULT_CLOTHING_TYPE.values);
+        }
+        break;
+        case 'deadlyFrom': {
+          deadlyFromMin.value = DEFAULT_DEADLY_FROM.min;
+          deadlyFromMax.value = DEFAULT_DEADLY_FROM.max;
+          saveControlState('deadlyFromMin', DEFAULT_DEADLY_FROM.min);
+          saveControlState('deadlyFromMax', DEFAULT_DEADLY_FROM.max);
+        }
+        break;
+        case 'difficulty': {
+          difficultyMin.value = DEFAULT_DIFFICULTY.min;
+          difficultyMax.value = DEFAULT_DIFFICULTY.max;
+          saveControlState('difficultyMin', DEFAULT_DIFFICULTY.min);
+          saveControlState('difficultyMax', DEFAULT_DIFFICULTY.max);
+        }
+        break;
+        case 'bonusFood': {
+          bonusFoodMin.value = DEFAULT_BONUS_FOOD.min;
+          bonusFoodMax.value = DEFAULT_BONUS_FOOD.max;
+          saveControlState('bonusFoodMin', DEFAULT_BONUS_FOOD.min);
+          saveControlState('bonusFoodMax', DEFAULT_BONUS_FOOD.max);
+        }
+        break;
+        case 'immediateFood': {
+          immediateFoodMin.value = DEFAULT_IMMEDIATE_FOOD.min;
+          immediateFoodMax.value = DEFAULT_IMMEDIATE_FOOD.max;
+          saveControlState('immediateFoodMin', DEFAULT_IMMEDIATE_FOOD.min);
+          saveControlState('immediateFoodMax', DEFAULT_IMMEDIATE_FOOD.max);
+        }
+        break;
+        case 'totalFood': {
+          totalFoodMin.value = DEFAULT_TOTAL_FOOD.min;
+          totalFoodMax.value = DEFAULT_TOTAL_FOOD.max;
+          saveControlState('totalFoodMin', DEFAULT_TOTAL_FOOD.min);
+          saveControlState('totalFoodMax', DEFAULT_TOTAL_FOOD.max);
+        }
+        break;
+        case 'insulation': {
+          insulationMin.value = DEFAULT_INSULATION.min;
+          insulationMax.value = DEFAULT_INSULATION.max;
+          saveControlState('insulationMin', DEFAULT_INSULATION.min);
+          saveControlState('insulationMax', DEFAULT_INSULATION.max);
+        }
+        break;
+        case 'itemSize': {
+          itemSizeMin.value = DEFAULT_ITEM_SIZE.min;
+          itemSizeMax.value = DEFAULT_ITEM_SIZE.max;
+          saveControlState('itemSizeMin', DEFAULT_ITEM_SIZE.min);
+          saveControlState('itemSizeMax', DEFAULT_ITEM_SIZE.max);
+        }
+        break;
+        case 'minPickupAge': {
+          minPickupAgeMin.value = DEFAULT_MIN_PICKUP_AGE.min;
+          minPickupAgeMax.value = DEFAULT_MIN_PICKUP_AGE.max;
+          saveControlState('minPickupAgeMin', DEFAULT_MIN_PICKUP_AGE.min);
+          saveControlState('minPickupAgeMax', DEFAULT_MIN_PICKUP_AGE.max);
+        }
+        break;
+        case 'movementType': {
+          movementTypeValues.value = DEFAULT_MOVEMENT_TYPE.values;
+          saveControlState('movementTypeValues', DEFAULT_MOVEMENT_TYPE.values);
+        }
+        break;
+        case 'permanent': {
+          permanentValues.value = DEFAULT_PERMANENT.includeTrueFalse;
+          saveControlState('permanentValues', DEFAULT_PERMANENT.includeTrueFalse);
+        }
+        break;
+        case 'numSlots': {
+          numSlotsMin.value = DEFAULT_NUM_SLOTS.min;
+          numSlotsMax.value = DEFAULT_NUM_SLOTS.max;
+          saveControlState('numSlotsMin', DEFAULT_NUM_SLOTS.min);
+          saveControlState('numSlotsMax', DEFAULT_NUM_SLOTS.max);
+        }
+        break;
+        case 'slotSize': {
+          slotSizeMin.value = DEFAULT_SLOT_SIZE.min;
+          slotSizeMax.value = DEFAULT_SLOT_SIZE.max;
+          saveControlState('slotSizeMin', DEFAULT_SLOT_SIZE.min);
+          saveControlState('slotSizeMax', DEFAULT_SLOT_SIZE.max);
+        }
+        break;
+        case 'spawnsIn': {
+          spawnsInValues.value = DEFAULT_SPAWNS_IN.values;
+          saveControlState('spawnsInValues', DEFAULT_SPAWNS_IN.values);
+        }
+        break;
+        case 'speed': {
+          speedMin.value = DEFAULT_SPEED.min;
+          speedMax.value = DEFAULT_SPEED.max;
+          saveControlState('speedMin', DEFAULT_SPEED.min);
+          saveControlState('speedMax', DEFAULT_SPEED.max);
+        }
+        break;
+        case 'useChance': {
+          useChanceMin.value = DEFAULT_USE_CHANCE.min;
+          useChanceMax.value = DEFAULT_USE_CHANCE.max;
+          saveControlState('useChanceMin', DEFAULT_USE_CHANCE.min);
+          saveControlState('useChanceMax', DEFAULT_USE_CHANCE.max);
+        }
+        break;
+        case 'useDistance': {
+          useDistanceMin.value = DEFAULT_USE_DISTANCE.min;
+          useDistanceMax.value = DEFAULT_USE_DISTANCE.max;
+          saveControlState('useDistanceMin', DEFAULT_USE_DISTANCE.min);
+          saveControlState('useDistanceMax', DEFAULT_USE_DISTANCE.max);
+        }
+        break;
+        case 'uses': {
+          usesMin.value = DEFAULT_USES.min;
+          usesMax.value = DEFAULT_USES.max;
+          saveControlState('usesMin', DEFAULT_USES.min);
+          saveControlState('usesMax', DEFAULT_USES.max);
+        }
+        break;
+        default:
+          console.log("Unhandled filter reset for ", filterName);
+          return;
+      }
+      setupSubmit();
     }
 
     const setFiltersToDefaults = () => {
@@ -1189,6 +1340,7 @@ export default {
       setupSubmit,
       submitIfAuto,
       saveAndSubmit,
+      resetFilter,
       removeFilter,
       saveControlState,
       setFiltersToDefaults,
